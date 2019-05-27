@@ -1,0 +1,24 @@
+.date-input-container {
+    padding-right: 1em; 
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.date-input {
+    padding: 0;
+    line-height: 1em;
+    background: #FBFBFF; 
+}
+
+.search-icon-container {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    padding-left: 0.5em;
+}
+
+.search-icon{
+    color: #FBFBFF;
+    cursor: pointer;
+}
