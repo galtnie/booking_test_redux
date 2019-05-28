@@ -9,7 +9,7 @@ import SignUpForm from './SignUpForm'
 
 const App = () => {
     return (
-        <div className = "ui container">
+        <div>
             <BrowserRouter basename='/booking_test_redux'>
                 <Switch>
                    <Route path='/' exact component={Home} />

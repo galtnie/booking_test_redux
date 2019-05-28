@@ -1,14 +1,20 @@
-import { CONTROL_DATE_INPUT,  HANDLE_DATE_INPUT_SUBMIT } from './types';
+import { 
+    HANDLE_DATE_INPUT_SUBMIT,
+    UPPERBAR_BACKWARD_SWITCHER, 
+} from './types';
 
-export const controlDateInput = (value) => {
-    return {
-        type: CONTROL_DATE_INPUT,
-        payload: value
-    };
-};
 
-export const handleDateInputSubmit = () => {
-    return {
-        type: HANDLE_DATE_INPUT_SUBMIT
-    }
+export const handleDateInputSubmit = (date) => {
+    console.log('date action', date)
+    return ({ 
+        type: HANDLE_DATE_INPUT_SUBMIT, 
+        payload: date
+    })
+} 
+
+export const handleUpperBackSwitcher = (status) => {
+    return ({
+        type: UPPERBAR_BACKWARD_SWITCHER,
+        payload: status
+    })
 }

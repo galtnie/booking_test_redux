@@ -6,7 +6,8 @@
 }
 
 .date-input {
-    padding: 0;
+    width: 9.5em !important;
+    padding: 0.2em !important;
     line-height: 1em;
     background: #FBFBFF; 
 }

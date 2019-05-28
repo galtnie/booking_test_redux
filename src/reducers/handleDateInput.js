@@ -1,19 +1,13 @@
-import { CONTROL_DATE_INPUT} from '../actions/types';
+import { HANDLE_DATE_INPUT_SUBMIT} from '../actions/types';
 
-const INITIAL_STATE = {
-    dateInput: null,
-};
-
-export default (state = INITIAL_STATE, action) => {
-    console.log('state from control', state)
+export default (state = '', action) => {
     switch (action.type) {
-        case CONTROL_DATE_INPUT:
-        return {...state, dateInput: action.payload };
-        default:
+        case HANDLE_DATE_INPUT_SUBMIT:
+        return action.payload;
+        default: 
         return state;
-    } 
+    }
 };
-
 
 
 
@@ -40,3 +34,4 @@ export default (state = INITIAL_STATE, action) => {
 
 //     }
 // };
+
