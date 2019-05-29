@@ -1,0 +1,18 @@
+.all-hours-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.one-hour-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.hour-container {
+    padding-left: 0.5em;
+}

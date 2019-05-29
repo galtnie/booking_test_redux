@@ -2,10 +2,19 @@ import React from 'react'
 import ButtonAppBar from './components/UpperBar'
 import HomeGuide from './components/HomeGuide'
 import Halls from './components/Halls'
+import Schedule from './components/Schedule'
 import { Redirect } from 'react-router-dom'
+import { connect } from 'react-redux';
+import { inputHallsAndTicketColours, fetchTickets, fetchHalls} from './actions';
 import './css/Home.css'
 
-export default class Home extends React.Component {
+class Home extends React.Component {
+
+    componentWillMount() {
+        this.props.inputHallsAndTicketColours();
+        this.props.fetchTickets();
+        this.props.fetchHalls();
+    }
 
     render() {
         return (
@@ -14,14 +23,18 @@ export default class Home extends React.Component {
                 <div className='main'>
                     <ButtonAppBar />    
                     <HomeGuide />
+                    <Schedule />
                     <Halls />
-
-
-
-                    End of Home
                 </div>
                 :
                 <Redirect to='/booking' />
         );
     }
 }
+
+export default connect (null, 
+    { 
+        inputHallsAndTicketColours, 
+        fetchTickets, 
+        fetchHalls
+    })(Home);

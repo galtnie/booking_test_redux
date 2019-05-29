@@ -1,0 +1,43 @@
+.all-halls-contrainer {
+    display: flex;
+    flex-direction: row;
+    flex-flow: wrap;
+    justify-content: space-around; 
+}
+
+.card {
+    max-width: 400;
+    margin: 0.2em;
+    width: 25em;
+}
+
+.hall-title-contrainer {
+    height: 6em;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 1em;
+}
+
+.media {
+    height: 0;
+    padding-top: 56.25%; 
+}
+
+.blu-hall {
+    background:rgb(18, 11, 120);
+    color: rgba(206, 221, 252, 1);
+}
+.red-hall {
+    background:rgb(178,34,34);
+    color: rgb(252, 200, 208);
+}
+.gre-hall {
+    background:rgba(19, 55, 11, 0.9);
+    color: rgba(216, 255, 206, 1); 
+}
+.vio-hall {
+    background:rgba(108, 92, 231, 0.9); 
+    color: rgba(255,  245,  255, 1);
+}
