@@ -1,15 +1,17 @@
 import '../css/UpperBar.css'
 import React from 'react';
 import { connect } from 'react-redux';
-import { handleDateInputSubmit, handleUpperBackSwitcher } from '../actions';
+import { handleDateInputSubmit, handleUpperBackSwitcher, determineReservedSlots } from '../actions';
+import { calculateReservedSlots } from '../functions'
 
 class SwitchForth extends React.Component {
     handleDayChange() {
         let fullDate = this.props.dateInput ? new Date(this.props.dateInput)  : new Date()
         let nextDate = fullDate.getDate() + 1;
-        this.props.handleDateInputSubmit(fullDate.setDate(nextDate))
+        let nextDateMls = fullDate.setDate(nextDate)
+        this.props.handleDateInputSubmit(nextDateMls)
         this.props.handleUpperBackSwitcher('active')
-        // put on slots calculations 
+        this.props.determineReservedSlots(calculateReservedSlots(this.props.tickets, this.props.halls, nextDateMls))
       }
 
     render() {
@@ -23,9 +25,18 @@ class SwitchForth extends React.Component {
 } 
 
 const mapStateToProps = (state) => {
-    return { switcherStatus: state.backSwitcher, dateInput: state.dateInput }; 
+    return { 
+      switcherStatus: state.backSwitcher, 
+      dateInput: state.dateInput,
+      tickets: state.tickets,
+      halls: state.halls,      
+    }; 
   };
-  export default connect (mapStateToProps, {handleDateInputSubmit, handleUpperBackSwitcher})(SwitchForth);
+  export default connect (mapStateToProps, { 
+    handleDateInputSubmit, 
+    handleUpperBackSwitcher,
+    determineReservedSlots
+  })(SwitchForth);
 
 
 

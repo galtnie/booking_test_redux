@@ -5,13 +5,13 @@ import Halls from './components/Halls'
 import Schedule from './components/Schedule'
 import { Redirect } from 'react-router-dom'
 import { connect } from 'react-redux';
-import { inputHallsAndTicketColours, fetchTickets, fetchHalls} from './actions';
+import { fetchTickets, fetchHalls } from './actions';
 import './css/Home.css'
+import CircularProgress from './components/CircularProgress';
 
 class Home extends React.Component {
-
+    
     componentWillMount() {
-        this.props.inputHallsAndTicketColours();
         this.props.fetchTickets();
         this.props.fetchHalls();
     }
@@ -21,10 +21,26 @@ class Home extends React.Component {
             (typeof sessionStorage.getItem('LoggedIn') !== "string")
                 ?
                 <div className='main'>
-                    <ButtonAppBar />    
+                    <ButtonAppBar />
                     <HomeGuide />
-                    <Schedule />
-                    <Halls />
+                    {(this.props.tickets && this.props.halls)
+                        ?
+                        <Schedule />
+                        :
+                        <div className="ciruclar-progress-container">
+                            <CircularProgress />
+                        </div>
+                    }
+                    {(this.props.halls)
+                        ?
+                        <Halls />
+                        :
+                        <div className="ciruclar-progress-container">
+                            <CircularProgress />
+                        </div>
+                    }
+
+
                 </div>
                 :
                 <Redirect to='/booking' />
@@ -32,9 +48,15 @@ class Home extends React.Component {
     }
 }
 
-export default connect (null, 
-    { 
-        inputHallsAndTicketColours, 
-        fetchTickets, 
-        fetchHalls
+const mapStateToProps = (state) => {
+    return {
+        tickets: state.tickets,
+        halls: state.halls,
+    }
+}
+
+export default connect(mapStateToProps,
+    {
+        fetchTickets,
+        fetchHalls,
     })(Home);

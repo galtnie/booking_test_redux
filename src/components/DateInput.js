@@ -1,7 +1,9 @@
 import '../css/DateInput.css'
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { handleDateInputSubmit, handleUpperBackSwitcher } from '../actions';
+import { handleDateInputSubmit, handleUpperBackSwitcher, determineReservedSlots } from '../actions';
+import { calculateReservedSlots } from '../functions'
+
 
 class DateInput extends Component {
 	state = {
@@ -26,15 +28,15 @@ class DateInput extends Component {
 
 		} else if (inputtedDay.getDate() === today.getDate()) {
 			this.props.handleUpperBackSwitcher('inactive')
-			this.props.handleDateInputSubmit(this.state.deteInput)
+			this.props.handleDateInputSubmit(this.state.dateInput)
+			this.props.determineReservedSlots(calculateReservedSlots(this.props.tickets, this.props.halls, this.state.dateInput))
 			this.setState({ dateInput: '' })
-			// .then(()=> this.calculateSlotsReserved())
 
 		} else if (inputtedDay > today) {
 			this.props.handleUpperBackSwitcher('active')
 			this.props.handleDateInputSubmit(this.state.dateInput)
+			this.props.determineReservedSlots(calculateReservedSlots(this.props.tickets, this.props.halls, this.state.dateInput))
 			this.setState({ dateInput: '' })
-			//   .then(()=> this.calculateSlotsReserved())
 
 		}
 
@@ -63,6 +65,15 @@ class DateInput extends Component {
 }
 
 const mapStateToProps = (state) => {
-	return { dateInput: state.dateInput };
+	return { 
+		dateInput: state.dateInput,
+		halls: state.halls,
+		tickets: state.tickets 
+	};
 };
-export default connect(mapStateToProps, { handleDateInputSubmit, handleUpperBackSwitcher })(DateInput);
+
+export default connect(mapStateToProps, { 
+		handleDateInputSubmit, 
+		handleUpperBackSwitcher,
+		determineReservedSlots 
+})(DateInput);

@@ -1,7 +1,9 @@
 import '../css/UpperBar.css'
 import React from 'react';
 import { connect } from 'react-redux';
-import { handleDateInputSubmit, handleUpperBackSwitcher } from '../actions';
+import { handleDateInputSubmit, handleUpperBackSwitcher, determineReservedSlots } from '../actions';
+import { calculateReservedSlots } from '../functions'
+// import { stat } from 'fs';
 
 class SwitchBack extends React.Component {
 
@@ -11,12 +13,11 @@ class SwitchBack extends React.Component {
     let nextDateMls = fullDate.setDate(nextDate)
     this.props.handleDateInputSubmit(nextDateMls)
 
-    let tomorrow = new Date(new Date(new Date(new Date((new Date(new Date().getTime() + (24 * 60 * 60 * 1000))).setHours(0)).setMinutes(0)).setSeconds(0)).setMilliseconds(0));
+    const tomorrow = new Date(new Date(new Date(new Date((new Date(new Date().getTime() + (24 * 60 * 60 * 1000))).setHours(0)).setMinutes(0)).setSeconds(0)).setMilliseconds(0));
     if (nextDateMls < tomorrow) {
       this.props.handleUpperBackSwitcher('inactive')
     } 
- 
-    // put on slots calculation
+    this.props.determineReservedSlots(calculateReservedSlots(this.props.tickets, this.props.halls, nextDateMls))
   }
 
     render() {
@@ -37,9 +38,18 @@ class SwitchBack extends React.Component {
 
 
 const mapStateToProps = (state) => {
-  return { switcherStatus: state.backSwitcher, dateInput: state.dateInput }; 
+  return { 
+    switcherStatus: state.backSwitcher, 
+    dateInput: state.dateInput,
+    tickets: state.tickets,
+    halls: state.halls
+  }; 
 };
-export default connect (mapStateToProps, {handleDateInputSubmit, handleUpperBackSwitcher})(SwitchBack);
+export default connect (mapStateToProps, {
+  handleDateInputSubmit, 
+  handleUpperBackSwitcher,
+  determineReservedSlots
+})(SwitchBack);
 
 
 // let nextDate = fullDate.getDate() + counter;

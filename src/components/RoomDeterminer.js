@@ -1,34 +1,32 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { checkSlot } from '../functions'
 import { 
     RedFreeHome, 
     VioletFreeHome, 
     BlueFreeHome, 
     GreenFreeHome, 
-    RedBusyHome, 
-    VioletBusyHome, 
-    BlueBusyHome, 
-    GreenBusyHome,   
+    RedBusy, 
+    VioletBusy, 
+    BlueBusy, 
+    GreenBusy,   
 } from './Rooms.js'
 
 
-
-
 class RoomStatusDeterminer extends React.Component {
-
-    // {this.props.hour}
-
-
     render() {
-         switch(this.props.id.slice(25, 28)){
+
+        const slot = checkSlot(this.props.reservedSlots, this.props.id)  
+        const reserved = slot ?  true : false
+        switch(this.props.id.slice(25, 28)){
             case 'vio':
-            return <VioletFreeHome id={this.props.id} />;
+                return reserved ? <VioletBusy id={slot}/> : <VioletFreeHome id={this.props.id} />;
             case 'gre':
-            return <GreenFreeHome id={this.props.id} />;
+            return reserved ? <GreenBusy id={slot}/> : <GreenFreeHome id={this.props.id} />;
             case 'red':
-            return <RedFreeHome id={this.props.id} />;
+            return reserved ? <RedBusy id={slot}/> : <RedFreeHome id={this.props.id} />;
             case 'blu':
-            return <BlueFreeHome id={this.props.id} />;
+            return reserved ? <BlueBusy id={slot}/> : <BlueFreeHome id={this.props.id} />;
             default: 
             return 'R'
         }
@@ -38,6 +36,7 @@ class RoomStatusDeterminer extends React.Component {
 
 const mapStateToProps = (state, ownProps) => {
     const { id } = ownProps
-    return { id }; 
+    const reservedSlots = state.reservedSlots
+    return { id, reservedSlots }; 
 };
 export default connect (mapStateToProps, {})(RoomStatusDeterminer);

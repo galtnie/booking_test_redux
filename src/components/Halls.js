@@ -14,17 +14,17 @@ class Halls extends React.Component {
                 this.props.halls
                 ?
                 <div className='all-halls-contrainer'>
-                    {this.props.halls.halls.map((i, index) => {
+                    {this.props.halls.map((i, index) => {
                         return (
                             <div key={index} >
-                                <Card className={`card ${this.props.colours[index]}-hall`}>
-                                    <div  className={`hall-title-contrainer ${this.props.colours[index]}-hall`}>
+                                 <Card className={`card ${i.colour}-hall`}>    
+                                    <div  className={`hall-title-contrainer ${i.colour}-hall`}>  
                                         <h3>
                                             {i.title}
                                         </h3>
                                     </div>
                                     <CardMedia className='media' image={i.imageURL} />
-                                    <CardContent className={`${this.props.colours[index]}-hall`}>
+                                    <CardContent className={`${i.colour}-hall`}>  
                                         {i.description}
                                     </CardContent>
                                 </Card>

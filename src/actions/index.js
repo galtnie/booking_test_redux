@@ -1,22 +1,14 @@
 import axios from 'axios'
 
 import { 
-    ADD_COLOURS,
     HANDLE_DATE_INPUT_SUBMIT,
     UPPERBAR_BACKWARD_SWITCHER, 
     FETCH_HALLS,
     FETCH_TICKETS,
+    DETERMINE_RESERVED_SLOTS,
 } from './types';
 
-export const inputHallsAndTicketColours = () => {
-    return ({
-        type: ADD_COLOURS,
-        payload: ['vio', 'gre', 'red', 'blu'],
-    });
-}
-
 export const handleDateInputSubmit = (date) => {
-    console.log('date action', date)
     return ({ 
         type: HANDLE_DATE_INPUT_SUBMIT, 
         payload: date
@@ -32,9 +24,31 @@ export const handleUpperBackSwitcher = (status) => {
 
 export const fetchHalls = () => async dispatch => {
     const response = await axios.get('https://web-ninjas.net/halls')
+    
+    const array = JSON.parse(JSON.stringify(response))
+    
+    for (let i = 0; i < array.data.halls.length; i++ ) {
+        switch (i) {
+            case 0:
+            array.data.halls[i].colour = 'vio';
+            break;
+            case 1:
+            array.data.halls[i].colour = 'gre';
+            break;
+            case 2:
+            array.data.halls[i].colour = 'red';
+            break;
+            case 3:
+            array.data.halls[i].colour = 'blu';
+            break;
+            default:
+            array.data.halls[i].colour = ''             
+            break;
+        }        
+    }  
     dispatch({ 
         type: FETCH_HALLS, 
-        payload: response.data 
+        payload: array.data.halls 
     })
 };
 
@@ -47,5 +61,10 @@ export const fetchTickets = () => async dispatch => {
 };
 
 
-
+export const determineReservedSlots = (reservedSlots) => {
+    return ({
+        type: DETERMINE_RESERVED_SLOTS,
+        payload: reservedSlots
+    })
+}
 
