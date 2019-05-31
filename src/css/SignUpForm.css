@@ -1,0 +1,68 @@
+.main-signup {
+   display: block;  /* Fix IE 11 issue. */
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: rgb(207, 207, 207);
+}
+
+.paper {
+  height: 45em;
+  width: 32em;
+ /*  margin-bottom: 10em;   MOBILE DEVICE MUST NOT HAVE IT */
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.signup-title {
+    font-size: 1.5em; 
+    font-weight: bold;
+    margin-bottom: 1em;
+    color: #7D6B91;
+}
+
+.link-container {
+  margin-top: 1em;
+}
+
+.link {
+    padding-top: 1.5em; 
+    color: darkblue;
+    text-decoration: underline;
+    padding-bottom: 0.5em;
+    font-size: 1.25em; 
+}
+
+.input-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 7em;   
+}
+
+.field {
+    width: 18em;
+}
+
+.error {
+  color: red;
+  font-weight: bold;
+  font-size: 1.1em;
+  padding-left: 1em;
+  padding-top: 0.1em;
+}

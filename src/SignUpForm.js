@@ -1,6 +1,7 @@
+import './css/SignUpForm.css'
 import React from 'react';
-import { Field, reduxForm} from 'redux-form';
-// import { connect } from 'react-redux';
+import { Field, reduxForm } from 'redux-form';
+import { connect } from 'react-redux';
 import TextField from "@material-ui/core/TextField";
 import { withStyles } from "@material-ui/core/styles";
 import { Link, Redirect } from 'react-router-dom';
@@ -8,268 +9,156 @@ import Checkbox from "@material-ui/core/Checkbox";
 import Button from "@material-ui/core/Button";
 import Paper from '@material-ui/core/Paper';
 import CssBaseline from '@material-ui/core/CssBaseline';
-
-
-const styles = theme => ({
-    main: {
-      width: 'auto',
-      display: 'block', // Fix IE 11 issue.
-    //   marginLeft: theme.spacing.unit * 3,
-    //   marginRight: theme.spacing.unit * 3,
-    //   [theme.breakpoints.up(400 + theme.spacing.unit * 3 * 2)]: {
-    //     width: 400,
-    //     marginLeft: 'auto',
-    //     marginRight: 'auto',
-    //   },
-    },
-    paper: {
-    //   marginTop: theme.spacing.unit * 8,
-      display: 'flex',
-      flexDirection: 'column',
-      alignItems: 'center',
-    //   padding: `${theme.spacing.unit * 2}px ${theme.spacing.unit * 3}px ${theme.spacing.unit * 3}px`,
-    },
-    container: {
-      display: "flex",
-      flexDirection: 'column',
-      alignItems: 'center',
-      justifyContent: 'center',
-      flexWrap: "wrap"
-    },
-    textField: {
-    //   marginLeft: theme.spacing.unit,
-    //   marginRight: theme.spacing.unit,
-      width: '25em'
-    },
-    dense: {
-      marginTop: 16
-    },
-    menu: {
-      width: 200
-    }
-  });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+import { registerAccount } from './actions'
 
 
 class SignUpForm extends React.Component {
- 
-    renderEmailInput(formProps) {
-        return (
-             <TextField { ...formProps.input } 
-                id="outlined-required"  // "outlined-error"
-                margin="dense" 
-                variant="outlined"
-                placeholder="Placeholder"  
-                label={formProps.label}
-                type="email"
-            />          
-        );
-    }
-  
-    renderPasswordInput(formProps) {
-        return (
-             <TextField { ...formProps.input } 
-             error = {false}
-                id="outlined-required"   // "outlined-error"
-                margin="normal"
-                variant="outlined"  
-                
-                label={formProps.label}
-                type="password" // text
-            />          
-        );
-    }
+  state = {
+    passwordType: 'password',
+    password: '',
+    confirmPassword: '',
+  }
 
-    // <TextField                                   THE SAME AS ABOBE BUT WITHOUT ES6
-            //  onChange={formProps.input.onChange} 
-            //  value={formProps.input.value}
-            // />
+  renderError = ({ error, touched, active }) => {
+    return (error && touched && !active) 
+      ? 
+        { err: true, txt: <div className="error"> {error} </div>}
+      : 
+        { err: false, txt: null }
+  }
 
-    onSubmit(formValues) {
-        console.log(formValues)
-    }
+  renderInput = (formProps) => {
+    return (
+      <div className='input-container'>
+        <TextField {...formProps.input}
+          id="outlined-dense"
+          label={formProps.label}
+          placeholder = {formProps.input.name === 'email' ? 'email@name.tld' : 'pA$$_W0rd' } 
+          margin="dense"
+          variant="outlined"
+          type={formProps.input.name === 'email' ? 'email' : this.state.passwordType } 
+          className='field'
+          error={this.renderError(formProps.meta).err}
+        />
+        {this.renderError(formProps.meta).txt}
+      </div>
+    );
+  }
 
+  onSubmit = (formValues) => {
+    console.log('SENT', formValues)
+    this.props.registerAccount(formValues.email.toLowerCase(), formValues.password)
+  }
 
-    
-    render () {
-        const { classes } = this.props;
-        return (
-            <main className={classes.main}>
+  onCheckboxClick = () => {
+    this.setState({ passwordType: this.state.passwordType === 'password' ? 'text' : 'password' })
+  }
 
-            <CssBaseline />
-            <Paper className={classes.paper} >
-              <form className={classes.container} autoComplete="off" onSubmit={this.props.handleSubmit(this.onSubmit)}>
-                <p style={{ fontSize: "1.25em" }}>
-                  CREATE YOUR ACCOUNT
-            </p>
+  checkReg = (err, acc) => {
+    console.log(err ? err : null)
+    console.log(acc ? acc : null)
+  }
 
+  render() {
 
-                <Field name='email' component={this.renderEmailInput} label="Enter email" placeholder="Placeholder"/>
-                <Field name='password' component={this.renderPasswordInput} label="Enter password" />
-                <Field name='confirmPassword' component={this.renderPasswordInput} label="Confirm password"/>
-                
-                {/* <TextField
-        error
-        id="outlined-error"
-        label="Error"
-        defaultValue="Hello World"
-        className={classes.textField}
-        margin="normal"
-        variant="outlined"
-      /> */}
+    this.checkReg( this.props.registrationError, this.props.newAccountCreated)
+    // console.log('PROPS: ', this.props)
 
-                       <Button
-                type="submit"
-                variant="contained"
+    console.log(window.history)
+
+    return (
+      <main className='main-signup'>
+        <CssBaseline />
+        <Paper className='paper'>
+          <form className='container' autoComplete="off" onSubmit={this.props.handleSubmit(this.onSubmit)}>
+            <div className='signup-title'>
+              CREATE YOUR ACCOUNT
+            </div>
+            <Field
+              name='email'
+              component={this.renderInput}
+              label="Enter email"
+          
+            />
+            <Field
+              name='password'
+              component={this.renderInput}
+              label="Enter password"
+              value={this.state.password}
+              onChange={(e) => { this.setState({ password: e.target.value }) }}
+            />
+            <Field
+              name='confirmPassword'
+              component={this.renderInput}
+              label="Confirm password"
+              value={this.state.confirmPassword}
+              onChange={(e) => { this.setState({ confirmPassword: e.target.value }) }}
+            />
+            <div style={{ marginRight: "8.5em", marginBottom: '1.5em' }}>
+              <Checkbox
+                onClick={() => { this.onCheckboxClick() }}
+                value="checkedB"
                 color="primary"
-                className={classes.button}
-                // onClick={this.handleSubmit.bind(this)}
-                >
-                Create account
-        </Button>
-
-            </form>
+              />
+              <span style={{ fontSize: '1.1em', color: 'gray' }}>Show password</span>
+            </div>
+            <Button
+              type="submit"
+              variant="contained"
+              color="primary"
+            >
+              Create account
+            </Button>
+          </form>
+          <div className='link-container'>
             <Link to="/">
-              <p style={{ marginTop: "1.5em", color: 'darkblue', textDecoration: 'underline' }} >Return to Home page</p>
+              <p className='link'>Return to Home page</p>
             </Link>
-          </Paper>
-        </main>
-
-
-        );
-    }
+          </div>
+        </Paper>
+      </main>
+    );
+  }
 }
 
 
 const validate = (formValues) => {
-    const errors = {};
+  const errors = {};
 
-    if(!formValues.email) {
-        errors.email = 'You must enter email'
-    }
+  if (!formValues.email) {
+    errors.email = 'You must enter email'
+  }
 
-    if(!formValues.password) {
-        errors.password = 'You must enter password'
-    }
+  if (!formValues.password) {
+    errors.password = 'You must enter password'
+  } else if (formValues.password.length < 6) {
+    errors.password = 'The password must contain at least 6 characters'
+  }
 
-    if(!formValues.confirmPassword) {
-        errors.confirmPassword = 'You must confirm password'
-    }
+  if (!formValues.confirmPassword) {
+    errors.confirmPassword = 'You must confirm password'
+  } else if (formValues.password !== formValues.confirmPassword) {
+    errors.confirmPassword = 'The password and its confirmation do not match'
+  }
 
-    return errors;
+  return errors;
 }
 
+const mapStateToProps = (state) => ({
+  registrationError: state.registrationError,
+  newAccountCreated: state.newAccountCreated
+});
+
+SignUpForm = connect(
+  mapStateToProps,
+  {registerAccount}
+)(SignUpForm)
 
 export default reduxForm({
-    form: 'signUpForm',
-    validate
-})( withStyles(styles)(SignUpForm));
+  form: 'signUpForm',
+  validate
+})(SignUpForm);
 
-
-
-
-
-
-
-
-
-
-
-
-//     renderError({error, touched}) {
-//         if (touched && error) {
-//             return (
-//                 <div className='ui error message'>
-//                     <div className='header'>{error}</div>
-//                 </div>
-//             );
-//         }
-//     }
-
-//     renderInput = ({input, label, meta}) => {  // formProps
-//         const className = `field ${meta.error && meta.touched ? 'error' : ''}`
-//         return (
-//             <div className={className}>
-//                 <label>{label}</label>
-//                 <input {...input} autoComplete='off' />              {/*   ...formProps.input */}
-//                     {/* onChange={formProps.input.onChange} 
-//                     value={formProps.input.value} */}
-//                 {this.renderError(meta)}
-//             </div>
-//         ); 
-//     }  
-
-
-
-
-
-
-
-
-//     render() {
-//         return (
-//             <div>
-
-//                 <form
-//                     // onSubmit={this.props.handleSubmit(this.onSubmit)}
-//                     className='ui form error'
-//                 >
-//                     <Field name='title' component={this.renderInput} label='Enter Title' />
-//                     <Field name='description' component={this.renderInput} label='Enter Description' />
-//                     <button className='ui button primary'>Submit</button>
-//                 </form>
-
-//                 SignUpForm
-//             </div>
-//         );
-//     }
-
-// }
-
-
-
-// const validate = (formValues) => {
-//     const errors = {};
-
-//     if (!formValues.title) {
-//         errors.title = 'You must enter a title';
-//     }
-
-//     if (!formValues.description) {
-//         errors.description = 'You must enter a description';
-//     }
-
-//     return errors;
-// };
-
-// const formWrapped = reduxForm({
-//     form: 'signUpForm',
-//     validate
-//   })(SignUpForm);
-
-
-//   export default connect(null,{  })(formWrapped);               // import {createStream} from '../../actions';
 
 
 

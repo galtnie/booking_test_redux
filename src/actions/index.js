@@ -1,4 +1,5 @@
-import axios from 'axios'
+import axios from 'axios';
+import history from '../history';
 
 import { 
     HANDLE_DATE_INPUT_SUBMIT,
@@ -6,6 +7,8 @@ import {
     FETCH_HALLS,
     FETCH_TICKETS,
     DETERMINE_RESERVED_SLOTS,
+    REGISTER_ACCOUNT,
+    INVOKE_FAILED_REGISTRATION_ERROR,
 } from './types';
 
 export const handleDateInputSubmit = (date) => {
@@ -50,6 +53,48 @@ export const fetchHalls = () => async dispatch => {
         type: FETCH_HALLS, 
         payload: array.data.halls 
     })
+};
+
+export const registerAccount = (email, password) => async dispatch => {
+    console.log(email, password)
+
+    let err
+    const res = await axios.post('https://web-ninjas.net/signUp',
+        { headers: { 'Content-Type': 'application/x-www-form-urlencoded' } },
+        { data: { email, password } }
+    ).catch(e => err = e )
+
+    if (err) {
+        console.log(err.response.data.errors.errors)
+ 
+        dispatch({
+            type: INVOKE_FAILED_REGISTRATION_ERROR,
+            payload: err.response.data.errors.errors
+        })
+
+    } else {
+        console.log("RES", res)
+        
+        history.push('/login');
+
+        // dispatch({
+        //             type: REGISTER_ACCOUNT,
+        //             payload: res
+        //         })
+    }
+ 
+
+    // if (res.message) {
+        // dispatch({
+        //     type: INVOKE_FAILED_REGISTRATION_ERROR,
+        //     payload: 'This email is already registered. Enter a unique one.'
+        // })
+    // } else {
+    //     dispatch({
+    //         type: REGISTER_ACCOUNT,
+    //         payload: res
+    //     })
+    // }
 };
 
 export const fetchTickets = () => async dispatch => {
