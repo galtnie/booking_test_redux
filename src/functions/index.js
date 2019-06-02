@@ -16,11 +16,6 @@ export function composeSlotId(chosenDate, hour, colour) {         // elaborate t
 
 
 export function calculateReservedSlots(tickets, halls, date) {
-
-    console.log('FUN TICKET ', tickets)
-    console.log('FUN HALL ', halls)
-    console.log('FUN DATE ', date)
-
     let reservedSlots = []
 
     for (let i = 0; i < tickets.length; i++) {
