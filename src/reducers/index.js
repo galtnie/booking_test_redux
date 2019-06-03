@@ -6,6 +6,7 @@ import handleBackSwitcher from './handleBackSwitcher'
 import handleFetchedHalls from './handleFetchedHalls'
 import handleFetchedTickets from './handleFetchedTickets'
 import determineReservedSlots from './determineReservedSlots';
+import handleNewUserAccount from './handleNewUserAccount';
 
 export default combineReducers({
     
@@ -15,5 +16,7 @@ export default combineReducers({
     tickets: handleFetchedTickets,
     reservedSlots: determineReservedSlots,
     form: formReducer,
+    newUserAccount: handleNewUserAccount
+
 });
 

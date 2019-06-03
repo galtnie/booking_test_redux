@@ -3,26 +3,26 @@ import React from 'react'
 import { Field, reduxForm } from 'redux-form'
 import { connect } from 'react-redux'
 import TextField from '@material-ui/core/TextField'
-import { Link, Redirect } from 'react-router-dom'
+import { Link } from 'react-router-dom' //Redirect
 import Checkbox from '@material-ui/core/Checkbox'
 import Button from '@material-ui/core/Button'
 import Paper from '@material-ui/core/Paper'
 import CssBaseline from '@material-ui/core/CssBaseline'
-import history from './history'
 import axios from 'axios'
+import { createNewUserAccount } from './actions'
 
 class SignUpForm extends React.Component {
   state = {
-    password: '',
+    signUpEmail: '',
+    signUpPassword: '',
     confirmPassword: '',
     serverError: null,
-    passwordIsMasked: true
+    passwordIsMasked: true,
+    registration: false,
   }
 
   renderError = ({ error, touched, active }) => {
-    return error && touched && !active
-      ? { err: true, txt: <div className='error'> {error} </div> }
-      : { err: false, txt: null }
+    return error && touched && !active ? <div className='error'> {error} </div> : null
   }
 
   renderInput = formProps => {
@@ -41,14 +41,15 @@ class SignUpForm extends React.Component {
             formProps.input.name === 'email' ? 'email' : (this.state.passwordIsMasked ? 'password' : 'text')
           }
           className='field'
-          error={this.renderError(formProps.meta).err}
+          error={Boolean(this.renderError(formProps.meta))}
         />
-        {this.renderError(formProps.meta).txt}
+        {this.renderError(formProps.meta)}
       </div>
     )
   }
 
   onSubmit = formValues => {
+    
     axios.post(
         'https://web-ninjas.net/signUp',
         { headers: { 'Content-Type': 'application/x-www-form-urlencoded' } },
@@ -57,13 +58,11 @@ class SignUpForm extends React.Component {
             password: formValues.password
         }}
       )
-      .then(() =>{
-        history.push('/login')
-      })
+      .then(() => this.props.createNewUserAccount(formValues.email, formValues.password))
       .catch(e => {
-       if (e.response.data.errors.errors.email && e.response.data.errors.errors.email.kind === 'unique') {
+       if (e.response && e.response.data.errors.errors.email.kind === 'unique') {
           this.setState({ serverError: 'This e-mail is already used on this website.'})
-          setTimeout(()=>{ this.setState({ serverError: null}) }, 4000)
+          
        }
       })
   }
@@ -81,13 +80,22 @@ class SignUpForm extends React.Component {
         <Paper className='paper'>
           <form className='container' autoComplete='off' onSubmit={this.props.handleSubmit(this.onSubmit)}>
             <div className='signup-title'>CREATE YOUR ACCOUNT</div>
-            <Field name='email' component={this.renderInput} label='Enter email' />
+            <Field 
+              name='email' 
+              component={this.renderInput} 
+              label='Enter email'
+              value={this.state.signUpEmail}
+              onChange={e => {
+                this.setState({ signUpEmail: e.target.value }) 
+                this.state.serverError !== null && this.setState({ serverError: null})
+              }} 
+            />
             <Field
               name='password'
               component={this.renderInput}
               label='Enter password'
-              value={this.state.password}
-              onChange={e => {this.setState({ password: e.target.value }) }}
+              value={this.state.signUpPassword}
+              onChange={e => {this.setState({ signUpPassword: e.target.value }) }}
             />
             <Field
               name='confirmPassword' 
@@ -142,11 +150,10 @@ const validate = formValues => {
 }
 
 const mapStateToProps = state => ({
-  registrationError: state.registrationError,
-  newAccountCreated: state.newAccountCreated
+
 })
 
-SignUpForm = connect(mapStateToProps, {})(SignUpForm)
+SignUpForm = connect(mapStateToProps, { createNewUserAccount })(SignUpForm)
 
 export default reduxForm({
   form: 'signUpForm',

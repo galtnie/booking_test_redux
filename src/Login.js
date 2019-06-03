@@ -1,19 +1,5 @@
-// import React from 'react'
-
-// export default class Login extends React.Component {
-
-//     render() {
-//         return (
-//             <div>Login</div>
-//         );
-//     }
-
-// }
-
-
-
-
 import React from 'react'
+import { compose } from 'redux';
 import { Link } from 'react-router-dom'
 import Avatar from '@material-ui/core/Avatar'
 import Button from '@material-ui/core/Button'
@@ -27,94 +13,71 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined'
 import Paper from '@material-ui/core/Paper'
 import Typography from '@material-ui/core/Typography'
 import { withStyles } from '@material-ui/core/styles'
+// import { Redirect } from 'react-router-dom'
+import { withFormik, Form, Field } from 'formik'
+import * as Yup from 'yup'
+import history from './history'
 import axios from 'axios'
-import { Redirect } from 'react-router-dom'
+import { connect } from 'react-redux'
+import { createNewUserAccount, eraseNewUserAccount } from './actions'
 
 const styles = theme => ({
   main: {
     width: 'auto',
     display: 'block',
-    marginLeft: theme.spacing.unit * 3,
-    marginRight: theme.spacing.unit * 3,
-    [theme.breakpoints.up(400 + theme.spacing.unit * 3 * 2)]: {
+    marginLeft: theme.spacing(3),
+    marginRight: theme.spacing(3),
+    [theme.breakpoints.up(400 + theme.spacing(3 * 2))]: {
       width: 400,
       marginLeft: 'auto',
       marginRight: 'auto'
     }
   },
   paper: {
-    marginTop: theme.spacing.unit * 8,
+    marginTop: theme.spacing(8),
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
-    padding: `${theme.spacing.unit * 2}px ${theme.spacing.unit * 3}px ${theme
-      .spacing.unit * 3}px`
+    padding: `${theme.spacing(2)}px ${theme.spacing(3)}px ${theme
+      .spacing(3)}px`
   },
   avatar: {
-    margin: theme.spacing.unit,
+    margin: theme.spacing(),
     backgroundColor: theme.palette.secondary.main
   },
   form: {
     width: '100%',
-    marginTop: theme.spacing.unit
+    marginTop: theme.spacing()
   },
   submit: {
-    marginTop: theme.spacing.unit * 3
+    marginTop: theme.spacing(3)
   }
 })
 
-class SignIn extends React.Component {
+class SignInForm extends React.Component {
+
   state = {
-    loginInputted: '',
-    passInputted: '',
-    errorDisplay: 'none',
-    loginDetailsList: ''
+
   }
 
-  getInsideBooking (username, user_id, token) {
-    this.setState({ loginInputted: '' })
-    this.setState({ passInputted: '' })
-    // sessionStorage.setItem('LoggedIn', username)
-    // sessionStorage.setItem('user_id', user_id)
-    // sessionStorage.setItem('token', token)
-    this.props.history.push('/booking')
-  }
 
-  checkLoginDetails () {
-    axios
-      .post(
-        'https://web-ninjas.net/signIn',
-        //		axios.post('http://ec2-35-175-143-145.compute-1.amazonaws.com:4000/signIn',
-        { headers: { 'Content-Type': 'application/x-www-form-urlencoded' } },
-        {
-          data: {
-            email: this.state.loginInputted,
-            password: this.state.passInputted
-          }
-        }
-      )
-      .then(res => {
-        this.getInsideBooking(
-          this.state.loginInputted.toLocaleLowerCase(),
-          res.data._id,
-          res.data.token
-        )
-      })
-      .catch(res => {
-        if (res.message === 'Request failed with status code 401') {
-          this.setState({ errorDisplay: 'flex' })
-          setTimeout(() => {
-            this.setState({ errorDisplay: 'none' })
-          }, 3000)
-        }
-      })
-  }
+  render() {
+       
+    const {
+      values,
+      errors,
+      touched,
+      isSubmitting,
+      handleChange,
+      handleBlur,
+      handleSubmit,
+      classes
+    } = this.props
 
-  render () {
-    const { classes } = this.props
-    
+    return (
 
-    return !sessionStorage.getItem('user_id') ? (
+      // !sessionStorage.getItem('user_id') ? (
+
       <main className={classes.main}>
         <CssBaseline />
         <Paper className={classes.paper}>
@@ -124,52 +87,54 @@ class SignIn extends React.Component {
           <Typography component='h1' variant='h5'>
             Sign in
           </Typography>
-          <form className={classes.form}>
-            <FormControl margin='normal' required fullWidth>
+          <Form className={classes.form} onSubmit={handleSubmit}>
+            <FormControl margin='normal' fullWidth>
               <InputLabel htmlFor='email'>Email Address</InputLabel>
-              <Input
+              <Field
+                component={Input}
                 id='email'
                 name='email'
                 autoComplete='email'
                 autoFocus
-                value={this.state.loginInputted}
-                onChange={e => {
-                  this.setState({ loginInputted: e.target.value })
-                  this.setState({ errorDisplay: 'none' })
-                }}
+                placeholder='email@name.tld'
+                error={Boolean(errors.email) && touched.email}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                value={values.email}
               />
+              <div style={{ color: 'red', }}>
+                {touched.email && errors.email && <p>{errors.email}</p>}
+              </div>
             </FormControl>
-            <FormControl margin='normal' required fullWidth>
+
+            <FormControl margin='normal' fullWidth>
               <InputLabel htmlFor='password'>Password</InputLabel>
-              <Input
+              <Field
+                component={Input}
                 name='password'
                 type='password'
                 id='password'
-                autoComplete='current-password'
-                onChange={e => {
-                  this.setState({ passInput: e.target })
-                  this.setState({ passInputted: e.target.value })
-                  this.setState({ errorDisplay: 'none' })
-                }}
+                // autoComplete='current-password'
+                error={Boolean(errors.password) && touched.password}
+                placeholder='pA$$_W0rd'
+                onChange={handleChange}
+                onBlur={handleBlur}
+                value={values.password}
+
               />
+              <div style={{ color: 'red', }}>
+                {touched.password && errors.password && <p>{errors.password}</p>}
+              </div>
             </FormControl>
+
+
             <FormControlLabel
               control={<Checkbox value='remember' color='primary' />}
               label='Remember me'
             />
-            <div
-              style={{
-                display: 'flex',
-                justifyContent: 'center',
-                margin: 0,
-                padding: 0,
-                height: '1em'
-              }}
-            >
-              <div style={{ color: 'red', display: this.state.errorDisplay }}>
-                {' '}
-                The login or password is wrong.{' '}
-              </div>
+            
+            <div  style={{ color: 'red'}}>
+
             </div>
 
             <Button
@@ -178,20 +143,22 @@ class SignIn extends React.Component {
               variant='contained'
               color='primary'
               className={classes.submit}
-              onClick={e => {
-                e.preventDefault()
-                this.checkLoginDetails()
-              }}
+              disabled={isSubmitting}
             >
               Sign in
             </Button>
-          </form>
+          </Form>
+
+
+
+
           <Link to='/'>
             <p
               style={{
                 marginTop: '1.5em',
                 color: 'darkblue',
-                textDecoration: 'underline'
+                textDecoration: 'underline',
+                fontSize: '1.2em',
               }}
             >
               Return to Home page
@@ -199,10 +166,70 @@ class SignIn extends React.Component {
           </Link>
         </Paper>
       </main>
-    ) : (
-      <Redirect to='/booking' />
+      //   ) : (
+      //     <Redirect to='/booking' />
+      //   )
+      // }
+
+      // }
     )
   }
 }
 
-export default withStyles(styles)(SignIn)
+
+const mapStateToProps = state => ({
+  newUserAccount: state.newUserAccount
+})
+
+
+export default compose (
+  connect(mapStateToProps, { eraseNewUserAccount, createNewUserAccount }),
+  withFormik({
+
+    mapPropsToValues: ({ newUserAccount}) =>  {
+       console.log(newUserAccount.email)
+ return ({
+  email: newUserAccount.email || 'default',
+  password: newUserAccount.password || 'default'
+ })
+
+
+
+    },
+  
+    validationSchema: Yup.object().shape({
+      email: Yup.string()
+        .required('Email is required')
+        .email('Email must be valid'),
+      password: Yup.string()
+        .required('Password is required')
+    }),
+  
+    handleSubmit: (values, { resetForm, setErrors, setSubmitting }) => {
+      setSubmitting(true) 
+      axios.post(
+        'https://web-ninjas.net/signIn',
+        { headers: { 'Content-Type': 'application/x-www-form-urlencoded' } },
+        {
+          data: {
+            email: values.email.toLowerCase(),
+            password: values.password
+          }
+        }
+      )
+      .then(res => {
+        console.log(res)
+        eraseNewUserAccount()  
+        resetForm()      
+      })
+      .catch(err => {
+        if (err.response) {setErrors({ email: err.response.data.message}) }
+        setSubmitting(false)   
+      })
+    }
+  
+  })
+
+)(withStyles(styles)(SignInForm))
+
+

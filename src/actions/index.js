@@ -1,4 +1,5 @@
 import axios from 'axios';
+import history from '../history'
 
 import { 
     HANDLE_DATE_INPUT_SUBMIT,
@@ -6,6 +7,7 @@ import {
     FETCH_HALLS,
     FETCH_TICKETS,
     DETERMINE_RESERVED_SLOTS,
+    HANDLE_NEW_USER_ACCOUNT
 } from './types';
 
 export const handleDateInputSubmit = (date) => {
@@ -67,3 +69,17 @@ export const determineReservedSlots = (reservedSlots) => {
     })
 }
 
+export const createNewUserAccount = (email, password) => {
+    history.push('/login')
+    return ({
+        type: HANDLE_NEW_USER_ACCOUNT,
+        payload: { email, password }
+    })
+}
+
+export const eraseNewUserAccount = () => {
+    return ({
+        type: HANDLE_NEW_USER_ACCOUNT,
+        payload: { email: '', password: ''}
+    })
+}
