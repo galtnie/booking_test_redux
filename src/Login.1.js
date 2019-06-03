@@ -101,8 +101,6 @@ class SignInForm extends React.Component {
                 onChange={handleChange}
                 onBlur={handleBlur}
                 value={values.email}
-
-
               />
               <div style={{ color: 'red', }}>
                 {touched.email && errors.email && <p>{errors.email}</p>}
@@ -116,6 +114,7 @@ class SignInForm extends React.Component {
                 name='password'
                 type='password'
                 id='password'
+                // autoComplete='current-password'
                 error={Boolean(errors.password) && touched.password}
                 placeholder='pA$$_W0rd'
                 onChange={handleChange}
@@ -190,7 +189,7 @@ export default compose (
     mapPropsToValues: ({ newUserAccount}) =>  {
        console.log(newUserAccount)
  return ({
-  email: newUserAccount || '',
+  email: newUserAccount || 'default',
   password:''
  })
 

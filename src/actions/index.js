@@ -69,17 +69,17 @@ export const determineReservedSlots = (reservedSlots) => {
     })
 }
 
-export const createNewUserAccount = (email, password) => {
+export const createNewUserAccount = (email) => {
     history.push('/login')
     return ({
         type: HANDLE_NEW_USER_ACCOUNT,
-        payload: { email, password }
+        payload: email
     })
 }
 
 export const eraseNewUserAccount = () => {
     return ({
         type: HANDLE_NEW_USER_ACCOUNT,
-        payload: { email: '', password: ''}
+        payload: ''
     })
 }

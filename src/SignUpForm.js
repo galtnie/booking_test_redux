@@ -18,7 +18,6 @@ class SignUpForm extends React.Component {
     confirmPassword: '',
     serverError: null,
     passwordIsMasked: true,
-    registration: false,
   }
 
   renderError = ({ error, touched, active }) => {
@@ -58,7 +57,7 @@ class SignUpForm extends React.Component {
             password: formValues.password
         }}
       )
-      .then(() => this.props.createNewUserAccount(formValues.email, formValues.password))
+      .then(() => this.props.createNewUserAccount(formValues.email))
       .catch(e => {
        if (e.response && e.response.data.errors.errors.email.kind === 'unique') {
           this.setState({ serverError: 'This e-mail is already used on this website.'})
