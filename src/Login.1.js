@@ -56,11 +56,10 @@ const styles = theme => ({
 
 class SignInForm extends React.Component {
 
-  state = {}
+  state = {
 
-  componentWillUnmount() {
-    this.props.eraseNewUserAccount()
   }
+
 
   render() {
        
@@ -95,14 +94,13 @@ class SignInForm extends React.Component {
                 component={Input}
                 id='email'
                 name='email'
+                autoComplete='email'
                 autoFocus
                 placeholder='email@name.tld'
                 error={Boolean(errors.email) && touched.email}
                 onChange={handleChange}
                 onBlur={handleBlur}
                 value={values.email}
-
-
               />
               <div style={{ color: 'red', }}>
                 {touched.email && errors.email && <p>{errors.email}</p>}
@@ -116,6 +114,7 @@ class SignInForm extends React.Component {
                 name='password'
                 type='password'
                 id='password'
+                // autoComplete='current-password'
                 error={Boolean(errors.password) && touched.password}
                 placeholder='pA$$_W0rd'
                 onChange={handleChange}
@@ -190,7 +189,7 @@ export default compose (
     mapPropsToValues: ({ newUserAccount}) =>  {
        console.log(newUserAccount)
  return ({
-  email: newUserAccount || '',
+  email: newUserAccount || 'default',
   password:''
  })
 
