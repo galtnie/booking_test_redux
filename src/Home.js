@@ -1,6 +1,6 @@
 import React from 'react'
-import ButtonAppBar from './components/UpperBar'
-import HomeGuide from './components/HomeGuide'
+import UpperBar from './components/UpperBar'
+import Guide from './components/Guide'
 import Halls from './components/Halls'
 import Schedule from './components/Schedule'
 import { Redirect } from 'react-router-dom'
@@ -12,17 +12,17 @@ import CircularProgress from './components/CircularProgress';
 class Home extends React.Component {
     
     componentWillMount() {
-        this.props.fetchTickets();
-        this.props.fetchHalls();
+        (!this.props.tickets) && this.props.fetchTickets();
+        (!this.props.halls) && this.props.fetchHalls();
     }
 
     render() {
         return (
-            (typeof sessionStorage.getItem('LoggedIn') !== "string")
+            (!this.props.user)
                 ?
                 <div className='main'>
-                    <ButtonAppBar />
-                    <HomeGuide />
+                    <UpperBar />
+                    <Guide />
                     {(this.props.tickets && this.props.halls)
                         ?
                         <Schedule />
@@ -52,6 +52,7 @@ const mapStateToProps = (state) => {
     return {
         tickets: state.tickets,
         halls: state.halls,
+        user: state.user
     }
 }
 

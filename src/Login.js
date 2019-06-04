@@ -19,7 +19,8 @@ import * as Yup from 'yup'
 import history from './history'
 import axios from 'axios'
 import { connect } from 'react-redux'
-import { createNewUserAccount, eraseNewUserAccount } from './actions'
+import { createNewUserAccount, eraseNewUserAccount, storeUser } from './actions'
+import { Redirect } from 'react-router-dom'
 
 const styles = theme => ({
   main: {
@@ -59,11 +60,14 @@ class SignInForm extends React.Component {
   state = {}
 
   componentWillUnmount() {
-    this.props.eraseNewUserAccount()
+    if (localStorage.getItem('user')) {
+      let data = localStorage.getItem('user')
+      this.props.storeUser(JSON.parse(data))
+      localStorage.removeItem('user')
+    }    
   }
 
   render() {
-       
     const {
       values,
       errors,
@@ -74,130 +78,120 @@ class SignInForm extends React.Component {
       handleSubmit,
       classes
     } = this.props
-
+   
     return (
-
-      // !sessionStorage.getItem('user_id') ? (
-
+      (!this.props.user)
+      ?
       <main className={classes.main}>
-        <CssBaseline />
-        <Paper className={classes.paper}>
-          <Avatar className={classes.avatar}>
-            <LockOutlinedIcon />
-          </Avatar>
-          <Typography component='h1' variant='h5'>
-            Sign in
-          </Typography>
-          <Form className={classes.form} onSubmit={handleSubmit}>
-            <FormControl margin='normal' fullWidth>
-              <InputLabel htmlFor='email'>Email Address</InputLabel>
-              <Field
-                component={Input}
-                id='email'
-                name='email'
-                autoFocus
-                placeholder='email@name.tld'
-                error={Boolean(errors.email) && touched.email}
-                onChange={handleChange}
-                onBlur={handleBlur}
-                value={values.email}
-
-
-              />
-              <div style={{ color: 'red', }}>
-                {touched.email && errors.email && <p>{errors.email}</p>}
-              </div>
-            </FormControl>
-
-            <FormControl margin='normal' fullWidth>
-              <InputLabel htmlFor='password'>Password</InputLabel>
-              <Field
-                component={Input}
-                name='password'
-                type='password'
-                id='password'
-                error={Boolean(errors.password) && touched.password}
-                placeholder='pA$$_W0rd'
-                onChange={handleChange}
-                onBlur={handleBlur}
-                value={values.password}
-
-              />
-              <div style={{ color: 'red', }}>
-                {touched.password && errors.password && <p>{errors.password}</p>}
-              </div>
-            </FormControl>
-
-
-            <FormControlLabel
-              control={<Checkbox value='remember' color='primary' />}
-              label='Remember me'
+      <CssBaseline />
+      <Paper className={classes.paper}>
+        <Avatar className={classes.avatar}>
+          <LockOutlinedIcon />
+        </Avatar>
+        <Typography component='h1' variant='h5'>
+          Sign in
+        </Typography>
+        <Form className={classes.form} onSubmit={handleSubmit}>
+          <FormControl margin='normal' fullWidth>
+            <InputLabel htmlFor='email'>Email Address</InputLabel>
+            <Field
+              component={Input}
+              id='email'
+              name='email'
+              autoComplete='email'
+              autoFocus
+              placeholder='email@name.tld'
+              error={Boolean(errors.email) && touched.email}
+              onChange={handleChange}
+              onBlur={handleBlur}
+              value={values.email}
             />
-            
-            <div  style={{ color: 'red'}}>
-
+            <div style={{ color: 'red', }}>
+              {touched.email && errors.email && <p>{errors.email}</p>}
             </div>
+          </FormControl>
 
-            <Button
-              type='submit'
-              fullWidth
-              variant='contained'
-              color='primary'
-              className={classes.submit}
-              disabled={isSubmitting}
-            >
-              Sign in
-            </Button>
-          </Form>
+          <FormControl margin='normal' fullWidth>
+            <InputLabel htmlFor='password'>Password</InputLabel>
+            <Field
+              component={Input}
+              name='password'
+              type='password'
+              id='password'
+              // autoComplete='current-password'
+              error={Boolean(errors.password) && touched.password}
+              placeholder='pA$$_W0rd'
+              onChange={handleChange}
+              onBlur={handleBlur}
+              value={values.password}
 
+            />
+            <div style={{ color: 'red', }}>
+              {touched.password && errors.password && <p>{errors.password}</p>}
+            </div>
+          </FormControl>
 
+          <FormControlLabel
+            control={<Checkbox value='remember' color='primary' />}
+            label='Remember me'
+          />
 
+          <div style={{ color: 'red' }}>
 
-          <Link to='/'>
-            <p
-              style={{
-                marginTop: '1.5em',
-                color: 'darkblue',
-                textDecoration: 'underline',
-                fontSize: '1.2em',
-              }}
-            >
-              Return to Home page
-            </p>
-          </Link>
-        </Paper>
-      </main>
-      //   ) : (
-      //     <Redirect to='/booking' />
-      //   )
-      // }
+          </div>
 
-      // }
+          <Button
+            type='submit'
+            fullWidth
+            variant='contained'
+            color='primary'
+            className={classes.submit}
+            disabled={isSubmitting}
+          >
+            Sign in
+          </Button>
+        </Form>
+
+        <Link to='/'>
+          <p
+            style={{
+              marginTop: '1.5em',
+              color: 'darkblue',
+              textDecoration: 'underline',
+              fontSize: '1.2em',
+            }}
+          >
+            Return to Home page
+          </p>
+        </Link>
+      </Paper>
+    </main>
+      :
+      <Redirect to='/booking' />     
+
     )
   }
 }
 
 
 const mapStateToProps = state => ({
-  newUserAccount: state.newUserAccount
+  newUserAccount: state.newUserAccount,
+  user: state.user
 })
 
 
-export default compose (
-  connect(mapStateToProps, { eraseNewUserAccount, createNewUserAccount }),
+export default compose(
+  connect(mapStateToProps, { eraseNewUserAccount, createNewUserAccount, storeUser }),
   withFormik({
 
-    mapPropsToValues: ({ newUserAccount}) =>  {
-       console.log(newUserAccount)
- return ({
-  email: newUserAccount || '',
-  password:''
- })
-
-
-
+    mapPropsToValues: ({newUserAccount}) => {           
+      let email = newUserAccount   
+      return ({
+        email: email || '',
+        password: ''
+      })
     },
-  
+
     validationSchema: Yup.object().shape({
       email: Yup.string()
         .required('Email is required')
@@ -205,9 +199,10 @@ export default compose (
       password: Yup.string()
         .required('Password is required')
     }),
-  
+
     handleSubmit: (values, { resetForm, setErrors, setSubmitting }) => {
-      setSubmitting(true) 
+      setSubmitting(true)
+ 
       axios.post(
         'https://web-ninjas.net/signIn',
         { headers: { 'Content-Type': 'application/x-www-form-urlencoded' } },
@@ -218,17 +213,14 @@ export default compose (
           }
         }
       )
-      .then(res => {
-        console.log(res)
-        eraseNewUserAccount()  
-        resetForm()      
-      })
-      .catch(err => {
-        if (err.response) {setErrors({ email: err.response.data.message}) }
-        setSubmitting(false)   
-      })
+        .then(res => localStorage.setItem("user", JSON.stringify(res.data)))
+        .then(()=>history.push('/booking'))
+        .catch(err => {
+          if (err.response) { setErrors({ email: err.response.data.message }) }
+          setSubmitting(false)
+        })
     }
-  
+
   })
 
 )(withStyles(styles)(SignInForm))

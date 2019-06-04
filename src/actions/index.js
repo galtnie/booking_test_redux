@@ -1,5 +1,4 @@
 import axios from 'axios';
-import history from '../history'
 
 import { 
     HANDLE_DATE_INPUT_SUBMIT,
@@ -8,7 +7,10 @@ import {
     FETCH_TICKETS,
     DETERMINE_RESERVED_SLOTS,
     HANDLE_NEW_USER_ACCOUNT,
-    HANDLE_USER_DATA,
+    STORE_USER,
+    DISCARD_USER,
+    SELECT_SLOT,
+    UNSELECT_SLOT,
 } from './types';
 
 export const handleDateInputSubmit = (date) => {
@@ -62,7 +64,6 @@ export const fetchTickets = () => async dispatch => {
     })
 };
 
-
 export const determineReservedSlots = (reservedSlots) => {
     return ({
         type: DETERMINE_RESERVED_SLOTS,
@@ -71,11 +72,11 @@ export const determineReservedSlots = (reservedSlots) => {
 }
 
 export const createNewUserAccount = (email) => {
-    history.push('/login')
     return ({
         type: HANDLE_NEW_USER_ACCOUNT,
         payload: email
     })
+    
 }
 
 export const eraseNewUserAccount = () => {
@@ -85,9 +86,29 @@ export const eraseNewUserAccount = () => {
     })
 }
 
-export const storeUserData = (user_id, token) => {
-    return({
-        type: HANDLE_USER_DATA,
-        payload: { user_id, token } 
+export const storeUser = (res) => {
+      return ({
+        type: STORE_USER,
+        payload: res
+    })
+}
+
+export const discardUser = () => {
+    return ({
+      type: DISCARD_USER,
+  })
+}
+
+export const selectSlot = (slot_id) => {
+    return ({
+        type: SELECT_SLOT,
+        payload: slot_id       
+    })
+}
+
+export const unselectSlot = (slot_id) => {
+    return ({
+        type: UNSELECT_SLOT,
+        payload: slot_id
     })
 }

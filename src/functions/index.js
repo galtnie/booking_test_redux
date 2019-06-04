@@ -59,8 +59,14 @@ export function calculateReservedSlots(tickets, halls, date) {
 }
 
 
-export function checkSlot(reservedSlots, id) {   
+export function checkIfSlotReserved(reservedSlots, id) {   
     return reservedSlots.find(function(element){
+        return element.slice(0, 28) === id 
+    })
+}
+
+export function checkIfSlotSelected(selectedSlots, id) {   
+    return selectedSlots.find(function(element){
         return element.slice(0, 28) === id 
     })
 }

@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
-import '../css/Rooms.css'
+import { selectSlot, unselectSlot } from '../actions';
+import '../css/Rooms.css';
+import { connect } from 'react-redux';
 
 export class RedFreeHome extends Component {
     render() {
@@ -50,66 +52,74 @@ export class VioletBusy extends Component {
 }
 
 
-export class RedFree extends Component {
+class RedFree_ extends Component {
     render() {
         return <div className="red-room-free" id={this.props.id}
-            onClick={() => { this.props.chooseSlot(this.props.id) }}
+            onClick={() => { this.props.selectSlot(this.props.id) }}
         >F</div>;
     }
 }
+export const RedFree = connect(null, { selectSlot})(RedFree_)
 
-export class BlueFree extends Component {
+class BlueFree_ extends Component {
     render() {
         return <div className="blue-room-free" id={this.props.id}
-            onClick={() => { this.props.chooseSlot(this.props.id) }}
+            onClick={() => { this.props.selectSlot(this.props.id) }}
         >F</div>;
     }
 }
+export const BlueFree = connect(null, { selectSlot})(BlueFree_)
 
-export class GreenFree extends Component {
+class GreenFree_ extends Component {
     render() {
         return <div className="green-room-free" id={this.props.id}
-            onClick={() => { this.props.chooseSlot(this.props.id) }}
+            onClick={() => { this.props.selectSlot(this.props.id) }}
         >F</div>;
     }
 }
+export const GreenFree = connect(null, { selectSlot})(GreenFree_)
 
-export class VioletFree extends Component {
+class VioletFree_ extends Component {
     render() {
         return <div className="violet-room-free" id={this.props.id}
-            onClick={() => { this.props.chooseSlot(this.props.id) }}
+            onClick={() => { this.props.selectSlot(this.props.id) }}
         >F</div>;
     }
 }
+export const VioletFree = connect(null, { selectSlot})(VioletFree_)
 
-export class RedChosen extends Component {
+class RedChosen_ extends Component {
     render() {
         return <div className="red-room-chosen" id={this.props.id}
-            onClick={() => { this.props.deselect(this.props.id) }}
+            onClick={() => { this.props.unselectSlot(this.props.id) }}
         >S</div>;
     }
 }
+export const RedChosen = connect(null, { unselectSlot })(RedChosen_)
 
-export class BlueChosen extends Component {
+class BlueChosen_ extends Component {
     render() {
         return <div className="blue-room-chosen" id={this.props.id}
-            onClick={() => { this.props.deselect(this.props.id) }}
+            onClick={() => { this.props.unselectSlot(this.props.id) }}
         >S</div>;
     }
 }
+export const BlueChosen = connect(null, { unselectSlot })(BlueChosen_)
 
-export class GreenChosen extends Component {
+class GreenChosen_ extends Component {
     render() {
         return <div className="green-room-chosen" id={this.props.id}
-            onClick={() => { this.props.deselect(this.props.id) }}
+            onClick={() => { this.props.unselectSlot(this.props.id) }}
         >S</div>;
     }
 }
+export const GreenChosen = connect(null, { unselectSlot })(GreenChosen_)
 
-export class VioletChosen extends Component {
+class VioletChosen_ extends Component {
     render() {
         return <div className="violet-room-chosen" id={this.props.id}
-            onClick={() => { this.props.deselect(this.props.id) }}
+            onClick={() => { this.props.unselectSlot(this.props.id) }}
         >S</div>;
     }
 }
+export const VioletChosen = connect(null, { unselectSlot })(VioletChosen_)

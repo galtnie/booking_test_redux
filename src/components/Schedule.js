@@ -5,6 +5,7 @@ import CircularProgress from './CircularProgress';
 import RoomDeterminer from './RoomDeterminer';
 import { determineReservedSlots } from '../actions';
 import { composeSlotId, calculateReservedSlots } from '../functions'
+import Button from '@material-ui/core/Button';
 
 class Schedule extends React.Component {
 
@@ -32,7 +33,6 @@ class Schedule extends React.Component {
     }
 
     componentWillMount() {
-        
         if (!this.props.reservedSlots) {
             this.props.determineReservedSlots(calculateReservedSlots(this.props.tickets, this.props.halls, this.props.date))
         }
@@ -42,9 +42,15 @@ class Schedule extends React.Component {
         return (
             this.props.reservedSlots
                 ?
+        
                 <div className='all-hours-container'>
                     {this.renderDayCard(this.props.halls, this.props.date)}
+                    <Button variant="contained" size="medium" color="primary" style={{width: "90%", marginTop: "1em", position: "relative"}} onClick={this.props.confirm}>
+                            Payment
+                        </Button> 
                 </div>
+                
+                
                 :
                 <div className="ciruclar-progress-container">
                     <CircularProgress />

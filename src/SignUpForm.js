@@ -10,6 +10,8 @@ import Paper from '@material-ui/core/Paper'
 import CssBaseline from '@material-ui/core/CssBaseline'
 import axios from 'axios'
 import { createNewUserAccount } from './actions'
+import { Redirect } from 'react-router-dom'
+import history from './history'
 
 class SignUpForm extends React.Component {
   state = {
@@ -57,7 +59,10 @@ class SignUpForm extends React.Component {
             password: formValues.password
         }}
       )
-      .then(() => this.props.createNewUserAccount(formValues.email))
+      .then(() => {
+        this.props.createNewUserAccount(formValues.email)
+      })
+      .then(()=>history.push('/login'))
       .catch(e => {
        if (e.response && e.response.data.errors.errors.email.kind === 'unique') {
           this.setState({ serverError: 'This e-mail is already used on this website.'})
@@ -74,6 +79,8 @@ class SignUpForm extends React.Component {
 
   render () {
     return (
+      (!this.props.user) 
+        ?
       <main className='main-signup'>
         <CssBaseline />
         <Paper className='paper'>
@@ -123,6 +130,8 @@ class SignUpForm extends React.Component {
           </div>
         </Paper>
       </main>
+        : 
+      <Redirect to='/booking' />
     )
   }
 }
@@ -148,8 +157,9 @@ const validate = formValues => {
   return errors
 }
 
-const mapStateToProps = state => ({
-
+const mapStateToProps = state => (  
+{
+  user: state.user
 })
 
 SignUpForm = connect(mapStateToProps, { createNewUserAccount })(SignUpForm)
