@@ -7,7 +7,8 @@ import {
     FETCH_HALLS,
     FETCH_TICKETS,
     DETERMINE_RESERVED_SLOTS,
-    HANDLE_NEW_USER_ACCOUNT
+    HANDLE_NEW_USER_ACCOUNT,
+    HANDLE_USER_DATA,
 } from './types';
 
 export const handleDateInputSubmit = (date) => {
@@ -81,5 +82,12 @@ export const eraseNewUserAccount = () => {
     return ({
         type: HANDLE_NEW_USER_ACCOUNT,
         payload: { email: '', password: ''}
+    })
+}
+
+export const storeUserData = (user_id, token) => {
+    return({
+        type: HANDLE_USER_DATA,
+        payload: { user_id, token } 
     })
 }
