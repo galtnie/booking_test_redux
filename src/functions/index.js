@@ -1,3 +1,5 @@
+// import { elementType } from "prop-types";
+
 export function test(){
     console.log('test')
     return 'hey'
@@ -69,4 +71,108 @@ export function checkIfSlotSelected(selectedSlots, id) {
     return selectedSlots.find(function(element){
         return element.slice(0, 28) === id 
     })
+}
+
+export function prepareSelectedSlotsRendering(slots_id, halls) {
+
+    let orderListToUniteAdjacent = []
+        for (let i = 0; i < slots_id.length; i++) {
+            let order = {
+                hall_id: halls.find((element) => element.colour === slots_id[i].slice(-3))._id,               
+                from: Date.parse(`20${slots_id[i].slice(9, 11)}-${slots_id[i].slice(7, 9)}-${slots_id[i].slice(5, 7)}T${slots_id[i].slice(16, 18)}:00:00`),
+                to: Date.parse(`20${slots_id[i].slice(9, 11)}-${slots_id[i].slice(7, 9)}-${slots_id[i].slice(5, 7)}T${slots_id[i].slice(16, 18)}:59:00`),
+            }
+            orderListToUniteAdjacent.push(order)
+        }
+  
+    let ticketsHallsArray = []
+        for (let i = 0; i < orderListToUniteAdjacent.length; i++) {
+            let ifNewHallArrayIsNeeded = true
+
+            if (ticketsHallsArray.length === 0) {
+                let sameHallTicketsArray = []                                           
+                sameHallTicketsArray.push(orderListToUniteAdjacent[i])           
+                ticketsHallsArray.push(sameHallTicketsArray)
+                ifNewHallArrayIsNeeded = false
+            } else {
+                for (let j = 0; j < ticketsHallsArray.length; j++) {
+                    if (ticketsHallsArray[j][0].hall_id === orderListToUniteAdjacent[i].hall_id) {       
+                        ticketsHallsArray[j].push(orderListToUniteAdjacent[i])                        
+                        ifNewHallArrayIsNeeded = false
+                    }
+                }
+            }
+            if (ifNewHallArrayIsNeeded) {
+                let sameHallTicketsArray = []                                         
+                sameHallTicketsArray.push(orderListToUniteAdjacent[i])          
+                ticketsHallsArray.push(sameHallTicketsArray)
+            }
+        }
+
+        let finalArray 
+
+        (function uniteAdjacentTickets(ticketsHallsArray){
+            let doItAgain = false
+
+            ticketsHallsArray.forEach((sameHallTicketsArray) => {
+                for (let i = 0; i < sameHallTicketsArray.length; i++) {
+                    for (let j = 0; j < sameHallTicketsArray.length; j++) {
+
+                        if ((sameHallTicketsArray[j].from - sameHallTicketsArray[i].to) < 300000 &&
+                            (sameHallTicketsArray[j].from - sameHallTicketsArray[i].to) > 0) {
+
+                            let newTicket = {
+                                from: sameHallTicketsArray[i].from,
+                                to: sameHallTicketsArray[j].to,
+                                hall_id: sameHallTicketsArray[i].hall_id,
+                            }
+
+                            if (i > j) {
+                                sameHallTicketsArray.splice(i, 1)
+                                sameHallTicketsArray.splice(j, 1, newTicket)
+                            }
+                            else {
+                                sameHallTicketsArray.splice(j, 1)
+                                sameHallTicketsArray.splice(i, 1, newTicket)
+                            }
+                            doItAgain = true
+                            break;
+                        }
+                        else if ((sameHallTicketsArray[i].from - sameHallTicketsArray[j].to) < 300000 &&
+                            (sameHallTicketsArray[i].from - sameHallTicketsArray[j].to) > 0) {
+
+                            let newTicket = {
+                                from: sameHallTicketsArray[j].from,
+                                to: sameHallTicketsArray[i].to,
+                                hall_id: sameHallTicketsArray[i].hall_id,
+                            }
+
+                            if (i > j) {
+                                sameHallTicketsArray.splice(i, 1)
+                                sameHallTicketsArray.splice(j, 1, newTicket)
+                            }
+                            else {
+                                sameHallTicketsArray.splice(j, 1)
+                                sameHallTicketsArray.splice(i, 1, newTicket)
+                            }
+                            doItAgain = true
+                            break;
+                        }
+                    }
+                }
+            })
+
+            if (doItAgain) {
+                uniteAdjacentTickets(ticketsHallsArray)
+            } else {
+                let arrayWithUnitedAdjacentTickets = []
+                ticketsHallsArray.forEach(i => i.forEach(ii => {
+                    ii.event_title = "untitled"
+                    arrayWithUnitedAdjacentTickets.push(ii)
+                }))
+                finalArray = arrayWithUnitedAdjacentTickets
+            }
+        })(ticketsHallsArray)
+        
+        return finalArray
 }

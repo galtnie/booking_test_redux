@@ -5,15 +5,18 @@ import Halls from './components/Halls'
 import Schedule from './components/Schedule'
 import { Redirect } from 'react-router-dom'
 import { connect } from 'react-redux';
-import { fetchTickets, fetchHalls } from './actions';
+import { fetchTickets, fetchHalls, determineReservedSlots } from './actions';
 import './css/Home.css'
 import CircularProgress from './components/CircularProgress';
+import { calculateReservedSlots } from './functions'
 
 class Home extends React.Component {
     
+
     componentWillMount() {
-        (!this.props.tickets) && this.props.fetchTickets();
-        (!this.props.halls) && this.props.fetchHalls();
+        this.props.fetchTickets();
+        this.props.fetchHalls();
+        this.props.determineReservedSlots(calculateReservedSlots(this.props.tickets, this.props.halls, this.props.dateInput))
     }
 
     render() {
@@ -23,24 +26,8 @@ class Home extends React.Component {
                 <div className='main'>
                     <UpperBar />
                     <Guide />
-                    {(this.props.tickets && this.props.halls)
-                        ?
-                        <Schedule />
-                        :
-                        <div className="ciruclar-progress-container">
-                            <CircularProgress />
-                        </div>
-                    }
-                    {(this.props.halls)
-                        ?
-                        <Halls />
-                        :
-                        <div className="ciruclar-progress-container">
-                            <CircularProgress />
-                        </div>
-                    }
-
-
+                    {(this.props.tickets && this.props.halls) ? <Schedule /> : <CircularProgress />}
+                    {(this.props.halls) ? <Halls /> : <CircularProgress /> }
                 </div>
                 :
                 <Redirect to='/booking' />
@@ -52,12 +39,14 @@ const mapStateToProps = (state) => {
     return {
         tickets: state.tickets,
         halls: state.halls,
-        user: state.user
+        user: state.user,
+        dateInput: state.dateInput,
     }
 }
 
 export default connect(mapStateToProps,
     {
+        determineReservedSlots,
         fetchTickets,
         fetchHalls,
     })(Home);

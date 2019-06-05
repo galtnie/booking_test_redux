@@ -1,0 +1,9 @@
+.payment-button {
+    width: 50%;
+    margin-bottom: 0 !important;
+    position: inherit !important;
+}
+
+.payment-button:hover{
+    color: 	#F1BF98;
+}

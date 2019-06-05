@@ -28,8 +28,8 @@ export class VioletFreeHome extends Component {
 }
 
 export class RedBusy extends Component {
-    render() {       
-        return <div className="red-room-reserved" id={this.props.id} data-tooltip={this.props.id ? this.props.id.slice(34): null} >R</div>;
+    render() {   
+        return <div className={`red-room-reserved${(this.props.guide)?'-guide':''}`} id={this.props.id} data-tooltip={this.props.id ? this.props.id.slice(34): null} >R</div>;
     }
 }
 
@@ -54,11 +54,13 @@ export class VioletBusy extends Component {
 
 class RedFree_ extends Component {
     render() {
-        return <div className="red-room-free" id={this.props.id}
+        return <div className={`red-room-free${(this.props.guide)?'-guide':''}`} id={this.props.id}
             onClick={() => { this.props.selectSlot(this.props.id) }}
         >F</div>;
     }
 }
+
+
 export const RedFree = connect(null, { selectSlot})(RedFree_)
 
 class BlueFree_ extends Component {
@@ -88,13 +90,18 @@ class VioletFree_ extends Component {
 }
 export const VioletFree = connect(null, { selectSlot})(VioletFree_)
 
+
+
 class RedChosen_ extends Component {
     render() {
-        return <div className="red-room-chosen" id={this.props.id}
+        return <div className={`red-room-chosen${(this.props.guide)?'-guide':''}`} id={this.props.id}
             onClick={() => { this.props.unselectSlot(this.props.id) }}
         >S</div>;
     }
 }
+
+
+
 export const RedChosen = connect(null, { unselectSlot })(RedChosen_)
 
 class BlueChosen_ extends Component {

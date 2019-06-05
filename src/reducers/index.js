@@ -9,6 +9,7 @@ import determineReservedSlots from './determineReservedSlots';
 import handleNewUserAccount from './handleNewUserAccount';
 import handleUser from './handleUser'
 import handleSlotSelection from './handleSlotSelection';
+import determineUsersPriorReservations from './determineUsersPriorReservations';
 
 export default combineReducers({
     
@@ -21,5 +22,6 @@ export default combineReducers({
     newUserAccount: handleNewUserAccount,
     user: handleUser,
     selectedSlots: handleSlotSelection,
+    usersPriorReservations: determineUsersPriorReservations,
 });
 

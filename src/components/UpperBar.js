@@ -12,7 +12,7 @@ import SwitchForth from './SwitchForth'
 import CurrentDate from './CurrentDate'
 import history from '../history'
 import { connect } from 'react-redux'
-import { discardUser } from '../actions' 
+import { discardUser, discardAllSelectedSlots } from '../actions' 
 
 
 class UpperBar extends Component {
@@ -33,7 +33,10 @@ class UpperBar extends Component {
                 (history.location.pathname === "/booking")
                   ?
                   <Link to="/">
-                    <Button className='signin-button signup-button' onClick={this.props.discardUser}>
+                    <Button className='signin-button' onClick={()=> {
+                      this.props.discardUser(); 
+                      this.props.discardAllSelectedSlots()
+                    }}>
                       Sign out
                     </Button>
                   </Link>
@@ -41,11 +44,11 @@ class UpperBar extends Component {
                   <div>
                     <Link to="/signup">
                       <Button className='signup-button'>
-                        Sign up
+                        <b>Sign up</b>
                       </Button>
                     </Link>
                     <Link to="/login">
-                      <Button className='signin-button signup-button'>
+                      <Button className='signin-button'>
                         Sign in
                       </Button>
                     </Link>
@@ -59,7 +62,7 @@ class UpperBar extends Component {
   }
 }
 
-export default connect (null, {discardUser})(UpperBar);
+export default connect (null, {discardUser, discardAllSelectedSlots})(UpperBar);
 
 
 // ButtonAppBar.propTypes = {

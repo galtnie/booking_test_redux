@@ -1,4 +1,4 @@
-import  { SELECT_SLOT, UNSELECT_SLOT } from '../actions/types';
+import  { SELECT_SLOT, UNSELECT_SLOT, DISCARD_ALL_SELECTED_SLOTS } from '../actions/types';
 
 export default (state = [], action) => {
     switch (action.type) {
@@ -6,6 +6,8 @@ export default (state = [], action) => {
         return [ ...state, action.payload ];
         case UNSELECT_SLOT:
         return state.filter(i => i !== action.payload);
+        case DISCARD_ALL_SELECTED_SLOTS:
+        return [];
         default: 
         return state;
     }

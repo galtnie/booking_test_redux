@@ -1,8 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { checkIfSlotReserved, checkIfSlotSelected } from '../functions'
+import { checkIfSlotReserved, checkIfSlotSelected,  } from '../functions' 
 import history from '../history'
-import { selectSlot, unselectSlot } from '../actions'
+import { selectSlot, unselectSlot, determineReservedSlots } from '../actions'
 import { 
     RedFreeHome, 
     VioletFreeHome, 
@@ -23,6 +23,7 @@ import {
 } from './Rooms.js'
 
 class RoomStatusDeterminer extends React.Component {
+
     render() {
         // const slot = checkReservedSlot(this.props.reservedSlots, this.props.id)  
         // const reserved = slot ?  true : false
@@ -108,11 +109,15 @@ class RoomStatusDeterminer extends React.Component {
 
 const mapStateToProps = (state, ownProps) => {
     const { id } = ownProps
-    const reservedSlots = state.reservedSlots
-    const selectedSlots = state.selectedSlots
-    return { id, reservedSlots, selectedSlots }; 
+    let reservedSlots = state.reservedSlots
+    let selectedSlots = state.selectedSlots
+    let dateInput = state.dateInput
+    let tickets = state.tickets
+    let halls = state.halls
+    return { id, reservedSlots, selectedSlots, dateInput, tickets, halls }; 
 };
 export default connect (mapStateToProps, {
     selectSlot,
     unselectSlot,
+    determineReservedSlots,
 })(RoomStatusDeterminer);

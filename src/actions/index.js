@@ -11,6 +11,8 @@ import {
     DISCARD_USER,
     SELECT_SLOT,
     UNSELECT_SLOT,
+    DISCARD_ALL_SELECTED_SLOTS,
+    DETERMINE_USERS_PRIOR_RESERVATIONS,
 } from './types';
 
 export const handleDateInputSubmit = (date) => {
@@ -76,7 +78,6 @@ export const createNewUserAccount = (email) => {
         type: HANDLE_NEW_USER_ACCOUNT,
         payload: email
     })
-    
 }
 
 export const eraseNewUserAccount = () => {
@@ -110,5 +111,25 @@ export const unselectSlot = (slot_id) => {
     return ({
         type: UNSELECT_SLOT,
         payload: slot_id
+    })
+}
+
+export const discardAllSelectedSlots = () => {
+    return ({
+      type: DISCARD_ALL_SELECTED_SLOTS,
+  })
+}
+
+export const determineUsersPriorReservations = (tickets, user_id) => {
+    return ({
+        type: DETERMINE_USERS_PRIOR_RESERVATIONS,
+        payload: tickets.filter((e)=>e.user_id === user_id)
+    }) 
+}
+
+export const alterUsersPriorReservationsList = (newList) => {
+    return ({
+        type: DETERMINE_USERS_PRIOR_RESERVATIONS,
+        payload: newList
     })
 }

@@ -1,5 +1,6 @@
 .upperbar-container {
     flex-grow: 1;
+    width: 100%
 }
 
 .toolbar {
@@ -27,11 +28,20 @@
     cursor: pointer !important;
 }
 
+.signup-button:hover{
+    color: 	#F1BF98 !important;
+}
+
 .signin-button{
     color: #15cda8 !important;
     font-weight: bold !important;
     margin-left: 0.5em !important;
     border: solid 0.25em #15cda8 !important;
+}
+
+.signin-button:hover{
+    border: solid 0.25em	#F1BF98 !important;
+    color: 	#F1BF98 !important;
 }
 
 .active-previous-day {
