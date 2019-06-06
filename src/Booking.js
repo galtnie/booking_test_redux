@@ -52,7 +52,7 @@ class Booking extends React.Component {
                     {(this.props.halls) ? <Halls /> : <CircularProgress /> }
                     {(this.props.tickets && this.props.halls) ? <Schedule /> : <CircularProgress /> }
                     {this.state.bookingConfirmation ? <BookingConfirmation tickets={this.state.ticketsToReserve} alterTickets={this.alterTicketsToReserve} closeWindow={this.closePaymentWindow}/> : null}
-                    {/* {this.props.ticketToEdit ? <TicketEdition /> : null} */}
+                    {this.props.ticketToEdit ? <TicketEdition /> : null}
                     <Button 
                         disabled={Boolean(!this.props.selectedSlots.length)} 
                         variant="contained" 
