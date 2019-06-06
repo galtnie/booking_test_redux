@@ -9,8 +9,8 @@ class BookingConfirmation extends React.Component {
     state={}
 
     handleConfirmation(tickets){
+        this.props.discardAllSelectedSlots()
         let axiosRequests = []
-
         for (let i = 0; i < tickets.length; i++) {
             let request = axios({
                 method: 'post',
@@ -18,7 +18,7 @@ class BookingConfirmation extends React.Component {
                 data: {
                     hall_id: tickets[i].hall_id,
                     user_id: this.props.user._id,
-                    title: tickets[i].event_title,
+                    title: tickets[i].title,
                     from: tickets[i].from,
                     to: tickets[i].to,
                 },
@@ -32,25 +32,19 @@ class BookingConfirmation extends React.Component {
 
         Promise.all(axiosRequests)
             .then(()=>{
-                this.props.fetchTickets();
-                this.props.fetchHalls();
+                this.props.closeWindow();         
             })
             .then(() => {
-                this.props.closeWindow();
-                this.props.discardAllSelectedSlots()
+                this.props.fetchTickets();
+                async function filler(){
+                    const res = await axios.get('https://web-ninjas.net/tickets')
+                    return res.data
+                }
+                return filler()
             })
-            .then(()=> {
-                console.log('NEW', this.props.tickets)
-                console.log('OLD', this.props.reservedTickets)
-                console.log('BOTH', [...this.props.tickets, ...this.props.reservedTickets])
-                this.props.determineReservedSlots(calculateReservedSlots([...this.props.tickets, ...this.props.reservedTickets], this.props.halls, this.props.dateInput))
-            })
-            .then(()=>{
-                // console.log('PRIOR ', this.props.reservedTickets)
-                // console.log('newOrder ', this.props.tickets)
-                // console.log('BOTH ', [...this.props.tickets, ...this.props.reservedTickets])
-                this.props.determineUsersPriorReservations([...this.props.tickets, ...this.props.reservedTickets], this.props.user._id)
-
+            .then((updatedTicketsList)=> {
+                this.props.determineReservedSlots(calculateReservedSlots(updatedTicketsList, this.props.halls, this.props.dateInput, this.props.user._id))
+                this.props.determineUsersPriorReservations(updatedTicketsList, this.props.user._id)
             })
             .catch(error => {
                 console.dir(error)
@@ -94,7 +88,7 @@ class BookingConfirmation extends React.Component {
                                     }}
                                     onChange={(e) => {
                                         let newArray = this.props.tickets
-                                        newArray[index].event_title = e.target.value
+                                        newArray[index].title = e.target.value
                                         this.props.alterTickets(newArray)
                                     }}
                                 />
@@ -127,7 +121,8 @@ const mapStateToProps = (state) => {
         reservedTickets: state.tickets,
         halls: state.halls,
         user: state.user,
-        dateInput: state.dateInput,    
+        dateInput: state.dateInput,  
+        priorReservations: state.usersPriorReservations  
     }
 }
 

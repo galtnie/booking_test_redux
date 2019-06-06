@@ -75,7 +75,7 @@ export function checkIfSlotSelected(selectedSlots, id) {
 }
 
 
-export function prepareSelectedSlotsRendering(slots_id, halls) {
+export function prepareSelectedSlotsRendering(slots_id, halls, user) {
 
     let orderListToUniteAdjacent = []
         for (let i = 0; i < slots_id.length; i++) {
@@ -169,7 +169,8 @@ export function prepareSelectedSlotsRendering(slots_id, halls) {
             } else {
                 let arrayWithUnitedAdjacentTickets = []
                 ticketsHallsArray.forEach(i => i.forEach(ii => {
-                    ii.event_title = "untitled"
+                    ii.title = "untitled" 
+                    ii.user_id = user._id                                                   
                     arrayWithUnitedAdjacentTickets.push(ii)
                 }))
                 finalArray = arrayWithUnitedAdjacentTickets

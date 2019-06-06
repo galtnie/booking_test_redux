@@ -47,7 +47,7 @@ class Booking extends React.Component {
     }
 
     handlePaymentButtonClicking = () => {
-        const tickets  = prepareSelectedSlotsRendering(this.props.selectedSlots, this.props.halls)
+        const tickets  = prepareSelectedSlotsRendering(this.props.selectedSlots, this.props.halls, this.props.user)
         this.setState({ticketsToReserve: tickets})
         this.setState({bookingConfirmation: true})
     }
