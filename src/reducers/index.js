@@ -10,9 +10,9 @@ import handleNewUserAccount from './handleNewUserAccount';
 import handleUser from './handleUser'
 import handleSlotSelection from './handleSlotSelection';
 import determineUsersPriorReservations from './determineUsersPriorReservations';
+import handleTicketEdition from './handleTicketEdition';
 
 export default combineReducers({
-    
     dateInput: handleDateInput,
     backSwitcher: handleBackSwitcher,
     halls: handleFetchedHalls,
@@ -23,5 +23,7 @@ export default combineReducers({
     user: handleUser,
     selectedSlots: handleSlotSelection,
     usersPriorReservations: determineUsersPriorReservations,
+    ticketToEdit: handleTicketEdition,
+    
 });
 

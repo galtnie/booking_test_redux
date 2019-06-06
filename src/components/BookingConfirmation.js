@@ -1,8 +1,8 @@
 import React from 'react'
 import { connect } from 'react-redux' 
-import axios from 'axios'
-import { fetchTickets, fetchHalls, discardAllSelectedSlots, determineReservedSlots, determineUsersPriorReservations } from '../actions';
-import { calculateReservedSlots } from '../functions'
+// import axios from 'axios'
+import { fetchTickets, fetchHalls, discardAllSelectedSlots, determineReservedSlots, determineUsersPriorReservations, createNewTicket } from '../actions';
+// import { calculateReservedSlots } from '../functions'
 
 
 class BookingConfirmation extends React.Component {
@@ -10,46 +10,48 @@ class BookingConfirmation extends React.Component {
 
     handleConfirmation(tickets){
         this.props.discardAllSelectedSlots()
-        let axiosRequests = []
-        for (let i = 0; i < tickets.length; i++) {
-            let request = axios({
-                method: 'post',
-                url: 'https://web-ninjas.net/tickets',
-                data: {
-                    hall_id: tickets[i].hall_id,
-                    user_id: this.props.user._id,
-                    title: tickets[i].title,
-                    from: tickets[i].from,
-                    to: tickets[i].to,
-                },
-                headers: {
-                    ContentType: "application/x-www-form-urlencoded",
-                    Authorization: this.props.user.token,
-                }
-            })
-            axiosRequests.push(request)
-        }
+        this.props.closeWindow()
+        this.props.createNewTicket(tickets, this.props.user)
+        this.props.fetchTickets();
 
-        Promise.all(axiosRequests)
-            .then(()=>{
-                this.props.closeWindow();         
-            })
-            .then(() => {
-                this.props.fetchTickets();
-                async function filler(){
-                    const res = await axios.get('https://web-ninjas.net/tickets')
-                    return res.data
-                }
-                return filler()
-            })
-            .then((updatedTicketsList)=> {
-                this.props.determineReservedSlots(calculateReservedSlots(updatedTicketsList, this.props.halls, this.props.dateInput, this.props.user._id))
-                this.props.determineUsersPriorReservations(updatedTicketsList, this.props.user._id)
-            })
-            .catch(error => {
-                console.dir(error)
-                console.log(error.message)
-            })
+        // this.props.determineReservedSlots(calculateReservedSlots(this.props.res, this.props.halls, this.props.dateInput, this.props.user._id))
+        // this.props.determineUsersPriorReservations(this.props.reservedTickets, this.props.user._id)
+
+        // let axiosRequests = []
+        // for (let i = 0; i < tickets.length; i++) {
+        //     let request = axios({
+        //         method: 'post',
+        //         url: 'https://web-ninjas.net/tickets',
+        //         data: {
+        //             hall_id: tickets[i].hall_id,
+        //             user_id: this.props.user._id,
+        //             title: tickets[i].title,
+        //             from: tickets[i].from,
+        //             to: tickets[i].to,
+        //         },
+        //         headers: {
+        //             ContentType: "application/x-www-form-urlencoded",
+        //             Authorization: this.props.user.token,
+        //         }
+        //     })
+        //     axiosRequests.push(request)
+        // }
+
+        // Promise.all(axiosRequests)
+        //     .then(()=>{
+                         
+        //     })
+        //     .then(() => {
+        //         this.props.fetchTickets();
+        //     })
+        //     .then((updatedTicketsList)=> {
+                // this.props.determineReservedSlots(calculateReservedSlots(updatedTicketsList, this.props.halls, this.props.dateInput, this.props.user._id))
+                // this.props.determineUsersPriorReservations(updatedTicketsList, this.props.user._id)
+        //     })
+            // .catch(error => {
+            //     console.dir(error)
+            //     console.log(error.message)
+            // })
     }
 
     render() {
@@ -133,4 +135,6 @@ export default connect(mapStateToProps,
         discardAllSelectedSlots,
         determineReservedSlots,
         determineUsersPriorReservations,
+        createNewTicket,
+
     })(BookingConfirmation);

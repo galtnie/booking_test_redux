@@ -3,15 +3,18 @@ import React from 'react';
 import { connect } from 'react-redux';
 import CircularProgress from './CircularProgress';
 import RoomDeterminer from './RoomDeterminer';
-import { determineReservedSlots } from '../actions';
-import { composeSlotId } from '../functions'
+import { determineReservedSlots, determineUsersPriorReservations } from '../actions';
+import { composeSlotId, calculateReservedSlots } from '../functions'
 
 class Schedule extends React.Component {
 
-    // componentWillReceiveProps(nextProps){
-    //     console.log(nextProps.tickets)
-        
-    // }
+    componentWillReceiveProps(nextProps){
+        if (nextProps.tickets !== this.props.tickets) {
+            this.props.determineReservedSlots(calculateReservedSlots(nextProps.tickets, this.props.halls, this.props.date));
+            if (this.props.user !== null){
+                this.props.determineUsersPriorReservations(nextProps.tickets, this.props.user._id)}
+        }      
+    }
 
     renderOneHourRooms = (hour, halls, date) => {
         let oneHourColumn = []
@@ -57,6 +60,7 @@ const mapStateToProps = (state) => {
         halls: state.halls,
         date: state.dateInput,
         reservedSlots: state.reservedSlots,
+        user: state.user,
     };
 };
-export default connect(mapStateToProps, { determineReservedSlots })(Schedule);
+export default connect(mapStateToProps, { determineReservedSlots, determineUsersPriorReservations })(Schedule);

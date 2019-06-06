@@ -13,6 +13,10 @@ import {
     UNSELECT_SLOT,
     DISCARD_ALL_SELECTED_SLOTS,
     DETERMINE_USERS_PRIOR_RESERVATIONS,
+    SET_TICKET_TO_EDIT,
+    DISCARD_TICKET_TO_EDIT,
+    ADD_NEW_TICKETS,
+    WITHDRAW_TICKET,
 } from './types';
 
 export const handleDateInputSubmit = (date) => {
@@ -132,4 +136,78 @@ export const alterUsersPriorReservationsList = (newList) => {
         type: DETERMINE_USERS_PRIOR_RESERVATIONS,
         payload: newList
     })
+}
+
+export const setTicketToEdit = (ticket) => {
+    return ({
+        type: SET_TICKET_TO_EDIT,
+        payload: ticket
+    })
+}
+
+export const discardTicketToEdit = () => {
+    return ({
+        type: DISCARD_TICKET_TO_EDIT
+    })
+}
+
+export const createNewTicket = (tickets, user) => dispatch => {
+
+        let axiosRequests = []
+        for (let i = 0; i < tickets.length; i++) {
+            let request = axios({
+                method: 'post',
+                url: 'https://web-ninjas.net/tickets',
+                data: {
+                    hall_id: tickets[i].hall_id,
+                    user_id: user._id,
+                    title: tickets[i].title,
+                    from: tickets[i].from,
+                    to: tickets[i].to,
+                },
+                headers: {
+                    ContentType: "application/x-www-form-urlencoded",
+                    Authorization: user.token,
+                }
+            })
+            axiosRequests.push(request)
+        }
+        
+        Promise.all(axiosRequests)
+            .then((res)=>{
+                let newArray = []
+                for (let i = 0; i < res.length; i++) {
+                                         
+                    newArray.push(JSON.parse(JSON.stringify(res[i].data)))
+                }
+                return newArray
+            })
+            .then(arr => {
+                dispatch({ 
+                    type: ADD_NEW_TICKETS, 
+                    payload: arr 
+                })
+            })
+            .catch(error => {
+                console.dir(error)
+                console.log(error.message)
+            })
+}
+
+export const withdrawTicket = (ticket, user) =>  dispatch => {
+    axios({
+        method: 'delete',
+        url: `https://web-ninjas.net/tickets/${ticket._id}`,
+        headers: {
+            ContentType: "application/x-www-form-urlencoded",
+            Authorization: user.token,
+        }
+    })
+    .then(()=>{
+        dispatch({ 
+            type: WITHDRAW_TICKET, 
+            payload: ticket 
+        })
+    })
+    .catch((e) => console.dir(e))
 }

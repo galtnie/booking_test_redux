@@ -4,6 +4,7 @@ import Guide from './components/Guide'
 import Halls from './components/Halls'
 import Schedule from './components/Schedule'
 import Title from './components/Title'
+import TicketEdition from './components/TicketEdition'
 import UsersPriorReservations from './components/UsersPriorReservations'
 import { connect } from 'react-redux';
 import { fetchTickets, fetchHalls, determineReservedSlots, determineUsersPriorReservations } from './actions';
@@ -20,30 +21,10 @@ class Booking extends React.Component {
         ticketsToReserve: null
     }
 
-    // shouldComponentUpdate(nextProps, nextState){
-    //     return nextProps.value !== this.props.value || this.state.value !== nextState.value;
-    // }
     componentWillReceiveProps(nextProps) {
-        if (nextProps.tickets !== this.props.tickets){
-            this.forceUpdate()
+        if (nextProps.tickets !== this.props.tickets){      
+            this.props.determineReservedSlots(calculateReservedSlots(this.props.tickets, this.props.halls, this.props.dateInput, this.props.user._id)) 
         }
-    }
-
-    componentWillMount() {   
-        async function getAllInitialData(fetchTickets, fetchHalls, determineReservedSlots, determineUsersPriorReservations, tickets, halls, date, user) {
-            await fetchTickets();
-            fetchHalls();
-            determineReservedSlots(calculateReservedSlots(tickets, halls, date));
-            determineUsersPriorReservations(tickets, user._id)
-        }
-        getAllInitialData(  this.props.fetchTickets, 
-                            this.props.fetchHalls, 
-                            this.props.determineReservedSlots, 
-                            this.props.determineUsersPriorReservations, 
-                            this.props.tickets, 
-                            this.props.halls, 
-                            this.props.dateInput, 
-                            this.props.user)
     }
 
     handlePaymentButtonClicking = () => {
@@ -70,13 +51,8 @@ class Booking extends React.Component {
                     <Guide />
                     {(this.props.halls) ? <Halls /> : <CircularProgress /> }
                     {(this.props.tickets && this.props.halls) ? <Schedule /> : <CircularProgress /> }
-                    { 
-                        this.state.bookingConfirmation 
-                        ? 
-                    <BookingConfirmation tickets={this.state.ticketsToReserve} alterTickets={this.alterTicketsToReserve} closeWindow={this.closePaymentWindow}/> 
-                        : 
-                        null
-                    }
+                    {this.state.bookingConfirmation ? <BookingConfirmation tickets={this.state.ticketsToReserve} alterTickets={this.alterTicketsToReserve} closeWindow={this.closePaymentWindow}/> : null}
+                    {/* {this.props.ticketToEdit ? <TicketEdition /> : null} */}
                     <Button 
                         disabled={Boolean(!this.props.selectedSlots.length)} 
                         variant="contained" 
@@ -104,7 +80,8 @@ const mapStateToProps = (state) => {
         halls: state.halls,
         user: state.user,
         selectedSlots: state.selectedSlots,
-        usersPriorReservations: state.usersPriorReservations
+        usersPriorReservations: state.usersPriorReservations,
+        ticketToEdit: state.ticketToEdit,
     }
 }
 
