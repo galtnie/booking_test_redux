@@ -3,6 +3,7 @@ import UpperBar from './components/UpperBar'
 import Guide from './components/Guide'
 import Halls from './components/Halls'
 import Schedule from './components/Schedule'
+import Title from './components/Title'
 import { Redirect } from 'react-router-dom'
 import { connect } from 'react-redux';
 import { fetchTickets, fetchHalls, determineReservedSlots } from './actions';
@@ -25,6 +26,7 @@ class Home extends React.Component {
                 ?
                 <div className='main'>
                     <UpperBar />
+                    <Title />
                     <Guide />
                     {(this.props.tickets && this.props.halls) ? <Schedule /> : <CircularProgress />}
                     {(this.props.halls) ? <Halls /> : <CircularProgress /> }

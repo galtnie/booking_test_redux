@@ -23,13 +23,8 @@ import {
 } from './Rooms.js'
 
 class RoomStatusDeterminer extends React.Component {
-
     render() {
-        // const slot = checkReservedSlot(this.props.reservedSlots, this.props.id)  
-        // const reserved = slot ?  true : false
-
         const reservedSlot = checkIfSlotReserved(this.props.reservedSlots, this.props.id)  
-
         if (history.location.pathname !== '/booking') {
             switch(this.props.id.slice(25, 28)){
                 case 'vio':
@@ -44,7 +39,6 @@ class RoomStatusDeterminer extends React.Component {
                 return 'R'
             }
         } else {
-   
         const selectedSlot = checkIfSlotSelected(this.props.selectedSlots, this.props.id)
             switch(this.props.id.slice(25, 28)){
                 case 'vio':
@@ -106,7 +100,6 @@ class RoomStatusDeterminer extends React.Component {
         }
     }
 }
-
 const mapStateToProps = (state, ownProps) => {
     const { id } = ownProps
     let reservedSlots = state.reservedSlots

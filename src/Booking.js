@@ -23,14 +23,27 @@ class Booking extends React.Component {
     // shouldComponentUpdate(nextProps, nextState){
     //     return nextProps.value !== this.props.value || this.state.value !== nextState.value;
     // }
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.tickets !== this.props.tickets){
+            this.forceUpdate()
+        }
+    }
 
     componentWillMount() {   
-        async function getAllInitialData(fetchTickets, fetchHalls, determineReservedSlots, tickets, halls, date) {
+        async function getAllInitialData(fetchTickets, fetchHalls, determineReservedSlots, determineUsersPriorReservations, tickets, halls, date, user) {
             await fetchTickets();
             fetchHalls();
             determineReservedSlots(calculateReservedSlots(tickets, halls, date));
+            determineUsersPriorReservations(tickets, user._id)
         }
-        getAllInitialData(this.props.fetchTickets, this.props.fetchHalls, this.props.determineReservedSlots, this.props.tickets, this.props.halls, this.props.dateInput)
+        getAllInitialData(  this.props.fetchTickets, 
+                            this.props.fetchHalls, 
+                            this.props.determineReservedSlots, 
+                            this.props.determineUsersPriorReservations, 
+                            this.props.tickets, 
+                            this.props.halls, 
+                            this.props.dateInput, 
+                            this.props.user)
     }
 
     handlePaymentButtonClicking = () => {

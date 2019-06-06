@@ -40,12 +40,15 @@ class BookingConfirmation extends React.Component {
                 this.props.discardAllSelectedSlots()
             })
             .then(()=> {
+                console.log('NEW', this.props.tickets)
+                console.log('OLD', this.props.reservedTickets)
+                console.log('BOTH', [...this.props.tickets, ...this.props.reservedTickets])
                 this.props.determineReservedSlots(calculateReservedSlots([...this.props.tickets, ...this.props.reservedTickets], this.props.halls, this.props.dateInput))
             })
             .then(()=>{
-                console.log('PRIOR ', this.props.reservedTickets)
-                console.log('newOrder ', this.props.tickets)
-                console.log('BOTH ', [...this.props.tickets, ...this.props.reservedTickets])
+                // console.log('PRIOR ', this.props.reservedTickets)
+                // console.log('newOrder ', this.props.tickets)
+                // console.log('BOTH ', [...this.props.tickets, ...this.props.reservedTickets])
                 this.props.determineUsersPriorReservations([...this.props.tickets, ...this.props.reservedTickets], this.props.user._id)
 
             })

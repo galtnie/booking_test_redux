@@ -8,6 +8,11 @@ import { composeSlotId } from '../functions'
 
 class Schedule extends React.Component {
 
+    // componentWillReceiveProps(nextProps){
+    //     console.log(nextProps.tickets)
+        
+    // }
+
     renderOneHourRooms = (hour, halls, date) => {
         let oneHourColumn = []
         oneHourColumn.push(<div className='hour-container' key={`${hour}h`}>{hour}"</div>)
