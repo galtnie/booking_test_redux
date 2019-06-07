@@ -28,13 +28,13 @@ class DateInput extends Component {
 
 		} else if (inputtedDay.getDate() === today.getDate()) {
 			this.props.handleUpperBackSwitcher('inactive')
-			this.props.handleDateInputSubmit(this.state.dateInput)
+			this.props.handleDateInputSubmit(Date.parse(this.state.dateInput))
 			this.props.determineReservedSlots(calculateReservedSlots(this.props.tickets, this.props.halls, this.state.dateInput))
 			this.setState({ dateInput: '' })
 
 		} else if (inputtedDay > today) {
 			this.props.handleUpperBackSwitcher('active')
-			this.props.handleDateInputSubmit(this.state.dateInput)
+			this.props.handleDateInputSubmit(Date.parse(this.state.dateInput))
 			this.props.determineReservedSlots(calculateReservedSlots(this.props.tickets, this.props.halls, this.state.dateInput))
 			this.setState({ dateInput: '' })
 

@@ -1,6 +1,6 @@
 import { FETCH_TICKETS,  ADD_NEW_TICKETS, WITHDRAW_TICKET, EDIT_TICKET } from '../actions/types';
 
-export default (state = '', action) => {
+export default (state = null, action) => {
     
     switch (action.type) {
         case FETCH_TICKETS:

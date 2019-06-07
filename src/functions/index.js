@@ -194,3 +194,27 @@ export function convertMlsToyyyymmddThhmm (mls) {
 export function convertYyyymmddThhmmToMls (time) {
     return Date.parse(new Date(time))
 }
+
+export function convertToUKdate (time) {
+    const timeOptionsForRendering = {
+        day: 'numeric',
+        weekday: 'long',
+        year: 'numeric',
+        month: 'long', 
+        hour: 'numeric', 
+        minute: 'numeric',
+    }
+    return new Intl.DateTimeFormat('en-GB', timeOptionsForRendering).format(time)    
+}
+
+export function convertTimeIntoMonth(time){
+    function getDaysInMonth(anyDateInMonth) {
+        return new Date(new Date(anyDateInMonth).getFullYear(), anyDateInMonth.getMonth()+1, 0).getDate();
+    }
+
+    let monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
+    return {
+        name: monthNames[new Date(time).getMonth()],
+        days: getDaysInMonth(new Date(time))
+    }
+}

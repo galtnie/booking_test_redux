@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import '../css/UsersPriorReservations.css'
 import { alterUsersPriorReservationsList, fetchTickets, fetchHalls, determineReservedSlots, determineUsersPriorReservations, setTicketToEdit, withdrawTicket } from '../actions'
 
+
 class UsersPriorReservations extends React.Component {
 
     componentWillMount(){
