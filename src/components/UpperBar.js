@@ -1,7 +1,5 @@
 import '../css/UpperBar.css'
 import React, { Component } from 'react';
-// import PropTypes from 'prop-types';
-// import { withStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Button from '@material-ui/core/Button';
@@ -12,7 +10,7 @@ import SwitchForth from './SwitchForth'
 import CurrentDate from './CurrentDate'
 import history from '../history'
 import { connect } from 'react-redux'
-import { discardUser, discardAllSelectedSlots } from '../actions' 
+import { discardUser, discardAllSelectedSlots, resetDate } from '../actions' 
 
 
 class UpperBar extends Component {
@@ -23,25 +21,39 @@ class UpperBar extends Component {
         <AppBar position="static">
           <Toolbar className="toolbar">
             <DateInput />
+            
             <div className='date-render-switcher-container'>
               <SwitchBack />
               <CurrentDate />
               <SwitchForth />
             </div>
-            <div>
-              {
-                (history.location.pathname === "/booking")
-                  ?
-                  <Link to="/">
-                    <Button className='signin-button' onClick={()=> {
-                      this.props.discardUser(); 
-                      this.props.discardAllSelectedSlots()
-                    }}>
-                      Sign out
-                    </Button>
-                  </Link>
-                  :
+            
+            { history.location.pathname === "/booking" &&
                   <div>
+                    <Link to="/charts">
+                      <Button className='signup-button'>
+                        <b>Charts</b>
+                      </Button>
+                    </Link>
+                    <Link to="/">
+                      <Button className='signin-button' onClick={()=> {
+                        this.props.discardUser(); 
+                        this.props.discardAllSelectedSlots()
+                        this.props.resetDate()
+                      }}>
+                        Sign out
+                      </Button>
+                    </Link>
+                  </div>
+            }
+
+            { history.location.pathname === "/" &&
+                  <div>
+                    <Link to="/charts">
+                      <Button className='signup-button'>
+                        <b>Charts</b>
+                      </Button>
+                    </Link>
                     <Link to="/signup">
                       <Button className='signup-button'>
                         <b>Sign up</b>
@@ -53,8 +65,29 @@ class UpperBar extends Component {
                       </Button>
                     </Link>
                   </div>
-              }
-            </div>
+            }
+
+            { history.location.pathname === "/charts" &&
+                  <div>
+                    {
+                      this.props.user === null
+                      ?
+                      <Link to="/">
+                        <Button className='signup-button'>
+                          <b>Home</b>
+                        </Button>
+                      </Link>
+                      :
+                      <Link to="/booking">
+                        <Button className='signup-button'>
+                          <b>Booking</b>
+                        </Button>
+                      </Link>
+                    }
+                  </div>
+            }
+
+
           </Toolbar>
         </AppBar>
       </div>
@@ -62,11 +95,11 @@ class UpperBar extends Component {
   }
 }
 
-export default connect (null, {discardUser, discardAllSelectedSlots})(UpperBar);
+const mapStateToProps = (state) => {
+  return {
+      user: state.user,
+  }
+}
 
+export default connect (mapStateToProps, {discardUser, discardAllSelectedSlots, resetDate})(UpperBar);
 
-// ButtonAppBar.propTypes = {
-//   classes: PropTypes.object.isRequired,
-// };
-
-// export default withStyles(styles)(ButtonAppBar);

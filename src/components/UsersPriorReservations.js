@@ -1,18 +1,11 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import '../css/UsersPriorReservations.css'
-import axios from 'axios' 
 import { alterUsersPriorReservationsList, fetchTickets, fetchHalls, determineReservedSlots, determineUsersPriorReservations, setTicketToEdit, withdrawTicket } from '../actions'
-import { calculateReservedSlots } from '../functions'
 
 class UsersPriorReservations extends React.Component {
 
-    // componentWillReceiveProps(newProps){
-    //     console.log('Component UsersPriorReservations', newProps)
-    // }
-
     componentWillMount(){
-       // this.props.determineUsersPriorReservations(this.props.tickets, this.props.user._id)
         this.props.fetchTickets()
     }
 
@@ -20,57 +13,10 @@ class UsersPriorReservations extends React.Component {
         let itemIndex = e.target.id
         let ticketToDelete = this.props.usersPriorReservations[itemIndex]
         this.props.withdrawTicket(ticketToDelete, this.props.user)
-
-        // axios({
-        //     method: 'delete',
-        //     url: `https://web-ninjas.net/tickets/${ticketToDelete._id}`,
-        //     headers: {
-        //         ContentType: "application/x-www-form-urlencoded",
-        //         Authorization: this.props.user.token,
-        //     }
-        // })
-        // .then(() => {
-        //     this.props.fetchTickets();
-        //     async function filler(){
-        //         const res = await axios.get('https://web-ninjas.net/tickets')
-        //         return res.data
-        //     }
-        //     return filler()
-        // })
-        // .then((updatedTicketsList)=> {
-        //         this.props.determineReservedSlots(calculateReservedSlots(updatedTicketsList, this.props.halls, this.props.dateInput))
-        //         this.props.determineUsersPriorReservations(updatedTicketsList, this.props.user._id)  
-        // })       
-        // .catch((e) => console.dir(e))
     }
 
     editTicket(e) {                                            
-        let index = e.target.id
-        
-        return new Promise(function(resolve) {
-            resolve (index)        
-        })
-        // .then(index=>{
-        //     this.setState({alteredTicketIndex: index})
-        //     return index
-        // })
-        // .then(index=>{
-        //     return index
-        // })
-        .then(index=>{
-            this.props.setTicketToEdit(this.props.usersPriorReservations[index])
-            // this.setState({titleToEdit: this.state.priorOrdersListForRendering[index].event })
-            // this.setState({fromToEdit: this.state.priorOrdersListForRendering[index].from })
-            // this.setState({untilToEdit: this.state.priorOrdersListForRendering[index].to})
-
-            // this.setState({newFrom: String(new Date(this.state.priorOrdersList[this.state.alteredTicketIndex].from + 10800000).toISOString()).slice(0, -8)})
-            // this.setState({newTo: String(new Date(this.state.priorOrdersList[this.state.alteredTicketIndex].to + 10800000).toISOString()).slice(0, -8)})
-            // this.setState({newTitle: this.state.priorOrdersList[this.state.alteredTicketIndex].title})
-        })
-        .then(()=>{
-            // this.setState({editReservation: true})
-        })      
-        .catch((e)=> console.log(e))  
+        this.props.setTicketToEdit(this.props.usersPriorReservations[e.target.id])
     }
 
     render() {
@@ -90,7 +36,7 @@ class UsersPriorReservations extends React.Component {
                     </h3>
                 </div>
                 <div>
-                    {this.props.usersPriorReservations.map((i, index) => {
+                    {this.props.usersPriorReservations.reverse().map((i, index) => {
                         return (
                             <div key={index} className='prior-reservations-tickets-container'>
                                 <div className='prior-reservations-tickets-table-container'>

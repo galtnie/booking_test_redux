@@ -12,7 +12,7 @@
 }
 
 .hall-title-contrainer {
-    height: 6em;
+    height: 4em;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -23,6 +23,15 @@
 .media {
     height: 0;
     padding-top: 56.25%; 
+}
+
+.MuiCardContent-root:last-child {
+    padding-bottom: 1.4em !important;
+    text-align: center;
+}
+
+.MuiCardContent-root {
+    padding: 1.4em !important;
 }
 
 .blu-hall {

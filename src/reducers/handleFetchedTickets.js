@@ -1,4 +1,4 @@
-import { FETCH_TICKETS,  ADD_NEW_TICKETS, WITHDRAW_TICKET} from '../actions/types';
+import { FETCH_TICKETS,  ADD_NEW_TICKETS, WITHDRAW_TICKET, EDIT_TICKET } from '../actions/types';
 
 export default (state = '', action) => {
     
@@ -13,6 +13,11 @@ export default (state = '', action) => {
         case WITHDRAW_TICKET:
         let newList2 = state.filter(i => i._id !== action.payload._id)
         return newList2;
+
+        case EDIT_TICKET:
+        let newList3 = state.filter(i => i._id !== action.payload._id)
+        newList3 = [...newList3, action.payload]
+        return newList3;
 
         default: 
         return state;

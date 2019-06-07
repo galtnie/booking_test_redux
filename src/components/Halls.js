@@ -25,7 +25,7 @@ class Halls extends React.Component {
                                     </div>
                                     <CardMedia className='media' image={i.imageURL} />
                                     <CardContent className={`${i.colour}-hall`}>  
-                                        {i.description}
+                                        <b>{i.description}</b>
                                     </CardContent>
                                 </Card>
                             </div>

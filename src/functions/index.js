@@ -179,3 +179,18 @@ export function prepareSelectedSlotsRendering(slots_id, halls, user) {
         
         return finalArray
 }
+
+export function convertMlsToyyyymmddThhmm (mls) {
+    return new Date(
+        new Date(mls)
+          .toString()
+          .split("GMT")[0] + " UTC"
+      )
+        .toISOString()
+        .split(":00.")[0]
+        //.slice(0, -8)
+}
+
+export function convertYyyymmddThhmmToMls (time) {
+    return Date.parse(new Date(time))
+}

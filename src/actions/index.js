@@ -17,6 +17,8 @@ import {
     DISCARD_TICKET_TO_EDIT,
     ADD_NEW_TICKETS,
     WITHDRAW_TICKET,
+    EDIT_TICKET,
+    RESET_DATE,
 } from './types';
 
 export const handleDateInputSubmit = (date) => {
@@ -25,6 +27,12 @@ export const handleDateInputSubmit = (date) => {
         payload: date
     })
 } 
+
+export const resetDate = () => {
+    return ({
+        type: RESET_DATE,
+    })
+}
 
 export const handleUpperBackSwitcher = (status) => {
     return ({
@@ -211,3 +219,28 @@ export const withdrawTicket = (ticket, user) =>  dispatch => {
     })
     .catch((e) => console.dir(e))
 }
+
+export const editTicket = (ticket, user) => dispatch => {
+
+    axios({
+        method: 'put',
+        url: `https://web-ninjas.net/ticket/${ticket._id}`,
+        headers: {
+            ContentType: "application/x-www-form-urlencoded",
+            Authorization: user.token,
+        },
+        data: {
+            title: ticket.title,
+            from:  ticket.from,
+            to: ticket.to,
+        }
+    })
+    .then(()=>{
+        dispatch({ 
+            type: EDIT_TICKET, 
+            payload: ticket 
+        })
+    })
+    .catch((e) => console.dir(e))
+}
+

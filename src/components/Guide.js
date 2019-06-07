@@ -11,21 +11,25 @@ export default function Guide() {
                 {
                         (history.location.pathname !== "/booking") ?
                     <p className="manual-par">
-                        Only <b>logged in users</b> can <b>make reservations</b>.
+                        Log in to <b>make reservations</b>.
                     </p>
 
-: null
-}
+                : null
+                }
                     <p className="manual-par">
-                        <b>9"</b> means <b>9:00-10:00</b>; 10" means 10:00-11:00.
+                        <b>9"</b> means 9:00-9:59.
                     </p>
                     {
                         (history.location.pathname === "/booking")
                             ?
+                            <span>
                             <p className='manual-par'>
-                                Once you have selected all the rooms to book
-                                click <b>PAYMENT</b> button
-                    </p>
+                                Having selected the slots to book
+                            </p>
+                            <p className='manual-par'>
+                                click <b>PAYMENT</b> button.
+                            </p>
+                            </span>
                             : null
                     }
 

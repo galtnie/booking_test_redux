@@ -13,7 +13,7 @@
 .manual{
     display:flex;
     flex-wrap: wrap;
-    justify-content: space-between;
+    justify-content: space-around;
     margin-left: 0.5em;
     margin-right: 0.5em;
     margin-bottom: 1.5em;

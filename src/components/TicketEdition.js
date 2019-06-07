@@ -1,22 +1,19 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { discardTicketToEdit } from '../actions'
+import { discardTicketToEdit, editTicket } from '../actions'
 import '../css/TicketEdition.css'
+import { convertMlsToyyyymmddThhmm, convertYyyymmddThhmmToMls } from '../functions'
 
 class TicketEdition extends React.Component {
     state = {
         ticket: null
     }
-
     componentWillMount() {
         if (this.state.ticket === null) {
             this.setState({ ticket: this.props.ticketToEdit })
         }
     }
-
     render() {
-        console.log(this.state.ticket)
-
         return (
           <div className="ticket_edition-main">
             <div>
@@ -52,10 +49,7 @@ class TicketEdition extends React.Component {
                 COMMENCES at:
               </div>
               <div>
-                {String(new Date(this.props.ticketToEdit.from)).slice(
-                  3,
-                  21
-                )}
+                {String(new Date(this.props.ticketToEdit.from)).slice(3, 21)}
               </div>
               <div>
                 <input
@@ -63,49 +57,37 @@ class TicketEdition extends React.Component {
                   placeholder="Disregard to keep unaltered"
                   size="21"
                   className="ticket_edition-input"
-                  value={
-                    new Date(
-                      new Date(this.state.ticket.from)
-                        .toString()
-                        .split("GMT")[0] + " UTC"
-                    )
-                      .toISOString()
-                      .split(".")[0]
-                  }
-                  min={String(new Date().toISOString()).slice(0, -8)}  //just to ISO String might be wrong. use the code from stock. make a function
-                  onChange={e => {
+                  value={ convertMlsToyyyymmddThhmm(this.state.ticket.from) }
+                  min={ convertMlsToyyyymmddThhmm(new Date()) }  
+                  onChange={e => {                   
+                    if(e.target.value.length < 1) { return null}
                     let value = e.target.value;
-                    let start = Date.parse(new Date(value));
+                    let start = convertYyyymmddThhmmToMls(value); //mls
                     let end = this.state.ticket.to;
-                    if (start > end) {
-                      let newToValue = Date.parse(
-                          new Date(start + 10800000).setMinutes(59)
-                        ).toISOString();
-                      this.setState({
-                        ticket: {
-                          ...this.state.ticket,
-                          to: new Date(newToValue).valueOf(),
-                        },
-                      });
-                    } else if (start < end && start + 3540000 > end) {
-                      let newToValue = String(
-                        new Date(
-                          new Date(start + 10800000).setMinutes(59)
-                        ).toISOString()
-                      ).slice(0, -8);
-                      this.setState({
-                        ticket: {
-                          ...this.state.ticket,
-                          to: new Date(newToValue).valueOf(),
-                        },
-                      });
-                    }
                     this.setState({
                       ticket: {
                         ...this.state.ticket,
-                        from: new Date(value).valueOf(),
-                      },
-                    });
+                        from: convertYyyymmddThhmmToMls(value),
+                      }})
+                    if (start > end) {
+                      let newToValue = convertMlsToyyyymmddThhmm(convertYyyymmddThhmmToMls(new Date(start).setMinutes(59)))
+                      this.setState({
+                        ticket: {
+                          ...this.state.ticket,
+                          to:  convertYyyymmddThhmmToMls(newToValue),
+                          from: convertYyyymmddThhmmToMls(value),
+                        },
+                      });
+                    } else if (start < end && start + 3540000 > end) {
+                      let newToValue = convertMlsToyyyymmddThhmm(new Date(new Date(start + 10800000).setMinutes(59)))
+                      this.setState({
+                        ticket: {
+                          ...this.state.ticket,
+                          to: convertYyyymmddThhmmToMls(newToValue),
+                          from: convertYyyymmddThhmmToMls(value),
+                        },
+                      });
+                    }
                   }}
                   required
                 />
@@ -116,10 +98,7 @@ class TicketEdition extends React.Component {
                 TERMINATES at:
               </div>
               <div>
-                {String(new Date(this.props.ticketToEdit.to)).slice(
-                  3,
-                  21
-                )}
+                {String(new Date(this.props.ticketToEdit.to)).slice(3, 21)}
               </div>
               <div>
                 <input
@@ -128,16 +107,9 @@ class TicketEdition extends React.Component {
                   size="21"
                   className="ticket_edition-input"
                   min={String(new Date().toISOString()).slice(0, -8)}
-                  value={
-                    new Date(
-                      new Date(this.state.ticket.to)
-                        .toString()
-                        .split("GMT")[0] + " UTC"
-                    )
-                      .toISOString()
-                      .split(".")[0]
-                  }
+                  value={ convertMlsToyyyymmddThhmm(this.state.ticket.to)}
                   onChange={e => {
+                    if(e.target.value.length < 1) { return null}
                     let value = e.target.value;
                     let end = Date.parse(value);
                     let start = Date.parse(this.state.ticket.from);
@@ -148,40 +120,26 @@ class TicketEdition extends React.Component {
                       },
                     });
                     if (end < start) {
-                      if (
-                        String(value).slice(8, 9) === "0" ||
-                        String(value).slice(-5, -4) === "0"
-                      ) {
+                      if (String(value).slice(8, 9) === "0" || String(value).slice(-5, -4) === "0") {                      
                         setTimeout(() => {
                           let end = Date.parse(this.state.ticket.to);
-                          let start = Date.parse(
-                            this.state.ticket.from
-                          );
+                          let start = Date.parse(this.state.ticket.from);
                           if (end < start) {
-                            let newFromValue = String(
-                              new Date(
-                                new Date(end + 10800000).setMinutes(0)
-                              ).toISOString()
-                            ).slice(0, -8);
-                            console.log(newFromValue);
+                            let newFromValue = convertMlsToyyyymmddThhmm(new Date(new Date(end + 10800000).setMinutes(0)))
                             this.setState({
                               ticket: {
                                 ...this.state.ticket,
-                                from: new Date(newFromValue).valueOf(),
+                                from: convertYyyymmddThhmmToMls(newFromValue),
                               },
                             });
                           }
                         }, 1000);
                       } else {
-                        let newFromValue = String(
-                          new Date(
-                            new Date(end + 10800000).setMinutes(0)
-                          ).toISOString()
-                        ).slice(0, -8);
+                        let newFromValue = convertMlsToyyyymmddThhmm(new Date(new Date(end + 10800000).setMinutes(0)))
                         this.setState({
                           ticket: {
                             ...this.state.ticket,
-                            from: new Date(newFromValue).valueOf(),
+                            from: convertYyyymmddThhmmToMls(newFromValue),
                           },
                         });
                       }
@@ -197,12 +155,11 @@ class TicketEdition extends React.Component {
                 style={{ background: "#574AE2" }}
                 onClick={e => {
                   if (
-                    Date.parse(this.state.ticket.from) <
-                    Date.parse(new Date())
-                  ) {
+                    this.state.ticket.from < Date.parse(new Date())) {
                     e.preventDefault();
                     alert("NEW DATE CANNOT BE IN THE PAST!");
                     return null;
+
                   } else if (
                     this.state.ticket.to < this.state.ticket.from
                   ) {
@@ -211,10 +168,8 @@ class TicketEdition extends React.Component {
                     );
                     return null;
                   } else {
-                    console.log(this.state.ticket);
-
-                    // this.sendEditedTicket()
-                    // this.setState({ editReservation: false })
+                    this.props.editTicket(this.state.ticket, this.props.user)
+                    this.props.discardTicketToEdit()
                   }
                 }}
               >
@@ -224,16 +179,10 @@ class TicketEdition extends React.Component {
                 className="edit-button ui button"
                 style={{ background: "#222A68", color: "white" }}
                 onClick={() => {
-                  // this.setState({ editReservation: false })
+                  this.props.discardTicketToEdit()
                 }}
               >
-                <span
-                  className="button-text"
-                  onClick={this.props.discardTicketToEdit}
-                >
-                  {" "}
-                  Cancel{" "}
-                </span>
+                <span className="button-text">Cancel</span>
               </button>
             </div>
           </div>
@@ -243,10 +192,12 @@ class TicketEdition extends React.Component {
 
 const mapStateToProps = (state) => {
     return {
-        ticketToEdit: state.ticketToEdit
+        ticketToEdit: state.ticketToEdit,
+        user: state.user,
     }
 }
 
 export default connect(mapStateToProps, {
-    discardTicketToEdit
+    discardTicketToEdit, 
+    editTicket, 
 })(TicketEdition)

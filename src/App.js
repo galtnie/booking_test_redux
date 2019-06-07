@@ -4,6 +4,7 @@ import Home from './Home'
 import Login from './Login'
 import Booking from './Booking'
 import SignUpForm from './SignUpForm'
+import Charts from './Charts'
 
 
 
@@ -16,6 +17,7 @@ const App = () => {
                    <Route path='/login' component={Login} />
                    <Route path='/booking' component={Booking} />
                    <Route path='/signup' component={SignUpForm} />
+                   <Route path='/charts' component={Charts} />
               </Switch>    
     
     );

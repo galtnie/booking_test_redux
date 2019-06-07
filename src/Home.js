@@ -28,8 +28,8 @@ class Home extends React.Component {
                     <UpperBar />
                     <Title />
                     <Guide />
-                    {(this.props.tickets && this.props.halls) ? <Schedule /> : <CircularProgress />}
                     {(this.props.halls) ? <Halls /> : <CircularProgress /> }
+                    {(this.props.tickets && this.props.halls) ? <Schedule /> : <CircularProgress />}
                 </div>
                 :
                 <Redirect to='/booking' />
