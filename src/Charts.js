@@ -1,9 +1,9 @@
+import './css/Chart.css'
 import React from 'react';
 import { connect } from 'react-redux';
 import UpperBar from './components/UpperBar';
 import Title from './components/Title'
-// import { Chart } from "react-google-charts";
-import { Doughnut, Line, Radar } from 'react-chartjs-2';
+import { Doughnut, Line, Bar } from 'react-chartjs-2';
 import { fetchTickets, fetchHalls, determineReservedSlots } from './actions';
 import { calculateReservedSlots, convertToUKdate, convertTimeIntoMonth } from './functions'
 
@@ -39,7 +39,7 @@ class Charts extends React.Component {
         }
     }
 
-    calculateLabelsForChart2 (time){
+    calculateLabelsForLineChart (time){
         let arr = []
         for (let i = 0; i < convertTimeIntoMonth(time).days; i++) {
             arr.push(i+1)
@@ -51,8 +51,8 @@ class Charts extends React.Component {
         let month = new Date(time).getMonth()
         let start = new Date(new Date(new Date(new Date(new Date(time).setDate(1)).setHours(0)).setMinutes(0)).setSeconds(0)).setMilliseconds(0)
         let end = new Date(start).setMonth(month + 1)
-
         let sortedTicketsPerHalls = []
+
         for (let i = 0; i < halls.length; i++){
             sortedTicketsPerHalls.push({
                 hall_id: halls[i]._id,
@@ -67,37 +67,57 @@ class Charts extends React.Component {
                 } 
             }
         }
-        
-
-        // ive got initial time span and end time span
-        // array of tickets per halls
 
 
-        for (let j = 0; j < sortedTicketsPerHalls.length; j++)
-            for(let i = 0; i < sortedTicketsPerHalls[j].tickets.length; i++) {
+        for (let j = 0; j < sortedTicketsPerHalls.length; j++) {
+          for(let i = 0; i < sortedTicketsPerHalls[j].tickets.length; i++) {
 
-            if (sortedTicketsPerHalls[j].tickets.to < start || sortedTicketsPerHalls[j].tickets[i].from > end ) {
-                sortedTicketsPerHalls[j].tickets.splice(i, 1); 
-                i--;
+
+            if (sortedTicketsPerHalls[j].tickets[i].to < start || sortedTicketsPerHalls[j].tickets[i].from > end ) {
+                
+              console.log(new Date(sortedTicketsPerHalls[j].tickets[i].to))
+              console.log(sortedTicketsPerHalls[j].tickets[i].to < start)
+              console.log(sortedTicketsPerHalls[j].tickets.length)
+              sortedTicketsPerHalls[j].tickets.splice(i, 1); 
+              console.log(sortedTicketsPerHalls[j].tickets.length)
             }
+          } 
+        }
 
+        for (let j = 0; j < sortedTicketsPerHalls.length; j++) {
+          for(let i = 0; i < sortedTicketsPerHalls[j].tickets.length; i++) {
             if (sortedTicketsPerHalls[j].tickets[i].from < start && sortedTicketsPerHalls[j].tickets[i].to > start) {
-                sortedTicketsPerHalls[j].tickets[i].from = start
+              sortedTicketsPerHalls[j].tickets[i].from = start
             }
-
             if (sortedTicketsPerHalls[j].tickets[i].from < end && sortedTicketsPerHalls[j].tickets[i].to > end) {
                 sortedTicketsPerHalls[j].tickets[i].to = end
             }
+        }}
+
+        for (let k = 0; k < sortedTicketsPerHalls[0].tickets.length; k++) {
+
+          console.log('Fr ', new Date(sortedTicketsPerHalls[0].tickets[k].from))
+          console.log('To ', new Date(sortedTicketsPerHalls[0].tickets[k].to))
         }
 
-        console.log(sortedTicketsPerHalls)
 
-    }
+        for (let i = 0; i < sortedTicketsPerHalls.length; i++) {
+          let totalTime = 0
+          for (let j = 0; j < sortedTicketsPerHalls[i].tickets.length; j++) {
+            totalTime += sortedTicketsPerHalls[i].tickets[j].to - sortedTicketsPerHalls[i].tickets[j].from
+            
+          }
+          sortedTicketsPerHalls[i].totalTime = totalTime / 3600000
+        }
+          console.log(sortedTicketsPerHalls)
+
+
+    } 
 
 
     render() {
-        const data2 = {
-            labels: this.calculateLabelsForChart2(this.props.date),
+        const LineChartData = {
+            labels: this.calculateLabelsForLineChart(this.props.date),
             datasets: [
               {
                 label: this.props.halls[0].title,
@@ -189,7 +209,7 @@ class Charts extends React.Component {
             ]
         };
 
-        const chart1data = {
+        const DoghnutChartData = {
             labels: [
                 this.props.halls[0].title,
                 this.props.halls[1].title,
@@ -218,6 +238,27 @@ class Charts extends React.Component {
             }]
         };
 
+        const BarChartData = {
+            labels: [
+                this.props.halls[0].title,
+                this.props.halls[1].title,
+                this.props.halls[2].title,
+                this.props.halls[3].title,
+            ],
+          datasets: [
+            {
+              label: 'My First dataset',
+              backgroundColor: 'rgba(255,99,132,0.2)',
+              borderColor: 'rgba(255,99,132,1)',
+              borderWidth: 1,
+              hoverBackgroundColor: 'rgba(255,99,132,0.4)',
+              hoverBorderColor: 'rgba(255,99,132,1)',
+              data: [65, 59, 80, 81, 56, 55, 40]
+            }
+          ]
+        }
+
+
         this.calculateTimeUsedPerMonth(this.props.date, this.props.tickets, this.props.halls)
 
         return(
@@ -225,32 +266,30 @@ class Charts extends React.Component {
                 <UpperBar />
                 <Title />
                 
-                <div style={{
-                    display: 'flex',
-                    flexDirection: 'column',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    flexWrap: 'wrap',
-                    
-
-                }}>
-                    <p style={{ textAlign:'center',  fontSize:'1.5em', marginTop: '2em', marginBottom: '1em' }}>
+                <div className='doghnut-chart-container'>
+                    <p className='chart-title'>
                         Halls Use on <b>{(convertToUKdate(this.props.date).slice(0, -7))}</b> 
                     </p>
-                    <Doughnut 
-                        data={chart1data}
-                        width={100}
-                        height={200}
-                        options={{ maintainAspectRatio: false }}
-                    />
+                    <Doughnut data={DoghnutChartData} width={100} height={200} options={{ maintainAspectRatio: false }} />
                 </div>
 
+            <div>
+              <h2>Bar Example (custom size)</h2>
+              <Bar
+                data={BarChartData}
+                width={100}
+                height={50}
+                options={{
+                  maintainAspectRatio: false
+                }}
+              />
+            </div>
 
                 <div>
-                    <p style={{ textAlign:'center',  fontSize:'1.5em', marginTop: '2em', marginBottom: '1em' }}>
+                    <p className = 'chart-title'>
                         All Halls Use per <b>{(convertToUKdate(this.props.date).slice(0, -7))}</b> 
                     </p>
-                    <Line data={data2} />
+                    <Line data={LineChartData} />
                 </div>
             </div>
         );    

@@ -1,0 +1,14 @@
+.doghnut-chart-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.chart-title {
+    text-align: center;
+    font-size: 1.5em;
+    margin-top: 2em;
+    margin-bottom: 1em;
+}
