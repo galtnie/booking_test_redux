@@ -208,13 +208,6 @@ export function convertToUKdate (time) {
 }
 
 export function convertTimeIntoMonth(time){
-    function getDaysInMonth(anyDateInMonth) {
-        return new Date(new Date(anyDateInMonth).getFullYear(), anyDateInMonth.getMonth()+1, 0).getDate();
-    }
-
     let monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
-    return {
-        name: monthNames[new Date(time).getMonth()],
-        days: getDaysInMonth(new Date(time))
-    }
+    return monthNames[new Date(time).getMonth()]
 }

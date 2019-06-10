@@ -3,7 +3,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import UpperBar from './components/UpperBar';
 import Title from './components/Title'
-import { Doughnut, Line, Bar } from 'react-chartjs-2';
+import { Doughnut, Bar } from 'react-chartjs-2';
 import { fetchTickets, fetchHalls, determineReservedSlots } from './actions';
 import { calculateReservedSlots, convertToUKdate, convertTimeIntoMonth } from './functions'
 
@@ -39,14 +39,6 @@ class Charts extends React.Component {
         }
     }
 
-    calculateLabelsForLineChart (time){
-        let arr = []
-        for (let i = 0; i < convertTimeIntoMonth(time).days; i++) {
-            arr.push(i+1)
-        }
-        return arr
-    }
-
     calculateTimeUsedPerMonth(time, tickets, halls){    
         let month = new Date(time).getMonth()
         let start = new Date(new Date(new Date(new Date(new Date(time).setDate(1)).setHours(0)).setMinutes(0)).setSeconds(0)).setMilliseconds(0)
@@ -59,7 +51,6 @@ class Charts extends React.Component {
                 tickets: []
             })
         }
-
         for (let i = 0; i < tickets.length; i++){
             for (let j = 0; j < sortedTicketsPerHalls.length; j++) {
                 if (tickets[i].hall_id === sortedTicketsPerHalls[j].hall_id) {
@@ -67,147 +58,42 @@ class Charts extends React.Component {
                 } 
             }
         }
-
-
-        for (let j = 0; j < sortedTicketsPerHalls.length; j++) {
-          for(let i = 0; i < sortedTicketsPerHalls[j].tickets.length; i++) {
-
-
-            if (sortedTicketsPerHalls[j].tickets[i].to < start || sortedTicketsPerHalls[j].tickets[i].from > end ) {
-                
-              console.log(new Date(sortedTicketsPerHalls[j].tickets[i].to))
-              console.log(sortedTicketsPerHalls[j].tickets[i].to < start)
-              console.log(sortedTicketsPerHalls[j].tickets.length)
-              sortedTicketsPerHalls[j].tickets.splice(i, 1); 
-              console.log(sortedTicketsPerHalls[j].tickets.length)
-            }
-          } 
+        let newArr = []
+        for (let j = 0; j < sortedTicketsPerHalls.length; j++) {           
+            newArr[j] = sortedTicketsPerHalls[j].tickets.filter(i => i.to > start)
         }
-
+        for (let j = 0; j < newArr.length; j++) {           
+            sortedTicketsPerHalls[j].tickets = newArr[j]
+        }
+        for (let j = 0; j < sortedTicketsPerHalls.length; j++) {           
+            newArr[j] = sortedTicketsPerHalls[j].tickets.filter(i => i.from < end)
+        }
+        for (let j = 0; j < newArr.length; j++) {           
+            sortedTicketsPerHalls[j].tickets = newArr[j]
+        }
         for (let j = 0; j < sortedTicketsPerHalls.length; j++) {
           for(let i = 0; i < sortedTicketsPerHalls[j].tickets.length; i++) {
-            if (sortedTicketsPerHalls[j].tickets[i].from < start && sortedTicketsPerHalls[j].tickets[i].to > start) {
+            if (sortedTicketsPerHalls[j].tickets[i].from < start) {
               sortedTicketsPerHalls[j].tickets[i].from = start
             }
-            if (sortedTicketsPerHalls[j].tickets[i].from < end && sortedTicketsPerHalls[j].tickets[i].to > end) {
+            if (sortedTicketsPerHalls[j].tickets[i].to > end) {
                 sortedTicketsPerHalls[j].tickets[i].to = end
             }
         }}
-
-        for (let k = 0; k < sortedTicketsPerHalls[0].tickets.length; k++) {
-
-          console.log('Fr ', new Date(sortedTicketsPerHalls[0].tickets[k].from))
-          console.log('To ', new Date(sortedTicketsPerHalls[0].tickets[k].to))
+        newArr = []
+        for (let j = 0; j < sortedTicketsPerHalls.length; j++) {
+            sortedTicketsPerHalls[j].totalHours = 0
+            for(let i = 0; i < sortedTicketsPerHalls[j].tickets.length; i++) {
+                sortedTicketsPerHalls[j].totalHours += (sortedTicketsPerHalls[j].tickets[i].to - sortedTicketsPerHalls[j].tickets[i].from)
+            }
+            sortedTicketsPerHalls[j].totalHours /= 3600000
+            newArr.push(Math.round(sortedTicketsPerHalls[j].totalHours))
         }
-
-
-        for (let i = 0; i < sortedTicketsPerHalls.length; i++) {
-          let totalTime = 0
-          for (let j = 0; j < sortedTicketsPerHalls[i].tickets.length; j++) {
-            totalTime += sortedTicketsPerHalls[i].tickets[j].to - sortedTicketsPerHalls[i].tickets[j].from
-            
-          }
-          sortedTicketsPerHalls[i].totalTime = totalTime / 3600000
-        }
-          console.log(sortedTicketsPerHalls)
-
-
+         return newArr
     } 
 
 
     render() {
-        const LineChartData = {
-            labels: this.calculateLabelsForLineChart(this.props.date),
-            datasets: [
-              {
-                label: this.props.halls[0].title,
-                fill: false,
-                lineTension: 0.1,
-                backgroundColor: 'rgba(108, 92, 231, 0.9)',
-                borderColor: 'rgba(108, 92, 231, 1)',
-                borderCapStyle: 'butt',
-                borderDash: [],
-                borderDashOffset: 0.0,
-                borderJoinStyle: 'miter',
-                pointBorderColor: 'rgba(108, 92, 231, 1)',
-                pointBackgroundColor: '#fff',
-                pointBorderWidth: 1,
-                pointHoverRadius: 5,
-                pointHoverBackgroundColor: 'rgba(108, 92, 231, 1)',
-                pointHoverBorderColor: 'rgba(108, 92, 231, 1)',
-                pointHoverBorderWidth: 2,
-                pointRadius: 1,
-                pointHitRadius: 10,
-                data: [65, 59, 80, 81, 56, 55, 40]
-              },
-
-              {
-                label: this.props.halls[1].title,
-                fill: false,
-                lineTension: 0.1,
-                backgroundColor: 'rgba(19, 55, 11, 0.8)',
-                borderColor: 'rgba(19, 55, 11, 0.9)',
-                borderCapStyle: 'butt',
-                borderDash: [],
-                borderDashOffset: 0.0,
-                borderJoinStyle: 'miter',
-                pointBorderColor: 'rgba(19, 55, 11, 0.9)',
-                pointBackgroundColor: '#fff',
-                pointBorderWidth: 1,
-                pointHoverRadius: 5,
-                pointHoverBackgroundColor: 'rgba(19, 55, 11, 0.9)',
-                pointHoverBorderColor: 'rgba(220,220,220,1)',
-                pointHoverBorderWidth: 2,
-                pointRadius: 1,
-                pointHitRadius: 10,
-                data: [10, 23, 80, 81, 56, 55, 40]
-              },
-
-              {
-                label: this.props.halls[2].title,
-                fill: false,
-                lineTension: 0.1,
-                backgroundColor: 'rgba(178, 34, 34, 0.9)',
-                borderColor: 'rgba(178, 34, 34, 1)',
-                borderCapStyle: 'butt',
-                borderDash: [],
-                borderDashOffset: 0.0,
-                borderJoinStyle: 'miter',
-                pointBorderColor: 'rgba(178, 34, 34, 1)',
-                pointBackgroundColor: '#fff',
-                pointBorderWidth: 1,
-                pointHoverRadius: 5,
-                pointHoverBackgroundColor: 'rgba(178, 34, 34, 1)',
-                pointHoverBorderColor: 'rgba(178, 34, 34, 1)',
-                pointHoverBorderWidth: 2,
-                pointRadius: 1,
-                pointHitRadius: 10,
-                data: [20, 13, 70, 51, 5, 51, 20]
-              },
-
-              {
-                label: this.props.halls[3].title,
-                fill: false,
-                lineTension: 0.1,
-                backgroundColor: 'rgba(18, 11, 120, 0.8)',
-                borderColor: 'rgba(18, 11, 120, 0.9)',
-                borderCapStyle: 'butt',
-                borderDash: [],
-                borderDashOffset: 0.0,
-                borderJoinStyle: 'miter',
-                pointBorderColor: 'rgba(18, 11, 120, 0.9)',
-                pointBackgroundColor: '#fff',
-                pointBorderWidth: 1,
-                pointHoverRadius: 5,
-                pointHoverBackgroundColor: 'rgba(18, 11, 120, 0.9)',
-                pointHoverBorderColor: 'rgba(220,220,220,1)',
-                pointHoverBorderWidth: 2,
-                pointRadius: 1,
-                pointHitRadius: 10,
-                data: [100, 23, 80, 81, 56, 55, 40]
-              }
-            ]
-        };
 
         const DoghnutChartData = {
             labels: [
@@ -247,13 +133,13 @@ class Charts extends React.Component {
             ],
           datasets: [
             {
-              label: 'My First dataset',
+              label: 'reserved hours per month',
               backgroundColor: 'rgba(255,99,132,0.2)',
               borderColor: 'rgba(255,99,132,1)',
               borderWidth: 1,
               hoverBackgroundColor: 'rgba(255,99,132,0.4)',
               hoverBorderColor: 'rgba(255,99,132,1)',
-              data: [65, 59, 80, 81, 56, 55, 40]
+              data: this.calculateTimeUsedPerMonth(this.props.date, this.props.tickets, this.props.halls)
             }
           ]
         }
@@ -273,23 +159,18 @@ class Charts extends React.Component {
                     <Doughnut data={DoghnutChartData} width={100} height={200} options={{ maintainAspectRatio: false }} />
                 </div>
 
-            <div>
-              <h2>Bar Example (custom size)</h2>
-              <Bar
-                data={BarChartData}
-                width={100}
-                height={50}
-                options={{
-                  maintainAspectRatio: false
-                }}
-              />
-            </div>
-
                 <div>
-                    <p className = 'chart-title'>
-                        All Halls Use per <b>{(convertToUKdate(this.props.date).slice(0, -7))}</b> 
+                    <p className='chart-title'>
+                            Total sum of reserved hours in <b>{(convertTimeIntoMonth(this.props.date))}</b> 
                     </p>
-                    <Line data={LineChartData} />
+                <Bar
+                    data={BarChartData}
+                    width={100}
+                    height={50}
+                    options={{
+                    maintainAspectRatio: false
+                    }}
+                />
                 </div>
             </div>
         );    
