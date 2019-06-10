@@ -1,9 +1,23 @@
-.doghnut-chart-container {
+.day-doghnut-chart-container {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     flex-wrap: wrap;
+}
+
+.month-doghnut-chart-container {
+    display: none;
+}
+
+.day-bar-chart-container {
+    display: none;
+}
+
+.month-bar-chart-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .chart-title {
@@ -12,3 +26,20 @@
     margin-top: 2em;
     margin-bottom: 1em;
 }
+
+.charts-select-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: left;
+    align-items: center;
+    flex-wrap: wrap;
+    font-size: 1.2em;
+    margin-left: 1em;
+}
+
+.charts-select {
+    width: 10em;
+    margin-left: 1em;
+    justify-content: center;
+}
+

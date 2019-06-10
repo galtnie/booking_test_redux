@@ -1,11 +1,3 @@
-// import { elementType } from "prop-types";
-
-export function test(){
-    console.log('test')
-    return 'hey'
-}
-
-
 export function composeSlotId(chosenDate, hour, colour) {         // elaborate the function so that i can use it from 'while', i need a possibility to add the 'date' i need
     const fullDate = (chosenDate) ? new Date(chosenDate) : new Date()
     const date = fullDate.getDate()
@@ -30,9 +22,6 @@ export function calculateReservedSlots(tickets, halls, date) {
         else if (fromTime !== toTime && fromTime < toTime) {
             fromTime = new Date(new Date(new Date(fromTime.setMilliseconds(0)).setSeconds(0)).setMinutes(0))
             toTime = new Date(new Date(new Date(toTime.setMilliseconds(0)).setSeconds(0)).setMinutes(0))
-
-            // console.log('tickets time FROM: ', fromTime)
-            // console.log('tickets time TO: ', toTime)
 
             let theDay = (date) ? new Date(date) : new Date()
             let dayChosenStart = (new Date(new Date(new Date(new Date(theDay).setHours(0)).setMinutes(0)).setSeconds(0)).setMilliseconds(0)) - 5

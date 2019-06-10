@@ -6,11 +6,13 @@ import Title from './components/Title'
 import { Doughnut, Bar } from 'react-chartjs-2';
 import { fetchTickets, fetchHalls, determineReservedSlots } from './actions';
 import { calculateReservedSlots, convertToUKdate, convertTimeIntoMonth } from './functions'
-
+import Select from 'react-select'; 
 
 
 class Charts extends React.Component {
-    
+    state= {
+        period: 'day',
+    }
     
     componentWillMount(){
         if (this.props.halls === null) {this.props.fetchHalls()}
@@ -92,8 +94,19 @@ class Charts extends React.Component {
          return newArr
     } 
 
+    handleSelectChange = selectedOption => {
+        console.log(selectedOption)
+        this.setState({ period: selectedOption.value });
+    }
+
 
     render() {
+
+        const { selectedOption } = this.state.period;
+        const options = [
+            { value: 'day', label: 'day' },
+            { value: 'month', label: 'month' },
+          ];
 
         const DoghnutChartData = {
             labels: [
@@ -152,17 +165,28 @@ class Charts extends React.Component {
                 <UpperBar />
                 <Title />
                 
-                <div className='doghnut-chart-container'>
-                    <p className='chart-title'>
+                <div className='charts-select-container'>
+                    Choose the period
+                    <Select 
+                        className='charts-select'
+                        value={selectedOption}
+                        onChange={this.handleSelectChange}
+                        options={options}
+                        menuPlacement='top'
+                    />
+                </div>
+
+                <div className={`${this.state.period}-doghnut-chart-container`}>
+                    <div className='chart-title'>
                         Halls Use on <b>{(convertToUKdate(this.props.date).slice(0, -7))}</b> 
-                    </p>
+                    </div>
                     <Doughnut data={DoghnutChartData} width={100} height={200} options={{ maintainAspectRatio: false }} />
                 </div>
 
-                <div>
-                    <p className='chart-title'>
+                <div  className={`${this.state.period}-bar-chart-container`}>
+                    <div className='chart-title'>
                             Total sum of reserved hours in <b>{(convertTimeIntoMonth(this.props.date))}</b> 
-                    </p>
+                    </div>
                 <Bar
                     data={BarChartData}
                     width={100}

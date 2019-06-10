@@ -2,12 +2,18 @@ import '../css/DateInput.css'
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { handleDateInputSubmit, handleUpperBackSwitcher, determineReservedSlots } from '../actions';
-import { calculateReservedSlots } from '../functions'
+import { calculateReservedSlots, convertMlsToyyyymmddThhmm } from '../functions'
 
 
 class DateInput extends Component {
 	state = {
 		dateInput: ''
+	}
+
+	componentWillMount() {
+		if (window.screen.width <= 480 && this.state.dateInput === '') {
+			this.setState({dateInput: convertMlsToyyyymmddThhmm(this.props.dateInput).slice(0, -14)})
+		}
 	}
 
 	dateLimit() {
@@ -30,18 +36,21 @@ class DateInput extends Component {
 			this.props.handleUpperBackSwitcher('inactive')
 			this.props.handleDateInputSubmit(Date.parse(this.state.dateInput))
 			this.props.determineReservedSlots(calculateReservedSlots(this.props.tickets, this.props.halls, this.state.dateInput))
-			this.setState({ dateInput: '' })
-
+			if (window.screen.width > 480) {
+				this.setState({ dateInput: '' })
+			}
 		} else if (inputtedDay > today) {
 			this.props.handleUpperBackSwitcher('active')
 			this.props.handleDateInputSubmit(Date.parse(this.state.dateInput))
 			this.props.determineReservedSlots(calculateReservedSlots(this.props.tickets, this.props.halls, this.state.dateInput))
-			this.setState({ dateInput: '' })
-
+			if (window.screen.width > 480) {
+				this.setState({ dateInput: '' })
+			}
 		}
-
 	}
+
 	render() {
+	
 		return (
 			<div className="date-input-container ui input">
 				<input
@@ -54,8 +63,7 @@ class DateInput extends Component {
 				<div className='search-icon-container'>
 					<i className={"search-icon search icon "}
 						onClick={() => {
-							this.handleDateInputSubmit(this.state.dateInput)
-							this.setState({ dateInput: '' })
+							this.handleDateInputSubmit(Date.parse(this.state.dateInput))
 						}}>
 					</i>
 				</div>

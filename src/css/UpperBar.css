@@ -12,6 +12,7 @@
     flex-wrap: wrap;
     align-content: flex-start;
     width: 100%;
+    /* overflow: hidden; */
 }
 
 .date-render-switcher-container {
@@ -73,3 +74,47 @@
     margin:0;
     padding:0;  
 }
+
+ .burger-menu {
+    position: absolute;
+    background: black;
+    width: 85%;
+    height: 100%;
+    flex-direction: row;
+    align-items: center;
+    justify-content: left;
+    padding-left: 1em; 
+}
+  
+  .burger-menu a {
+      margin-right: 1em;
+}
+
+  .burger-menu-span:hover {
+    color: #DFDFDF;
+}
+  
+
+.burger-menu-icon{
+    color: white;
+    font-size: 20px;
+}
+
+.burger-menu-icon:hover {
+    color: #03CEA4;
+    cursor: pointer;
+}
+
+@media only screen and (max-width: 480px) {
+    .date-render-switcher-container {
+        display: none
+    } 
+
+    .MuiToolbar-gutters {
+        padding-left: 0 !important;
+    }
+    
+}
+
+
+
