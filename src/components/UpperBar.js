@@ -34,7 +34,7 @@ class UpperBar extends Component {
            this.props.discardAllSelectedSlots()
            this.props.resetDate()
           }}>
-            Sign out
+            <b>Sign out</b>
           </Button>
         </Link> 
       </div>
@@ -54,7 +54,7 @@ class UpperBar extends Component {
         </Link>
         <Link to="/login">
           <Button className='signin-button'>
-            Sign in
+            <b>Sign in</b>
           </Button>
         </Link>
       </div>
@@ -81,13 +81,13 @@ class UpperBar extends Component {
       );
     } else {
       return (
-       <a  className="burger-menu-icon" 
+       <div  className="burger-menu-icon" 
           onClick={() => {
           this.state.burger === 'none' ? this.setState({burger: 'flex'}) : this.setState({burger: 'none'}) 
           }}
         >
           <i className="fa fa-bars" ></i>
-        </a>
+        </div>
       );
      }
   } 
@@ -128,7 +128,7 @@ class UpperBar extends Component {
             this.props.discardAllSelectedSlots()
             this.props.resetDate()
               }}>
-              Sign out
+              <b>Sign out</b>
             </span>
           </Link> 
         </div>

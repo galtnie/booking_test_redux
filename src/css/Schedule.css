@@ -30,3 +30,12 @@
 .hour-container {
     padding-left: 0.5em;
 }
+
+@media only screen and (max-width: 480px) {
+    .all-hours-container {
+        flex-direction: column;
+    }
+    .one-hour-container{
+        flex-direction: row;
+    }
+}

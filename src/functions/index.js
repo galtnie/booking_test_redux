@@ -200,3 +200,32 @@ export function convertTimeIntoMonth(time){
     let monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
     return monthNames[new Date(time).getMonth()]
 }
+
+export function convertMlsToYYYYmmDD(time, format) {
+ 
+        let t = new Date(time);
+        let tf = function (i) { return (i < 10 ? '0' : '') + i };
+        return format.replace(/yyyy|MM|dd|HH|mm|ss/g, function (a) {
+            switch (a) {
+                case 'yyyy':
+                    return tf(t.getFullYear());
+                case 'MM':
+                    return tf(t.getMonth() + 1);
+                case 'mm':
+                    return tf(t.getMinutes());
+                case 'dd':
+                    return tf(t.getDate());
+                case 'HH':
+                    return tf(t.getHours());
+                case 'ss':
+                    return tf(t.getSeconds());
+                default:
+                    return null;
+            }
+        })
+}
+
+export function convertYYYYmmDDToMls(date) { 
+    return new Date(new Date(new Date().setFullYear(date.slice(0, 4))).setMonth(Number(date.slice(5, 7))-1)).setDate(date.slice(8))
+}
+
