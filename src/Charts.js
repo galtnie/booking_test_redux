@@ -99,9 +99,7 @@ class Charts extends React.Component {
         this.setState({ period: selectedOption.value });
     }
 
-
     render() {
-
         const { selectedOption } = this.state.period;
         const options = [
             { value: 'day', label: 'day' },
@@ -109,19 +107,9 @@ class Charts extends React.Component {
           ];
 
         const DoghnutChartData = {
-            labels: [
-                this.props.halls[0].title,
-                this.props.halls[1].title,
-                this.props.halls[2].title,
-                this.props.halls[3].title,
-            ],
+            labels: this.props.halls.map (i => i.title),
             datasets: [{
-                data: [
-                    this.state.datasets[0], 
-                    this.state.datasets[1], 
-                    this.state.datasets[2], 
-                    this.state.datasets[3]
-                ],
+                data: this.state.datasets.map(i => i),
                 backgroundColor: [
                 'rgba(108, 92, 231, 0.9)',
                 'rgba(19, 55, 11, 0.8)',
@@ -138,12 +126,7 @@ class Charts extends React.Component {
         };
 
         const BarChartData = {
-            labels: [
-                this.props.halls[0].title,
-                this.props.halls[1].title,
-                this.props.halls[2].title,
-                this.props.halls[3].title,
-            ],
+            labels: this.props.halls.map (i => i.title),
           datasets: [
             {
               label: 'reserved hours per month',

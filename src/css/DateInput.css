@@ -1,8 +1,9 @@
 .date-input-container {
     padding-right: 1em; 
-    display: flex;
-    flex-direction: row;
+    display: flex !important;
+    flex-direction: row !important;
     justify-content: center;
+    
 }
 
 .date-input {
@@ -28,4 +29,10 @@
     .date-input-container{
         margin-left: 1em;
     }
+
+    .MuiAppBar-colorPrimary{
+        background-color: #070600 !important; 
+    }
 }
+
+/* #0E0E52 */

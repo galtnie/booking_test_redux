@@ -7,12 +7,12 @@ import Title from './components/Title'
 import { Redirect } from 'react-router-dom'
 import { connect } from 'react-redux';
 import { fetchTickets, fetchHalls, determineReservedSlots } from './actions';
-import './css/Home.css'
 import CircularProgress from './components/CircularProgress';
 import { calculateReservedSlots } from './functions'
+import { Wrapper } from './styles'
 
 class Home extends React.Component {
-    
+    state={}
 
     componentWillMount() {
         this.props.fetchTickets();
@@ -21,21 +21,24 @@ class Home extends React.Component {
     }
 
     render() {
+
+
         return (
             (!this.props.user)
                 ?
-                <div className='main'>
+                <Wrapper>
                     <UpperBar />
                     <Title />
                     <Guide />
                     {(this.props.halls) ? <Halls /> : <CircularProgress /> }
                     {(this.props.tickets && this.props.halls) ? <Schedule /> : <CircularProgress />}
-                </div>
+                </Wrapper>
                 :
                 <Redirect to='/booking' />
         );
     }
 }
+
 
 const mapStateToProps = (state) => {
     return {
@@ -51,4 +54,4 @@ export default connect(mapStateToProps,
         determineReservedSlots,
         fetchTickets,
         fetchHalls,
-    })(Home);
+    } )(Home);

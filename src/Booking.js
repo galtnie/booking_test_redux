@@ -11,9 +11,9 @@ import { fetchTickets, fetchHalls, determineReservedSlots, determineUsersPriorRe
 import CircularProgress from './components/CircularProgress';
 import BookingConfirmation from './components/BookingConfirmation';
 import { Redirect } from 'react-router-dom'
-import Button from '@material-ui/core/Button';
-import './css/Booking.css'
 import { prepareSelectedSlotsRendering, calculateReservedSlots } from './functions'
+import { Wrapper, PaymentButton } from './styles'
+
 
 class Booking extends React.Component {
     state = {
@@ -45,7 +45,7 @@ class Booking extends React.Component {
         return (
             (this.props.user)
                 ?
-                <div className='main'>
+                <Wrapper>
                     <UpperBar />
                     <Title />
                     <Guide />
@@ -53,20 +53,17 @@ class Booking extends React.Component {
                     {(this.props.tickets && this.props.halls) ? <Schedule /> : <CircularProgress /> }
                     {this.state.bookingConfirmation ? <BookingConfirmation tickets={this.state.ticketsToReserve} alterTickets={this.alterTicketsToReserve} closeWindow={this.closePaymentWindow}/> : null}
                     {this.props.ticketToEdit ? <TicketEdition /> : null}
-                    <Button 
+                    <PaymentButton 
                         disabled={Boolean(!this.props.selectedSlots.length)} 
                         variant="contained" 
                         size="medium" 
                         color="primary" 
-                        className='payment-button' 
                         onClick={this.handlePaymentButtonClicking}
                     >
                         Payment
-                    </Button>
-
+                    </PaymentButton>
                     { this.props.usersPriorReservations.length > 0  ?  <UsersPriorReservations />  :  null }
-
-                </div>
+                </Wrapper>
                 :
                 <Redirect to='/' />
         );

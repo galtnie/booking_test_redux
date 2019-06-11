@@ -22,6 +22,9 @@ import {
 } from './types';
 
 export const handleDateInputSubmit = (date) => {
+    if (typeof date === 'string') {
+        date = Date.parse(date)
+    }
     return ({ 
         type: HANDLE_DATE_INPUT_SUBMIT, 
         payload: date

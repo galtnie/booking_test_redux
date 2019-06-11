@@ -8,8 +8,13 @@
 .card {
     max-width: 400;
     margin: 0.2em;
-    width: 25em;
+    width: 18.5em;
 }
+
+.carousel{
+    background-color: #ECF0F1 !important;
+}
+
 
 .hall-title-contrainer {
     height: 4em;

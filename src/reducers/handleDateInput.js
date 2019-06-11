@@ -1,11 +1,11 @@
 import { HANDLE_DATE_INPUT_SUBMIT, RESET_DATE } from '../actions/types';
 
-export default (state = new Date(), action) => {
+export default (state = Date.parse(new Date()), action) => {
     switch (action.type) {
         case HANDLE_DATE_INPUT_SUBMIT:
         return action.payload;
         case RESET_DATE:
-        return new Date();
+        return Date.parse(new Date());
         default: 
         return state;
     }
