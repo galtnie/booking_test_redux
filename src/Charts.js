@@ -1,18 +1,33 @@
-import './css/Chart.css'
 import React from 'react';
 import { connect } from 'react-redux';
 import UpperBar from './components/UpperBar';
 import Title from './components/Title'
-import { Doughnut, Bar } from 'react-chartjs-2';
-import { fetchTickets, fetchHalls, determineReservedSlots } from './actions';
-import { calculateReservedSlots, convertToUKdate, convertTimeIntoMonth, calculateTimeUsedPerMonth } from './functions'
-import { ChartPeriodSelect, ChartSelectContainer, ChartTitle } from './styles'; 
+import { 
+    Doughnut, 
+    Bar 
+} from 'react-chartjs-2';
+import { 
+    fetchTickets, 
+    fetchHalls, 
+    determineReservedSlots 
+} from './actions';
+import { 
+    calculateReservedSlots, 
+    convertToUKdate, 
+    convertTimeIntoMonth, 
+    calculateTimeUsedPerMonth 
+} from './functions'
+import { 
+    ChartPeriodSelect, 
+    ChartSelectContainer, 
+    ChartTitle, 
+    DoughnutChartContainer, 
+    BarChartContainer 
+} from './styles'; 
 
 
 class Charts extends React.Component {
-    state= {
-        period: 'day',
-    }
+    state= { period: 'day'}
     
     componentWillMount(){
         if (this.props.halls === null) {this.props.fetchHalls()}
@@ -92,34 +107,20 @@ class Charts extends React.Component {
                 <Title />                
                 <ChartSelectContainer>
                     Choose the period
-                    <ChartPeriodSelect 
-                        value={selectedOption}
-                        onChange={this.handleSelectChange}
-                        options={options}
-                        menuPlacement='top'
-                    />
+                    <ChartPeriodSelect value={selectedOption} options={options} menuPlacement='top' onChange={this.handleSelectChange} />
                 </ChartSelectContainer>
-
-                <div className={`${this.state.period}-doghnut-chart-container`}>
+                <DoughnutChartContainer period={this.state.period}>
                     <ChartTitle>
                         Halls Use on <b>{(convertToUKdate(this.props.date).slice(0, -7))}</b> 
                     </ChartTitle>
                     <Doughnut data={DoghnutChartData} width={100} height={200} options={{ maintainAspectRatio: false }} />
-                </div>
-
-                <div  className={`${this.state.period}-bar-chart-container`}>
+                </DoughnutChartContainer>
+                <BarChartContainer period={this.state.period}>
                     <ChartTitle>
-                            Total sum of reserved hours in <b>{(convertTimeIntoMonth(this.props.date))}</b> 
+                        Total sum of reserved hours in <b>{(convertTimeIntoMonth(this.props.date))}</b> 
                     </ChartTitle>
-                <Bar
-                    data={BarChartData}
-                    width={100}
-                    height={50}
-                    options={{
-                    maintainAspectRatio: false
-                    }}
-                />
-                </div>
+                    <Bar data={BarChartData} width={100} height={50} options={{maintainAspectRatio: false}} />
+                </BarChartContainer>
             </div>
         );    
     }

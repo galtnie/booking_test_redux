@@ -52,3 +52,17 @@ export const ChartTitle = styled.div`
     margin-top: 2em;
     margin-bottom: 1em;
 `;
+
+export const DoughnutChartContainer = styled.div`
+    display: ${props => props.period === 'day' ? 'flex' : 'none'};
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+`;
+
+export const BarChartContainer = styled.div`
+    display: ${props => props.period === 'day' ? 'none' : 'flex'};
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+`;

@@ -12,17 +12,12 @@ import { calculateReservedSlots } from './functions'
 import { Wrapper } from './styles'
 
 class Home extends React.Component {
-    state={}
-
     componentWillMount() {
         this.props.fetchTickets();
         this.props.fetchHalls();
         this.props.determineReservedSlots(calculateReservedSlots(this.props.tickets, this.props.halls, this.props.dateInput))
     }
-
     render() {
-
-
         return (
             (!this.props.user)
                 ?
@@ -38,7 +33,6 @@ class Home extends React.Component {
         );
     }
 }
-
 
 const mapStateToProps = (state) => {
     return {
