@@ -229,3 +229,55 @@ export function convertYYYYmmDDToMls(date) {
     return new Date(new Date(new Date().setFullYear(date.slice(0, 4))).setMonth(Number(date.slice(5, 7))-1)).setDate(date.slice(8))
 }
 
+export function calculateTimeUsedPerMonth(time, tickets, halls){    
+    let month = new Date(time).getMonth()
+    let start = new Date(new Date(new Date(new Date(new Date(time).setDate(1)).setHours(0)).setMinutes(0)).setSeconds(0)).setMilliseconds(0)
+    let end = new Date(start).setMonth(month + 1)
+    let sortedTicketsPerHalls = []
+
+    for (let i = 0; i < halls.length; i++){
+        sortedTicketsPerHalls.push({
+            hall_id: halls[i]._id,
+            tickets: []
+        })
+    }
+    for (let i = 0; i < tickets.length; i++){
+        for (let j = 0; j < sortedTicketsPerHalls.length; j++) {
+            if (tickets[i].hall_id === sortedTicketsPerHalls[j].hall_id) {
+                sortedTicketsPerHalls[j].tickets.push(tickets[i])
+            } 
+        }
+    }
+    let newArr = []
+    for (let j = 0; j < sortedTicketsPerHalls.length; j++) {           
+        newArr[j] = sortedTicketsPerHalls[j].tickets.filter(i => i.to > start)
+    }
+    for (let j = 0; j < newArr.length; j++) {           
+        sortedTicketsPerHalls[j].tickets = newArr[j]
+    }
+    for (let j = 0; j < sortedTicketsPerHalls.length; j++) {           
+        newArr[j] = sortedTicketsPerHalls[j].tickets.filter(i => i.from < end)
+    }
+    for (let j = 0; j < newArr.length; j++) {           
+        sortedTicketsPerHalls[j].tickets = newArr[j]
+    }
+    for (let j = 0; j < sortedTicketsPerHalls.length; j++) {
+      for(let i = 0; i < sortedTicketsPerHalls[j].tickets.length; i++) {
+        if (sortedTicketsPerHalls[j].tickets[i].from < start) {
+          sortedTicketsPerHalls[j].tickets[i].from = start
+        }
+        if (sortedTicketsPerHalls[j].tickets[i].to > end) {
+            sortedTicketsPerHalls[j].tickets[i].to = end
+        }
+    }}
+    newArr = []
+    for (let j = 0; j < sortedTicketsPerHalls.length; j++) {
+        sortedTicketsPerHalls[j].totalHours = 0
+        for(let i = 0; i < sortedTicketsPerHalls[j].tickets.length; i++) {
+            sortedTicketsPerHalls[j].totalHours += (sortedTicketsPerHalls[j].tickets[i].to - sortedTicketsPerHalls[j].tickets[i].from)
+        }
+        sortedTicketsPerHalls[j].totalHours /= 3600000
+        newArr.push(Math.round(sortedTicketsPerHalls[j].totalHours))
+    }
+     return newArr
+} 
