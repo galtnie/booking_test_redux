@@ -49,8 +49,8 @@ class Booking extends React.Component {
                     <UpperBar />
                     <Title />
                     <Guide />
-                    {(this.props.halls) ? <Halls /> : <CircularProgress /> }
-                    {(this.props.tickets && this.props.halls) ? <Schedule /> : <CircularProgress /> }
+                    {this.props.halls ? <Halls /> : <CircularProgress />}
+                    {this.props.tickets && this.props.halls ? <Schedule /> : <CircularProgress />}
                     {this.state.bookingConfirmation ? <BookingConfirmation tickets={this.state.ticketsToReserve} alterTickets={this.alterTicketsToReserve} closeWindow={this.closePaymentWindow}/> : null}
                     {this.props.ticketToEdit ? <TicketEdition /> : null}
                     <PaymentButton 
@@ -62,7 +62,7 @@ class Booking extends React.Component {
                     >
                         Payment
                     </PaymentButton>
-                    { this.props.usersPriorReservations.length > 0  ?  <UsersPriorReservations />  :  null }
+                    {this.props.usersPriorReservations.length > 0  ?  <UsersPriorReservations />  :  null}
                 </Wrapper>
                 :
                 <Redirect to='/' />

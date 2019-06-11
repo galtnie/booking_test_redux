@@ -1,6 +1,8 @@
 import styled from 'styled-components';
 import Button from "@material-ui/core/Button";
 import Select from 'react-select'; 
+import Paper from '@material-ui/core/Paper'
+import TextField from '@material-ui/core/TextField'
 
 export const Wrapper = styled.div`
     display: flex;
@@ -65,4 +67,91 @@ export const BarChartContainer = styled.div`
     flex-direction: column;
     justify-content: center;
     align-items: center;
+`;
+
+export const LoginError = styled.div`
+    color: red;
+`;
+
+export const ReturnHomeLink = styled.p`
+    margin-top: 1.5em;
+    color: darkblue;
+    text-decoration: underline;
+    font-size: 1.2em;
+    padding-bottom: 0.5em;
+`;
+
+export const SignupMain = styled.div`
+    display: block;  /* Fix IE 11 issue. */
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: rgb(207, 207, 207);
+`;
+
+export const SingupPaper = styled(Paper)`
+    height: 45em;
+    width: 32em;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+`;
+
+export const SingupFormContainer = styled.form`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+`;
+
+export const SignupTitle = styled.div`
+    font-size: 1.5em; 
+    font-weight: bold;
+    margin-bottom: 1em;
+    color: #7D6B91;
+`;
+
+export const SignupCheckboxContainer = styled.div`
+    margin-right: 8.5em;
+`;
+
+export const SignupCheckboxLabel = styled.label`
+    font-size: 1.1em;
+    color: gray;
+`;
+
+export const SignupServerError = styled.div`
+    height: 2em;
+    width: 21em;
+    color: red;
+    font-weight: bold;
+`;
+
+export const SignupLinkContainer = styled.div`
+    margin-top: 1em;
+`;
+
+export const SignupErrorContainer = styled.div`
+    color: red;
+    font-weight: bold;
+    font-size: 1.1em;
+    padding-left: 1em;
+    padding-top: 0.1em;
+`;
+
+export const SignupInputContainer = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 7em;   
+`;
+
+export const SignupTextField = styled(TextField)`
+    width: 18em;
 `;

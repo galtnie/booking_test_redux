@@ -13,7 +13,6 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined'
 import Paper from '@material-ui/core/Paper'
 import Typography from '@material-ui/core/Typography'
 import { withStyles } from '@material-ui/core/styles'
-// import { Redirect } from 'react-router-dom'
 import { withFormik, Form, Field } from 'formik'
 import * as Yup from 'yup'
 import history from './history'
@@ -21,44 +20,10 @@ import axios from 'axios'
 import { connect } from 'react-redux'
 import { createNewUserAccount, eraseNewUserAccount, storeUser } from './actions'
 import { Redirect } from 'react-router-dom'
-
-const styles = theme => ({
-  main: {
-    width: 'auto',
-    display: 'block',
-    marginLeft: theme.spacing(3),
-    marginRight: theme.spacing(3),
-    [theme.breakpoints.up(400 + theme.spacing(3 * 2))]: {
-      width: 400,
-      marginLeft: 'auto',
-      marginRight: 'auto'
-    }
-  },
-  paper: {
-    marginTop: theme.spacing(8),
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    padding: `${theme.spacing(2)}px ${theme.spacing(3)}px ${theme
-      .spacing(3)}px`
-  },
-  avatar: {
-    margin: theme.spacing(),
-    backgroundColor: theme.palette.secondary.main
-  },
-  form: {
-    width: '100%',
-    marginTop: theme.spacing()
-  },
-  submit: {
-    marginTop: theme.spacing(3)
-  }
-})
+import { LoginError, ReturnHomeLink } from './styles'
+import styles from './styles/LoginMUIstyles'
 
 class SignInForm extends React.Component {
-
-  state = {}
-
   componentWillUnmount() {
     if (localStorage.getItem('user')) {
       let data = localStorage.getItem('user')
@@ -66,7 +31,6 @@ class SignInForm extends React.Component {
       localStorage.removeItem('user')
     }    
   }
-
   render() {
     const {
       values,
@@ -77,8 +41,8 @@ class SignInForm extends React.Component {
       handleBlur,
       handleSubmit,
       classes
-    } = this.props
-   
+    } = this.props  
+
     return (
       (!this.props.user)
       ?
@@ -106,9 +70,9 @@ class SignInForm extends React.Component {
               onBlur={handleBlur}
               value={values.email}
             />
-            <div style={{ color: 'red', }}>
-              {touched.email && errors.email && <p>{errors.email}</p>}
-            </div>
+              <LoginError>
+                {touched.email && errors.email && <p>{errors.email}</p>}
+              </LoginError>
           </FormControl>
 
           <FormControl margin='normal' fullWidth>
@@ -118,27 +82,21 @@ class SignInForm extends React.Component {
               name='password'
               type='password'
               id='password'
-              // autoComplete='current-password'
               error={Boolean(errors.password) && touched.password}
               placeholder='pA$$_W0rd'
               onChange={handleChange}
               onBlur={handleBlur}
               value={values.password}
-
             />
-            <div style={{ color: 'red', }}>
+            <LoginError>
               {touched.password && errors.password && <p>{errors.password}</p>}
-            </div>
+            </LoginError>
           </FormControl>
 
           <FormControlLabel
             control={<Checkbox value='remember' color='primary' />}
             label='Remember me'
           />
-
-          <div style={{ color: 'red' }}>
-
-          </div>
 
           <Button
             type='submit'
@@ -151,39 +109,27 @@ class SignInForm extends React.Component {
             Sign in
           </Button>
         </Form>
-
         <Link to='/'>
-          <p
-            style={{
-              marginTop: '1.5em',
-              color: 'darkblue',
-              textDecoration: 'underline',
-              fontSize: '1.2em',
-            }}
-          >
+          <ReturnHomeLink>
             Return to Home page
-          </p>
+          </ReturnHomeLink>
         </Link>
       </Paper>
     </main>
       :
       <Redirect to='/booking' />     
-
     )
   }
 }
-
 
 const mapStateToProps = state => ({
   newUserAccount: state.newUserAccount,
   user: state.user
 })
 
-
 export default compose(
   connect(mapStateToProps, { eraseNewUserAccount, createNewUserAccount, storeUser }),
   withFormik({
-
     mapPropsToValues: ({newUserAccount}) => {           
       let email = newUserAccount   
       return ({
@@ -191,7 +137,6 @@ export default compose(
         password: ''
       })
     },
-
     validationSchema: Yup.object().shape({
       email: Yup.string()
         .required('Email is required')
@@ -199,10 +144,8 @@ export default compose(
       password: Yup.string()
         .required('Password is required')
     }),
-
     handleSubmit: (values, { resetForm, setErrors, setSubmitting }) => {
       setSubmitting(true)
- 
       axios.post(
         'https://web-ninjas.net/signIn',
         { headers: { 'Content-Type': 'application/x-www-form-urlencoded' } },
@@ -220,9 +163,7 @@ export default compose(
           setSubmitting(false)
         })
     }
-
   })
-
 )(withStyles(styles)(SignInForm))
 
 

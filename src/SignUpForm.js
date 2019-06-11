@@ -1,17 +1,27 @@
-import './css/SignUpForm.css'
 import React from 'react'
 import { Field, reduxForm } from 'redux-form'
 import { connect } from 'react-redux'
-import TextField from '@material-ui/core/TextField'
-import { Link } from 'react-router-dom' //Redirect
+import { Link, Redirect } from 'react-router-dom'
 import Checkbox from '@material-ui/core/Checkbox'
 import Button from '@material-ui/core/Button'
-import Paper from '@material-ui/core/Paper'
 import CssBaseline from '@material-ui/core/CssBaseline'
 import axios from 'axios'
 import { createNewUserAccount } from './actions'
-import { Redirect } from 'react-router-dom'
 import history from './history'
+import { 
+  SignupMain,
+  SingupPaper,
+  SingupFormContainer,
+  SignupTitle,
+  SignupCheckboxContainer,
+  SignupCheckboxLabel,
+  SignupServerError,
+  SignupLinkContainer,
+  ReturnHomeLink,
+  SignupErrorContainer,
+  SignupInputContainer,
+  SignupTextField
+} from './styles'
 
 class SignUpForm extends React.Component {
   state = {
@@ -21,17 +31,14 @@ class SignUpForm extends React.Component {
     serverError: null,
     passwordIsMasked: true,
   }
-
   renderError = ({ error, touched, active }) => {
-    return error && touched && !active ? <div className='error'> {error} </div> : null
+    return error && touched && !active ? <SignupErrorContainer> {error} </SignupErrorContainer> : null
   }
-
   renderInput = formProps => {
     return (
-      <div className='input-container'>
-        <TextField
+      <SignupInputContainer>
+        <SignupTextField
           {...formProps.input}
-          //id='outlined-dense'
           label={formProps.label}
           placeholder={
             formProps.input.name === 'email' ? 'email@name.tld' : 'pA$$_W0rd'
@@ -45,12 +52,11 @@ class SignUpForm extends React.Component {
           error={Boolean(this.renderError(formProps.meta))}
         />
         {this.renderError(formProps.meta)}
-      </div>
+      </SignupInputContainer>
     )
   }
 
   onSubmit = formValues => {
-    
     axios.post(
         'https://web-ninjas.net/signUp',
         { headers: { 'Content-Type': 'application/x-www-form-urlencoded' } },
@@ -65,8 +71,7 @@ class SignUpForm extends React.Component {
       .then(()=>history.push('/login'))
       .catch(e => {
        if (e.response && e.response.data.errors.errors.email.kind === 'unique') {
-          this.setState({ serverError: 'This e-mail is already used on this website.'})
-          
+          this.setState({ serverError: 'This e-mail is already used on this website.'}) 
        }
       })
   }
@@ -81,11 +86,13 @@ class SignUpForm extends React.Component {
     return (
       (!this.props.user) 
         ?
-      <main className='main-signup'>
+      <SignupMain>
         <CssBaseline />
-        <Paper className='paper'>
-          <form className='container' autoComplete='off' onSubmit={this.props.handleSubmit(this.onSubmit)}>
-            <div className='signup-title'>CREATE YOUR ACCOUNT</div>
+        <SingupPaper>
+          <SingupFormContainer autoComplete='off' onSubmit={this.props.handleSubmit(this.onSubmit)}>
+            <SignupTitle>
+              CREATE YOUR ACCOUNT
+            </SignupTitle>
             <Field 
               name='email' 
               component={this.renderInput} 
@@ -110,26 +117,28 @@ class SignUpForm extends React.Component {
               value={this.state.confirmPassword}
               onChange={e => {this.setState({ confirmPassword: e.target.value }) }}
             />
-            <div style={{ marginRight: '8.5em',  }}> 
-              <label style={{ fontSize: '1.1em', color: 'gray' }}>
+            <SignupCheckboxContainer> 
+              <SignupCheckboxLabel>
                 <Checkbox onClick={this.togglePasswordMask} value='checkedB' color='primary' />
                 Show password
-              </label>
-            </div>
-            <div className='server-error' name='server-error' style={{height: '2em', width: '21em', color:'red', fontWeight:'bold'}}>
+              </SignupCheckboxLabel>
+            </SignupCheckboxContainer>
+            <SignupServerError name='server-error'>
                   <span>{this.state.serverError} </span>
-            </div>
+            </SignupServerError>
             <Button type='submit' variant='contained' color='primary'>
               Create account
             </Button>
-          </form>
-          <div className='link-container'>
+          </SingupFormContainer>
+          <SignupLinkContainer>
             <Link to='/'>
-              <p className='link'>Return to Home page</p>
+              <ReturnHomeLink>
+                Return to Home page
+              </ReturnHomeLink>
             </Link>
-          </div>
-        </Paper>
-      </main>
+          </SignupLinkContainer>
+        </SingupPaper>
+      </SignupMain>
         : 
       <Redirect to='/booking' />
     )
@@ -157,10 +166,7 @@ const validate = formValues => {
   return errors
 }
 
-const mapStateToProps = state => (  
-{
-  user: state.user
-})
+const mapStateToProps = state => ({user:state.user})
 
 SignUpForm = connect(mapStateToProps, { createNewUserAccount })(SignUpForm)
 
