@@ -1,6 +1,6 @@
-import '../css/UpperBar.css'
 import React from 'react';
 import { connect } from 'react-redux';
+import { CurrentDateContainer } from '../styles';
 
 class CurrentDate extends React.Component {
 
@@ -16,9 +16,9 @@ class CurrentDate extends React.Component {
 
     render() {
         return (
-            <div style={{fontFamily: "sans-serif", fontSize: "1.3em" }}>
+            <CurrentDateContainer>
               {this.renderDate()}
-            </div>
+            </CurrentDateContainer>
         );
     }
 } 

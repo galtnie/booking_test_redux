@@ -155,3 +155,58 @@ export const SignupInputContainer = styled.div`
 export const SignupTextField = styled(TextField)`
     width: 18em;
 `;
+
+export const ConfirmContainer = styled.div`
+    position: fixed;
+    background: #E8F1F2;
+    color: #13293D;
+    top: 2em;
+    padding: 2em;
+    border-radius: 1em;
+    overflow-y: auto;
+    max-height: 90%;
+    max-width: 90%;
+    border: 1em solid #2185D0;
+`;
+
+export const ConfirmTitle = styled.h2`
+    color: #945600;
+`;
+
+export const ConfirmTicketContainer = styled.div`
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: space-between;
+    flex-wrap: wrap; 
+    width: 100%;
+`;
+
+export const ConfirmTitleInput = styled.input`
+    background: #E8F1F2;
+    color: #13293D;
+    border: 0.1em solid #2185D0;
+    line-height: 18px;
+`;
+
+export const ConfirmClickBttnNote = styled.h3`
+    color: #945600;
+`;
+
+export const ConfirmBttnsContainer = styled.div`
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+`;
+
+export const CircularProgressContainer = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+`;
+
+export const CurrentDateContainer = styled.div`
+    font-family: sans-serif;
+    font-size: 1.3em; 
+`;

@@ -2,20 +2,15 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import '../css/CircularProgress.css'
-
-const styles = theme => ({
-  progress: {
-    margin: theme.spacing(2),
-  },
-});
+import {CircularProgressContainer} from '../styles'
+import styles from '../styles/CircularProgressMUIstyles'
 
 function CircularIndeterminate(props) {
   const { classes } = props;
   return (
-    <div className='ciruclar-progress-container'>
+    <CircularProgressContainer>
       <CircularProgress className={classes.progress} />
-    </div>
+    </CircularProgressContainer>
   );
 }
 

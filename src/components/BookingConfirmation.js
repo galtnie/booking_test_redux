@@ -1,93 +1,54 @@
 import React from 'react'
-import { connect } from 'react-redux' 
-// import axios from 'axios'
-import { fetchTickets, fetchHalls, discardAllSelectedSlots, determineReservedSlots, determineUsersPriorReservations, createNewTicket } from '../actions';
-// import { calculateReservedSlots } from '../functions'
+import { connect } from 'react-redux'
+import { 
+    fetchTickets, 
+    fetchHalls, 
+    discardAllSelectedSlots, 
+    determineReservedSlots, 
+    determineUsersPriorReservations, 
+    createNewTicket 
+} from '../actions';
+import { 
+    ConfirmContainer, 
+    ConfirmTitle,
+    ConfirmTicketContainer,
+    ConfirmTitleInput,
+    ConfirmClickBttnNote,
+    ConfirmBttnsContainer
+} from '../styles'
 
 
 class BookingConfirmation extends React.Component {
-    state={}
-
-    handleConfirmation(tickets){
+    handleConfirmation(tickets) {
         this.props.discardAllSelectedSlots()
         this.props.closeWindow()
         this.props.createNewTicket(tickets, this.props.user)
         this.props.fetchTickets();
-
-        // this.props.determineReservedSlots(calculateReservedSlots(this.props.res, this.props.halls, this.props.dateInput, this.props.user._id))
-        // this.props.determineUsersPriorReservations(this.props.reservedTickets, this.props.user._id)
-
-        // let axiosRequests = []
-        // for (let i = 0; i < tickets.length; i++) {
-        //     let request = axios({
-        //         method: 'post',
-        //         url: 'https://web-ninjas.net/tickets',
-        //         data: {
-        //             hall_id: tickets[i].hall_id,
-        //             user_id: this.props.user._id,
-        //             title: tickets[i].title,
-        //             from: tickets[i].from,
-        //             to: tickets[i].to,
-        //         },
-        //         headers: {
-        //             ContentType: "application/x-www-form-urlencoded",
-        //             Authorization: this.props.user.token,
-        //         }
-        //     })
-        //     axiosRequests.push(request)
-        // }
-
-        // Promise.all(axiosRequests)
-        //     .then(()=>{
-                         
-        //     })
-        //     .then(() => {
-        //         this.props.fetchTickets();
-        //     })
-        //     .then((updatedTicketsList)=> {
-                // this.props.determineReservedSlots(calculateReservedSlots(updatedTicketsList, this.props.halls, this.props.dateInput, this.props.user._id))
-                // this.props.determineUsersPriorReservations(updatedTicketsList, this.props.user._id)
-        //     })
-            // .catch(error => {
-            //     console.dir(error)
-            //     console.log(error.message)
-            // })
     }
-
     render() {
         const timeOptionsForRendering = {
             day: 'numeric',
             weekday: 'long',
             year: 'numeric',
-            month: 'long', 
-            hour: 'numeric', 
+            month: 'long',
+            hour: 'numeric',
             minute: 'numeric',
         }
-
         return (
-            <div  style={{
-                position: "fixed", background: '#E8F1F2', color: "#13293D", top: "2em", padding: "2em", borderRadius: "1em", overflowY: "auto",
-                maxHeight: "90%",  maxWidth: "90%", border: "1em solid #2185D0"
-            }}>
-                <h2 style={{ color: "#945600" }}>Please enter a title of the event for each reservation prior to order confirmation.</h2>
+            <ConfirmContainer>
+                <ConfirmTitle>
+                    Please enter a title of the event for each reservation prior to order confirmation.
+                </ConfirmTitle>
                 {this.props.tickets.map((i, index) => {
-
                     return (
-                        <div key={index} style={{ display: "flex", flexDirection: "row", alignItems: "flex-start", justifyContent: "space-between", flexWrap: "wrap", width: "100%" }} >
+                        <ConfirmTicketContainer key={index}>
                             <p>
-                                HALL: {this.props.halls.find((e)=> e._id === this.props.tickets[index].hall_id).title}  <br />
+                                HALL: {this.props.halls.find((e) => e._id === this.props.tickets[index].hall_id).title}  <br />
                                 FROM: {new Intl.DateTimeFormat('en-GB', timeOptionsForRendering).format(this.props.tickets[index].from)} <br />
                                 TO: {new Intl.DateTimeFormat('en-GB', timeOptionsForRendering).format(this.props.tickets[index].to)}
                             </p>
                             <div className="ui input">
-                                <input type="text"
-                                    placeholder="Event title"
-                                    style={{
-                                        background: '#E8F1F2',
-                                        color: "#13293D",
-                                        border: "0.1em solid #2185D0",
-                                        lineHeight: "18px"
-                                    }}
+                                <ConfirmTitleInput type="text" placeholder="Event title"
                                     onChange={(e) => {
                                         let newArray = this.props.tickets
                                         newArray[index].title = e.target.value
@@ -95,42 +56,39 @@ class BookingConfirmation extends React.Component {
                                     }}
                                 />
                             </div>
-                        </div>
+                        </ConfirmTicketContainer>
                     )
                 }
                 )}
-    
-    
-
-    <h3 style={{ color: "#945600" }}>
-        Once you entitled each of the events, please confirm the order for its processing.
-    </h3>
-    <div style={{ width: "100%", display: "flex", flexDirection: "row", justifyContent: "space-between" }}>
-        <button className="ui primary button" onClick={()=>{this.handleConfirmation(this.props.tickets)}}>
-            Confirm
-        </button>
-        <button className="ui button" onClick={this.props.closeWindow}>
-            Cancel 
-       </button>
-    </div>
-</div>
+                <ConfirmClickBttnNote>
+                    Once you entitled each of the events, please confirm the order for its processing.
+                </ConfirmClickBttnNote>
+                <ConfirmBttnsContainer>
+                    <button className="ui primary button" onClick={() => { this.handleConfirmation(this.props.tickets) }}>
+                        Confirm
+                    </button>
+                    <button className="ui button" onClick={this.props.closeWindow}>
+                        Cancel
+                    </button>
+                </ConfirmBttnsContainer>
+            </ConfirmContainer>
         );
     }
 }
 
 const mapStateToProps = (state) => {
-    return { 
+    return {
         reservedTickets: state.tickets,
         halls: state.halls,
         user: state.user,
-        dateInput: state.dateInput,  
-        priorReservations: state.usersPriorReservations  
+        dateInput: state.dateInput,
+        priorReservations: state.usersPriorReservations
     }
 }
 
 export default connect(mapStateToProps,
-    { 
-        fetchTickets, 
+    {
+        fetchTickets,
         fetchHalls,
         discardAllSelectedSlots,
         determineReservedSlots,
