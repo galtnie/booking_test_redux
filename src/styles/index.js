@@ -210,3 +210,69 @@ export const CurrentDateContainer = styled.div`
     font-family: sans-serif;
     font-size: 1.3em; 
 `;
+
+export const DateInputContainer = styled.div`
+    padding-right: 1em; 
+    display: flex !important;
+    flex-direction: row !important;
+    justify-content: center;
+    @media only screen and (max-width: 480px) {
+        margin-left: 1em;
+    }
+`;
+
+export const DateInput = styled.input`
+    width: 10.5em !important;
+    padding: 0.2em !important;
+    line-height: 1em;
+    background: #FBFBFF; 
+`;
+
+export const SearchIconContainer = styled.div`
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    padding-left: 0.5em;
+`;
+
+export const SearchIcon = styled.i`
+    color: #FBFBFF;
+    cursor: pointer;
+`;
+
+export const GuideContainer = styled.div`
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    color: #7D6B91;
+    padding-top: 2em;
+    padding-bottom: 1em;
+    margin-left: 0.5em;
+    margin-right: 0.5em;
+`;
+
+export const GuideParagraph = styled.p`
+    font-size: 1.2em;
+    margin-left: 0.5em;
+    margin-right: 0.5em;
+    margin-top: 0;
+    margin-bottom: 0;
+    color: #272838;
+`;
+
+export const GuideSpan = styled.span`
+    font-size: 1.2em;
+    margin-left: 0.5em;
+    margin-right: 0.5em;
+    margin-top: 0;
+    margin-bottom: 0;
+    color: #272838;
+`;
+
+export const GuideDiv = styled.div`
+    display: flex; 
+    flex-direction: row;
+    align-items: center;
+    margin-left: 0.5em;
+`;

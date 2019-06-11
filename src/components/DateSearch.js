@@ -1,11 +1,10 @@
-import '../css/DateInput.css'
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { handleDateInputSubmit, handleUpperBackSwitcher, determineReservedSlots } from '../actions';
 import { calculateReservedSlots, convertMlsToYYYYmmDD, convertYYYYmmDDToMls } from '../functions'
+import { DateInputContainer, DateInput, SearchIconContainer, SearchIcon} from '../styles'
 
-
-class DateInput extends Component {
+class DateSearch extends Component {
 	state = {
 		dateInput: ''
 	}
@@ -24,10 +23,8 @@ class DateInput extends Component {
 	}
 
 	handleDateInputSubmit() {
-
 		let today = new Date(new Date(new Date(new Date(new Date().setHours(0)).setMinutes(0)).setSeconds(0)).setMilliseconds(0))
 		let inputtedDay = new Date(this.state.dateInput)
-
 		if (inputtedDay < today) {
 			alert('The searched date cannot be erenow ')
 			this.setState({ dateInput: '' })
@@ -50,26 +47,22 @@ class DateInput extends Component {
 	}
 
 	render() {
-
-		// console.log(convertMlsToYYYYmmDD(new Date(this.props.dateInput).getTime(), 'yyyy/MM/dd'))
-	
 		return (
-			<div className="date-input-container ui input">
-				<input
-					className='date-input'
+			<DateInputContainer className="ui input">
+				<DateInput
 					type='date'
 					min={this.dateLimit()}
 					value={this.state.dateInput}
 					onChange={(e) => this.setState({ dateInput: e.target.value })}
 				/>
-				<div className='search-icon-container'>
-					<i className={"search-icon search icon "}
+				<SearchIconContainer>
+					<SearchIcon className={"search icon "}
 						onClick={() => {
 							this.handleDateInputSubmit(convertYYYYmmDDToMls(this.state.dateInput))
 						}}>
-					</i>
-				</div>
-			</div>
+					</SearchIcon>
+				</SearchIconContainer>
+			</DateInputContainer>
 		);
 	}
 }
@@ -86,4 +79,4 @@ export default connect(mapStateToProps, {
 		handleDateInputSubmit, 
 		handleUpperBackSwitcher,
 		determineReservedSlots 
-})(DateInput);
+})(DateSearch);

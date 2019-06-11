@@ -4,7 +4,7 @@ import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Button from '@material-ui/core/Button';
 import { Link } from 'react-router-dom';
-import DateInput from './DateInput';
+import DateSearch from './DateSearch';
 import SwitchBack from './SwitchBack'
 import SwitchForth from './SwitchForth'
 import CurrentDate from './CurrentDate'
@@ -164,7 +164,7 @@ class UpperBar extends Component {
       <div className="upperbar-container">
         <AppBar position="static">
           <Toolbar className="toolbar">
-            <DateInput />          
+            <DateSearch />          
             <div className='date-render-switcher-container'>
               <SwitchBack />
               <CurrentDate />

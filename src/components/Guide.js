@@ -2,61 +2,65 @@ import '../css/Guide.css'
 import React from 'react'
 import { RedFree, RedBusy, RedChosen } from './Rooms'
 import history from '../history'
+import { GuideContainer, GuideParagraph, GuideSpan, GuideDiv } from '../styles'
 
 export default function Guide() {
     return (
         <div>
-            <div className="manual">
+            <GuideContainer>
                 <div>
-                {
+                    {
                         (history.location.pathname !== "/booking") ?
-                    <p className="manual-par">
-                        Log in to <b>make reservations</b>.
-                    </p>
+                            <GuideParagraph>
+                                Log in to <b>make reservations</b>.
+                            </GuideParagraph>
 
-                : null
-                }
-                    <p className="manual-par">
+                            : null
+                    }
+                    <GuideParagraph>
                         <b>9"</b> means 9:00-9:59.
-                    </p>
+                    </GuideParagraph>
                     {
                         (history.location.pathname === "/booking")
                             ?
                             <span>
-                            <p className='manual-par'>
-                                Having selected the slots to book
-                            </p>
-                            <p className='manual-par'>
-                                click <b>PAYMENT</b> button.
-                            </p>
+                                <GuideParagraph>
+                                    Having selected the slots to book
+                            </GuideParagraph>
+                                <GuideParagraph>
+                                    click <b>PAYMENT</b> button.
+                            </GuideParagraph>
                             </span>
                             : null
                     }
 
                 </div>
                 <div>
-                    <div className="manual-div">
-                        <RedFree guide={true}/>
-                        <span className="manual-par">
+                    <GuideDiv>
+                        <RedFree guide={true} />
+                        <GuideSpan>
                             The red room is <b>FREE</b> now.
-                        </span>
-                    </div>
-                    <div className="manual-div">
+                        </GuideSpan>
+                    </GuideDiv>
+                    <GuideDiv>
                         <RedBusy guide={true} />
-                        <span className="manual-par">
+                        <GuideSpan>
                             The red room is <b> RESERVED </b> now.
-                        </span>
-                    </div>
+                        </GuideSpan>
+                    </GuideDiv>
                     {
                         (history.location.pathname === "/booking")
                             ?
-                            <div className="manual-div">
-                                <RedChosen guide={true} /> <span className="manual-par"> The red room is <b>SELECTED</b>, but not reserved yet. </span>
-                            </div>
+                            <GuideDiv>
+                                <RedChosen guide={true} /> 
+                                <GuideSpan> 
+                                    The red room is <b>SELECTED</b>, but not reserved yet. 
+                                </GuideSpan>
+                            </GuideDiv>
                             : null
                     }
                 </div>
-            </div>
+            </GuideContainer>
         </div>
     );
 } 

@@ -1,24 +1,16 @@
-.date-input-container {
-    padding-right: 1em; 
-    display: flex !important;
-    flex-direction: row !important;
-    justify-content: center;
-    
-}
-
-.date-input {
+/* .date-input {
     width: 10.5em !important;
     padding: 0.2em !important;
     line-height: 1em;
     background: #FBFBFF; 
-}
+} */
 
-.search-icon-container {
+/* .search-icon-container {
     display: flex;
     justify-content: flex-start;
     align-items: center;
     padding-left: 0.5em;
-}
+} */
 
 .search-icon{
     color: #FBFBFF;
@@ -26,11 +18,11 @@
 }
 
 @media only screen and (max-width: 480px) {
-    .date-input-container{
+    /* .date-input-container{
         margin-left: 1em;
-    }
+    } */
 
-    .MuiAppBar-colorPrimary{
+    .MuiAppBar-colorPrimary{                  /*       HOW TO PUT IT? */
         background-color: #070600 !important; 
     }
 }
