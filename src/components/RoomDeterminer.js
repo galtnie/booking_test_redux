@@ -23,11 +23,6 @@ import {
 } from './Rooms.js'
 
 class RoomStatusDeterminer extends React.Component {
-
-    // componentWillReceiveProps(newProps){
-    //     console.log(newProps)
-    // }
-
     render() {
         const reservedSlot = checkIfSlotReserved(this.props.reservedSlots, this.props.id)  
         if (history.location.pathname !== '/booking') {
@@ -72,7 +67,6 @@ class RoomStatusDeterminer extends React.Component {
                                 <GreenFree id={this.props.id} />
                             )
                     );
-                    
                 case 'red':
                     return (
                         reservedSlot 

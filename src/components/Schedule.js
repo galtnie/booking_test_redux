@@ -1,10 +1,15 @@
-import '../css/Schedule.css'
 import React from 'react';
 import { connect } from 'react-redux';
 import CircularProgress from './CircularProgress';
 import RoomDeterminer from './RoomDeterminer';
 import { determineReservedSlots, determineUsersPriorReservations } from '../actions';
 import { composeSlotId, calculateReservedSlots } from '../functions'
+import { 
+    ScheduleWrapper,
+    HourDesignator,
+    HourColumnContainer,
+    CircularProgressContainer,
+} from '../styles'
 
 class Schedule extends React.Component {
 
@@ -18,17 +23,15 @@ class Schedule extends React.Component {
 
     renderOneHourRooms = (hour, halls, date) => {
         let oneHourColumn = []
-        oneHourColumn.push(<div className='hour-container' key={`${hour}h`}>{hour}"</div>)
-
+        oneHourColumn.push(<HourDesignator key={`${hour}h`}>{hour}"</HourDesignator>)
         for (let j = 0; j < halls.length; j++) {
-
             oneHourColumn.push(
                 <div key={`${hour}${j}`}>
                     <RoomDeterminer id={composeSlotId(date, hour, halls[j].colour)} />
                 </div>
             );
         }
-        return <div key={hour} className='one-hour-container'>{oneHourColumn}</div>
+        return <HourColumnContainer key={hour}>{oneHourColumn}</HourColumnContainer>
     }
 
     renderDayCard = (halls, date) => {
@@ -43,13 +46,13 @@ class Schedule extends React.Component {
         return (
             this.props.reservedSlots
                 ?
-                <div className='all-hours-container'>
+                <ScheduleWrapper>
                     {this.renderDayCard(this.props.halls, this.props.date)}
-                </div>
+                </ScheduleWrapper>
                 :
-                <div className="ciruclar-progress-container">
+                <CircularProgressContainer>
                     <CircularProgress />
-                </div>
+                </CircularProgressContainer>
         );
     }
 }

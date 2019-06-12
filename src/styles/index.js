@@ -364,10 +364,119 @@ export const HallCardContent = styled(CardContent)`
 `;
 
 export const HallCardMedia = styled(CardMedia)`
-        height: 0;
-        padding-top: 56.25%; 
+    height: 0;
+    padding-top: 56.25%; 
 `;
 
 export const HallCarousel = styled(Carousel)`
     background-color: #ECF0F1 !important;
+`;
+
+export const RoomSlot = styled.div`
+    width: ${props => props.guide ? '1.7em' : '2em'}; 
+    height: ${props => props.guide ? '1.7em' : '2em'};
+    margin: ${props => props.guide ? '0.05em' : '0.5em'};
+    border-radius: 0.4em;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-width: ${props => props.chosen ? '4px' : '2px'};
+    border-style: solid;
+    border-color: ${({colour}) => 
+        colour === 'blu' ? 'rgb(18, 11, 120)' :
+        colour === 'red' ? 'rgb(178,34,34)' :
+        colour === 'gre' ? 'rgba(19, 55, 11, 0.9)' :
+        colour === 'vio' ? 'rgba(108, 92, 231, 0.9)' : null
+    };
+    color: ${({colour}) => 
+        colour === 'blu' ? 'rgb(18, 11, 120)' :
+        colour === 'red' ? 'rgb(178,34,34)' :
+        colour === 'gre' ? 'rgba(19, 55, 11, 0.9)' :
+        colour === 'vio' ? 'rgba(108, 92, 231, 0.9)' : null
+    };
+    background: ${({colour, chosen}) => 
+        !chosen && colour === 'blu' ? 'rgba(97, 143, 236, 0.1)' :
+        !chosen && colour === 'red' ? 'rgba(240,128,128,0.1)' :
+        !chosen && colour === 'gre' ? 'rgba(193, 241, 183, 0.1)' :
+        !chosen && colour === 'vio' ? 'rgba(123, 136, 255, 0.1)' : 'orange'
+    };
+    
+    &:hover{
+    background: ${({colour, hover}) => 
+        hover && colour === 'blu' ? 'rgba(31, 112, 251, 0.6)' :
+        hover && colour === 'red' ? 'rgba(240,128,128,0.8)' :
+        hover && colour === 'gre' ? 'rgba(112, 251, 31, 0.6)' :
+        hover && colour === 'vio' ? 'rgba(189,  173,  255, 0.6)' : null
+    }};
+`;
+
+export const ReservedSlot = styled.div`
+    width: ${props => props.guide ? '1.7em' : '2em'}; 
+    height: ${props => props.guide ? '1.7em' : '2em'};
+    margin: ${props => props.guide ? '0.05em' : '0.5em'};
+    border-radius: 0.4em;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: solid 2px ${({colour}) => 
+        colour === 'blu' ? 'rgb(18, 11, 120)' :
+        colour === 'red' ? 'rgb(178,34,34)' :
+        colour === 'gre' ? 'rgba(19, 55, 11, 0.9)' :
+        colour === 'vio' ? 'rgba(108, 92, 231, 1)' : null
+    };
+    color: ${({colour}) => 
+        colour === 'blu' ? 'rgba(206, 221, 252, 1)' :
+        colour === 'red' ? 'rgb(255,182,193)' :
+        colour === 'gre' ? 'rgba(216, 255, 206, 1)' :
+        colour === 'vio' ? 'rgba(255,  245,  255, 1)' : null
+    };
+    background: ${({colour}) => 
+        colour === 'blu' ? 'rgba(31, 21, 182,0.9)' :
+        colour === 'red' ? 'rgba(220,20,60,0.9)' :
+        colour === 'gre' ? 'rgba(33, 100, 19, 1)' :
+        colour === 'vio' ? 'rgba(108, 92, 231, 0.9)' : null
+    };
+`;
+
+export const ScheduleWrapper = styled.div`
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-top: 1em;
+    margin-bottom: 1em;
+    width: auto;
+    height: auto;
+    @media only screen and (max-width: 480px) {
+        flex-direction: column;
+    }
+`;
+
+export const HourDesignator = styled.div`
+    padding-left: 0.5em;
+
+`;
+
+export const HourColumnContainer = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    @media only screen and (max-width: 480px) {
+        flex-direction: row;
+    }
+`;
+
+export const Switcher = styled.i`
+    width: 0.6em !important;
+    padding-top: 0.05em;
+    color: ${({inactive}) => inactive ? 'lightgrey' : 'rgb(21, 205, 168)'};
+    cursor: pointer;
+    margin:0 !important;
+    padding:0 !important;
+
+    &:hover{
+        color: ${props => props.inactive ? null : 'orange'} 
+    }
 `;
