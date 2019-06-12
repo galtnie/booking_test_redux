@@ -7,6 +7,8 @@ import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import  Carousel  from  'semantic-ui-carousel-react';
+import Toolbar from '@material-ui/core/Toolbar';
+import AppBar from '@material-ui/core/AppBar';
 
 export const Wrapper = styled.div`
     display: flex;
@@ -221,7 +223,7 @@ export const DateInputContainer = styled.div`
     flex-direction: row !important;
     justify-content: center;
     @media only screen and (max-width: 480px) {
-        margin-left: 1em;
+        margin-left: 1.5em;
     }
 `;
 
@@ -294,7 +296,7 @@ export const TitleDiv = styled.div`
     margin-right: 0.5em;
     @media only screen and (max-width: 480px) {
         margin-top: 5em;
-        color: #748CAB;
+        color: #7D6B91;
         padding-top: 2em;
         padding-bottom: 1em;
     }
@@ -468,6 +470,137 @@ export const HourColumnContainer = styled.div`
     }
 `;
 
+export const EditMain = styled.div`
+    position: fixed;
+    background: linear-gradient(0deg, rgba(9,9,121,1) 0%, rgba(63,81,181,1) 50%, rgba(33,33,105,0.9654236694677871) 100%);
+    color: white;
+    top: 2em;
+    padding: 2em;
+    margin-right: 2em;
+    margin-left: 2em;
+    overflow: scroll;
+    /* overflow-y: auto; */
+    overflow-x: auto;
+    min-width: 70%;
+    max-height: 90%;
+    max-width: 90%;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: flex-start;
+    /* flex-wrap: wrap; */
+    border-radius: 0.5em;
+
+    @media only screen and (max-width: 480px) {
+        margin-top: 2em;
+        margin-left: 0;
+        margin-right: 0;
+    }
+`;
+
+export const EditTitle = styled.div`
+    font-size: 1.2em;
+    font-weight: bold;
+    font-family: Arial, Helvetica, sans-serif;
+`;
+
+export const EditRow = styled.div`
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    color: white;
+    align-items: center;
+    flex-wrap: wrap;
+    margin-bottom: 2em;
+`;
+
+export const EditFirstColumn = styled.div`
+    font-style: italic;
+`;
+
+export const EditInput = styled.input`
+    border:0;
+    padding: 0.5em;
+    border-radius: 1em; 
+    margin: 1em;
+`;
+
+export const EditButton = styled(Button)`
+    background: ${({confirm}) => confirm ? '#1B3B6F !important' : '#3943B7 !important' };
+    color: white !important;
+    font-weight: bold !important;
+    padding-right: 1.8em !important;
+    padding-left: 1.8em !important;
+    padding-top: 0.5em !important;
+    padding-bottom: 0.5em !important;
+`; 
+
+export const SignupButton = styled(Button)`
+    color: #FBFBFF !important;
+    cursor: pointer !important;
+    font-weight: bold !important;
+    &:hover{
+        color: 	#F1BF98 !important;
+    }
+`;
+
+export const SigninButton = styled(Button)`
+    color: #15cda8 !important;
+    font-weight: bold !important;
+    margin-left: 0.5em !important;
+    border: solid 0.25em #15cda8 !important;
+    &:hover{
+        border: solid 0.25em #F1BF98 !important;
+        color: 	#F1BF98 !important;
+    }
+`;
+
+export const BurgerMenuIconContainer = styled.div`
+    color: white;
+    font-size: 20px;
+    padding-right: 0.3em;
+    padding-top: 0;
+    padding-bottom: 0;
+    &:hover{
+    color: orange;
+    cursor: pointer;
+    }
+`;
+
+export const BurgerMenu = styled.div`
+    display: ${({display}) => display}
+    position: absolute;
+    background: #3f51b5;
+    width: 85%;
+    height: 100%;
+    flex-direction: row;
+    align-items: center;
+    justify-content: left;
+    padding-left: 1em; 
+    & a{
+    margin-right: 1em;
+    margin-left: 1em;
+    }
+`;
+
+export const BurgerMenuSpan = styled.span`
+    color: white;
+    font-weight: bold;
+    &:hover{
+        color: orange;
+    }
+`;
+
+export const UpperbarContainer = styled.div`
+width: 100%;
+    @media only screen and (max-width: 480px) {
+        position: fixed;
+        top: 0;
+        z-index: 1;
+        width: 100%;
+    }
+`;
+
 export const Switcher = styled.i`
     width: 0.6em !important;
     padding-top: 0.05em;
@@ -479,4 +612,28 @@ export const Switcher = styled.i`
     &:hover{
         color: ${props => props.inactive ? null : 'orange'} 
     }
+`;
+
+export const DateSwitcherContainer = styled.div`
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    @media only screen and (max-width: 480px) {
+        display: none;
+    }
+`;
+
+export const UpperToolbar = styled(Toolbar)`
+    width: 100% !important;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    @media only screen and (max-width: 480px) {
+        padding-left: 0 !important;
+    }
+`;
+
+export const UpperAppBar = styled(AppBar)`
+    width: 100% !important;
 `;

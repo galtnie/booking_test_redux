@@ -1,8 +1,4 @@
-import '../css/UpperBar.css'
 import React, { Component } from 'react';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import Button from '@material-ui/core/Button';
 import { Link } from 'react-router-dom';
 import DateSearch from './DateSearch';
 import SwitchBack from './SwitchBack'
@@ -11,31 +7,46 @@ import CurrentDate from './CurrentDate'
 import history from '../history'
 import { connect } from 'react-redux'
 import { discardUser, discardAllSelectedSlots, resetDate } from '../actions' 
-
+import { 
+  UpperbarContainer,
+  UpperAppBar,
+  UpperToolbar,
+  DateSwitcherContainer,
+  SignupButton,
+  SigninButton,
+  BurgerMenuIconContainer,
+  BurgerMenu,
+  BurgerMenuSpan,
+} from '../styles'
 
 class UpperBar extends Component {
   state={
     burger: 'none'
   }
 
+  handleEntranceExit = () => {
+    this.props.discardUser(); 
+    this.props.discardAllSelectedSlots()
+    this.props.resetDate()
+  }
+
+  handleBurgerMenuIconClick = () => {
+    this.state.burger === 'none' ? this.setState({burger: 'flex'}) : this.setState({burger: 'none'})    
+  }
 
   renderUpperMenu = () =>{
     if (history.location.pathname === "/booking" && window.screen.width > 480) {
       return(
         <div>
         <Link to="/charts">
-          <Button className='signup-button'>
-            <b>Charts</b>
-          </Button>
+          <SignupButton value='Charts'>
+            Charts
+          </SignupButton>
        </Link>
        <Link to="/">
-          <Button className='signin-button' onClick={()=> { 
-           this.props.discardUser(); 
-           this.props.discardAllSelectedSlots()
-           this.props.resetDate()
-          }}>
-            <b>Sign out</b>
-          </Button>
+          <SigninButton onClick={this.handleEntranceExit}>
+            Sign out
+          </SigninButton>
         </Link> 
       </div>
       );
@@ -43,19 +54,19 @@ class UpperBar extends Component {
       return(
         <div>
         <Link to="/charts">
-          <Button className='signup-button'>
-            <b>Charts</b>
-          </Button>
+          <SignupButton>
+            Charts
+          </SignupButton>
         </Link>
         <Link to="/signup">
-          <Button className='signup-button'>
-            <b>Sign up</b>
-          </Button>
+          <SignupButton>
+            Sign up
+          </SignupButton>
         </Link>
         <Link to="/login">
-          <Button className='signin-button'>
+          <SigninButton>
             <b>Sign in</b>
-          </Button>
+          </SigninButton>
         </Link>
       </div>
       );
@@ -66,28 +77,24 @@ class UpperBar extends Component {
           this.props.user === null
           ?
           <Link to="/">
-            <Button className='signup-button'>
-              <b>Home</b>
-            </Button>
+            <SignupButton>
+              Home
+            </SignupButton>
           </Link>
           :
           <Link to="/booking">
-            <Button className='signup-button'>
-              <b>Booking</b>
-            </Button>
+            <SignupButton>
+              Booking
+            </SignupButton>
           </Link>
         }
       </div>
       );
     } else {
       return (
-       <div  className="burger-menu-icon" 
-          onClick={() => {
-          this.state.burger === 'none' ? this.setState({burger: 'flex'}) : this.setState({burger: 'none'}) 
-          }}
-        >
-          <i className="fa fa-bars" ></i>
-        </div>
+       <BurgerMenuIconContainer onClick={this.handleBurgerMenuIconClick}>
+          <i className="fa fa-bars" />
+        </BurgerMenuIconContainer>
       );
      }
   } 
@@ -95,86 +102,78 @@ class UpperBar extends Component {
   renderBurgerMenu = () => {
     if (history.location.pathname === "/") {
       return(
-        <div className="burger-menu" style={{ display: this.state.burger }} >
+        <BurgerMenu display={this.state.burger}>
         <Link to="/charts">
-          <span className='burger-menu-span'>
-            <b>Charts</b>
-          </span>
+          <BurgerMenuSpan>
+            Charts
+          </BurgerMenuSpan>
         </Link >
         <Link to="/signup">
-          <span className='burger-menu-span'>
-            <b>Sign up</b>
-          </span>
+          <BurgerMenuSpan>
+            Sign up
+          </BurgerMenuSpan>
         </Link>
         <Link to="/login">
-          <span className='burger-menu-span'>
-            <b>Sign in</b>
-          </span>
+          <BurgerMenuSpan>
+            Sign in
+          </BurgerMenuSpan>
         </Link>
-        </div>
+        </BurgerMenu>
       );
     } else if (history.location.pathname === "/booking") {
       return(
-        <div className="burger-menu" style={{ display: this.state.burger }} >
+        <BurgerMenu display={this.state.burger}>
           <Link to="/charts">
-            <span className='burger-menu-span'> 
-              <b>Charts</b> 
-            </span>
+            <BurgerMenuSpan>
+              Charts 
+            </BurgerMenuSpan>
           </Link>
           <Link to="/">
-            <span className='burger-menu-span'
-            onClick={()=> { 
-            this.props.discardUser(); 
-            this.props.discardAllSelectedSlots()
-            this.props.resetDate()
-              }}>
-              <b>Sign out</b>
-            </span>
+            <BurgerMenuSpan onClick={this.handleEntranceExit}>
+              Sign out
+            </BurgerMenuSpan>
           </Link> 
-        </div>
+        </BurgerMenu>
       );
     } else if (history.location.pathname === "/charts") {
       return(      
-        <div className="burger-menu" style={{ display: this.state.burger }} >         
+        <BurgerMenu display={this.state.burger}>        
         {
           this.props.user === null
           ?
           <Link to="/">
-            <span className='burger-menu-span'>
-              <b>Home</b>
-            </span>
+            <BurgerMenuSpan>
+              Home
+            </BurgerMenuSpan>
           </Link>
           :
           <Link to="/booking">
-            <span className='burger-menu-span'>
-              <b>Booking</b>
-            </span>
+            <BurgerMenuSpan>
+              Booking
+            </BurgerMenuSpan>
           </Link>
         }
-      </div>
+      </BurgerMenu>
       );
     }
   }
 
-
   render() {
-    console.log()
-
     return (
-      <div className="upperbar-container">
-        <AppBar position="static">
-          <Toolbar className="toolbar">
+      <UpperbarContainer>
+        <UpperAppBar position="static">
+          <UpperToolbar>
             <DateSearch />          
-            <div className='date-render-switcher-container'>
+            <DateSwitcherContainer>
               <SwitchBack />
               <CurrentDate />
               <SwitchForth />
-            </div>
+            </DateSwitcherContainer>
             { this.renderUpperMenu()}
             { window.screen.width <= 480 && this.renderBurgerMenu()}
-          </Toolbar>
-        </AppBar>
-      </div>
+          </UpperToolbar>
+        </UpperAppBar>
+      </UpperbarContainer>
     );
   }
 }
