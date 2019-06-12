@@ -28,11 +28,10 @@ export const PaymentButton = styled(Button)`
     }
     @media only screen and (max-width: 480px) {
         && {
-            background-color: #070600;
+            background-color: #3F51B5;
         }
         &&:hover {
-            background-color: #070600;
-            color: 	#4183c4;
+            color: 	orange;
         }
     }
 `;
@@ -371,7 +370,11 @@ export const HallCardMedia = styled(CardMedia)`
 `;
 
 export const HallCarousel = styled(Carousel)`
+width: 100%;
+height: 100%;
     background-color: #ECF0F1 !important;
+    background: red !important;
+    color: red !important;
 `;
 
 export const RoomSlot = styled.div`

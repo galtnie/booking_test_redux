@@ -10,6 +10,7 @@ import {
   CircularProgressContainer,
   HallCarousel,
 } from '../styles';
+import '../styles/styles.css';
 
 class Halls extends React.Component {
     prepareSlides(){
@@ -60,11 +61,11 @@ class Halls extends React.Component {
                     </HallsMain>
                     :
                     <HallCarousel
-                    elements  =  {  this.prepareSlides()  }
-                    duration  ={3000}
-                    animation  ='slide left'
-                    showNextPrev  =  {true}
-                    showIndicators  ={false}
+                    elements = {  this.prepareSlides()  }
+                    duration = {3000}
+                    animation = 'slide left'
+                    showNextPrev = {true}
+                    showIndicators = {false}
                 />
                 :
                 <CircularProgressContainer>
@@ -73,7 +74,6 @@ class Halls extends React.Component {
         );
     }
 }
-
 
 const mapStateToProps = (state) => {
     return { halls: state.halls, colours: state.colours };
