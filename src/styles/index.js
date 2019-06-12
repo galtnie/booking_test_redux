@@ -3,6 +3,10 @@ import Button from "@material-ui/core/Button";
 import Select from 'react-select'; 
 import Paper from '@material-ui/core/Paper'
 import TextField from '@material-ui/core/TextField'
+import Card from '@material-ui/core/Card';
+import CardContent from '@material-ui/core/CardContent';
+import CardMedia from '@material-ui/core/CardMedia';
+import  Carousel  from  'semantic-ui-carousel-react';
 
 export const Wrapper = styled.div`
     display: flex;
@@ -242,7 +246,7 @@ export const SearchIcon = styled.i`
 
 export const GuideContainer = styled.div`
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     justify-content: flex-start;
     align-items: center;
     color: #7D6B91;
@@ -250,6 +254,7 @@ export const GuideContainer = styled.div`
     padding-bottom: 1em;
     margin-left: 0.5em;
     margin-right: 0.5em;
+    flex-wrap: wrap;
 `;
 
 export const GuideParagraph = styled.p`
@@ -275,4 +280,94 @@ export const GuideDiv = styled.div`
     flex-direction: row;
     align-items: center;
     margin-left: 0.5em;
+`;
+
+export const TitleDiv = styled.div`
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    color: #7D6B91;
+    padding-top: 3em;
+    padding-bottom: 2em;
+    margin-left: 0.5em;
+    margin-right: 0.5em;
+    @media only screen and (max-width: 480px) {
+        margin-top: 5em;
+        color: #748CAB;
+        padding-top: 2em;
+        padding-bottom: 1em;
+    }
+`;
+
+export const TitleLine = styled.div`
+    color: #7D6B91 !important;
+    font-size: 2em !important;
+    font-weight: bold;
+    @media only screen and (max-width: 480px) {
+        color: #748CAB !important;
+    }
+`;
+
+export const HallsMain = styled.div`
+    display: flex;
+    flex-direction: row;
+    flex-flow: wrap;
+    justify-content: space-around; 
+`;
+
+export const HallCard = styled(Card)`
+    max-width: 400;
+    margin: 0.2em;
+    width: 18.5em;
+`;
+
+export const HallTitleContainer = styled.div`
+    height: 4em;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.2em;
+    font-weight: bold;
+    background: ${({colour}) => 
+        colour === 'blu' ? 'rgb(18, 11, 120)' :
+        colour === 'red' ? 'rgb(178,34,34)' :
+        colour === 'gre' ? 'rgba(19, 55, 11, 0.9)' :
+        colour === 'vio' ? 'rgba(108, 92, 231, 0.9)' : null
+    };    
+    color: ${({colour}) =>
+        colour === 'blu' ? 'rgba(206, 221, 252, 1)' :
+        colour === 'red' ? 'rgb(252, 200, 208)' :
+        colour === 'gre' ? 'rgba(216, 255, 206, 1)' :
+        colour === 'vio' ? 'rgba(255,  245,  255, 1)' : null
+    }; 
+`;
+
+export const HallCardContent = styled(CardContent)`
+    font-weight: bold;
+    padding-bottom: 1.4em !important;
+    padding: 1.4em !important;
+    text-align: center;
+    background: ${({colour}) => 
+        colour === 'blu' ? 'rgb(18, 11, 120)' :
+        colour === 'red' ? 'rgb(178,34,34)' :
+        colour === 'gre' ? 'rgba(19, 55, 11, 0.9)' :
+        colour === 'vio' ? 'rgba(108, 92, 231, 0.9)' : null
+    }; 
+    color: ${({colour}) =>
+        colour === 'blu' ? 'rgba(206, 221, 252, 1)' :
+        colour === 'red' ? 'rgb(252, 200, 208)' :
+        colour === 'gre' ? 'rgba(216, 255, 206, 1)' :
+        colour === 'vio' ? 'rgba(255,  245,  255, 1)' : null
+    };  
+`;
+
+export const HallCardMedia = styled(CardMedia)`
+        height: 0;
+        padding-top: 56.25%; 
+`;
+
+export const HallCarousel = styled(Carousel)`
+    background-color: #ECF0F1 !important;
 `;

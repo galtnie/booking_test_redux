@@ -1,16 +1,17 @@
-import '../css/Halls.css'
 import React from 'react';
 import CircularProgress from './CircularProgress';
 import { connect } from 'react-redux';
-import Card from '@material-ui/core/Card';
-import CardMedia from '@material-ui/core/CardMedia';
-import CardContent from '@material-ui/core/CardContent';
-import  Carousel  from  'semantic-ui-carousel-react';
-
+import { 
+  HallsMain, 
+  HallCard, 
+  HallCardContent,
+  HallTitleContainer,
+  HallCardMedia,
+  CircularProgressContainer,
+  HallCarousel,
+} from '../styles';
 
 class Halls extends React.Component {
-
-
     prepareSlides(){
         let elements = []
             this.props.halls.forEach((i, index) => {
@@ -18,17 +19,15 @@ class Halls extends React.Component {
                     render: () => {
                         return(                        
                         <div key={index+'key'}>
-                            <Card className={`card ${i.colour}-hall`}>
-                                <div className={`hall-title-contrainer ${i.colour}-hall`}>
-                                    <h3>
+                                <HallCard colour={i.colour}>    
+                                    <HallTitleContainer colour={i.colour}>  
                                         {i.title}
-                                    </h3>
-                                </div>
-                                <CardMedia className='media' image={i.imageURL} />
-                                <CardContent className={`${i.colour}-hall`}>
-                                    <b>{i.description}</b>
-                                </CardContent>
-                            </Card>
+                                    </HallTitleContainer>
+                                    <HallCardMedia image={i.imageURL} />
+                                    <HallCardContent colour={i.colour}>  
+                                        {i.description}
+                                    </HallCardContent>
+                                </HallCard>
                         </div>);
                     }
                 }
@@ -36,54 +35,41 @@ class Halls extends React.Component {
             })
         return elements
     }
-
-
-
-
     render() {
-
-
         return (
                 this.props.halls
                 ?
-                
-                    (window.screen.width > 480) 
+                    window.screen.width > 480 
                         ?
-                        <div className='all-halls-contrainer'>
+                        <HallsMain>
                         {this.props.halls.map((i, index) => {
                             return (
                                 <div key={index} >
-                                     <Card className={`card ${i.colour}-hall`}>    
-                                        <div  className={`hall-title-contrainer ${i.colour}-hall`}>  
-                                            <h3>
-                                                {i.title}
-                                            </h3>
-                                        </div>
-                                        <CardMedia className='media' image={i.imageURL} />
-                                        <CardContent className={`${i.colour}-hall`}>  
-                                            <b>{i.description}</b>
-                                        </CardContent>
-                                    </Card>
+                                     <HallCard colour={i.colour}>    
+                                        <HallTitleContainer colour={i.colour}>  
+                                          {i.title}
+                                        </HallTitleContainer>
+                                        <HallCardMedia image={i.imageURL} />
+                                        <HallCardContent colour={i.colour}>  
+                                            {i.description}
+                                        </HallCardContent>
+                                    </HallCard>
                                 </div>
                             )
                         })}
-                    </div>
+                    </HallsMain>
                     :
-                    <Carousel
+                    <HallCarousel
                     elements  =  {  this.prepareSlides()  }
                     duration  ={3000}
                     animation  ='slide left'
                     showNextPrev  =  {true}
                     showIndicators  ={false}
                 />
-
-
-
-                
                 :
-                <div className="ciruclar-progress-container">
+                <CircularProgressContainer>
                     <CircularProgress />
-                </div>        
+                </CircularProgressContainer>        
         );
     }
 }

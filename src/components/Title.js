@@ -1,17 +1,14 @@
 import React from 'react'
-import '../css/Title.css'
+import { TitleDiv, TitleLine } from '../styles'
 
 export default class Title extends React.Component{
-
     render() {
-        
         return(
-            <div className='title'>   {/*  style={this.state.myClasses.title} */}
-                <div>
-                    <h1 className="ui header" style={{ color: 'inherit' }}>Conference Venue Booking</h1>
-                </div>
-            </div>
-
+            <TitleDiv>
+                <TitleLine> 
+                    Conference Venue Booking
+                </TitleLine>
+            </TitleDiv>
         );
     }
 }
