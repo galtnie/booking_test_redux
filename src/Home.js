@@ -30,9 +30,7 @@ class Home extends React.Component {
     }
 
     render() {
-
-        console.log(window.screen.width)
-        return (
+           return (
             (!this.props.user)
                 ?
                 <Wrapper>

@@ -35,7 +35,14 @@ class UpperBar extends Component {
   }
 
   renderUpperMenu = () =>{
-    if (history.location.pathname === "/booking" && window.screen.width > 480) {
+    if (window.screen.width <= 480) {
+      return (
+       <BurgerMenuIconContainer onClick={this.handleBurgerMenuIconClick}>
+          <i className="fa fa-bars" />
+        </BurgerMenuIconContainer>
+      );
+     }
+    else if (window.location.pathname === "/booking") {
       return(
         <div>
         <Link to="/charts">
@@ -50,7 +57,7 @@ class UpperBar extends Component {
         </Link> 
       </div>
       );
-    } else if (history.location.pathname === "/" && window.screen.width > 480) {
+    } else if (window.location.pathname === "/") {
       return(
         <div>
         <Link to="/charts">
@@ -70,7 +77,7 @@ class UpperBar extends Component {
         </Link>
       </div>
       );
-    } else if (history.location.pathname === "/charts" && window.screen.width > 480) {
+    } else if (window.location.pathname === "/charts") {
       return(
         <div>
         {
@@ -90,17 +97,11 @@ class UpperBar extends Component {
         }
       </div>
       );
-    } else if (window.screen.width <= 480) {
-      return (
-       <BurgerMenuIconContainer onClick={this.handleBurgerMenuIconClick}>
-          <i className="fa fa-bars" />
-        </BurgerMenuIconContainer>
-      );
-     }
+    } 
   } 
   
   renderBurgerMenu = () => {
-    if (history.location.pathname === "/") {
+    if (window.location.pathname === "/") {
       return(
         <BurgerMenu display={this.state.burger}>
         <Link to="/charts">
@@ -120,7 +121,7 @@ class UpperBar extends Component {
         </Link>
         </BurgerMenu>
       );
-    } else if (history.location.pathname === "/booking") {
+    } else if (window.location.pathname === "/booking") {
       return(
         <BurgerMenu display={this.state.burger}>
           <Link to="/charts">
@@ -135,7 +136,7 @@ class UpperBar extends Component {
           </Link> 
         </BurgerMenu>
       );
-    } else if (history.location.pathname === "/charts") {
+    } else if (window.location.pathname === "/charts") {
       return(      
         <BurgerMenu display={this.state.burger}>        
         {
