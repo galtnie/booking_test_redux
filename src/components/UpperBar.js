@@ -170,7 +170,7 @@ class UpperBar extends Component {
               <SwitchForth />
             </DateSwitcherContainer>
             { this.renderUpperMenu()}
-            { window.screen.width <= 480 && this.renderBurgerMenu()}
+            { window.screen.width <= 480 ? this.renderBurgerMenu() : null }
           </UpperToolbar>
         </UpperAppBar>
       </UpperbarContainer>
