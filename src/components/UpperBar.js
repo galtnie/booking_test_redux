@@ -90,7 +90,7 @@ class UpperBar extends Component {
         }
       </div>
       );
-    } else {
+    } else if (window.screen.width <= 480) {
       return (
        <BurgerMenuIconContainer onClick={this.handleBurgerMenuIconClick}>
           <i className="fa fa-bars" />
@@ -159,8 +159,7 @@ class UpperBar extends Component {
   }
 
   render() {
-    console.log(window.screen.width)
-    return (
+      return (
       <UpperbarContainer>
         <UpperAppBar position="static">
           <UpperToolbar>
