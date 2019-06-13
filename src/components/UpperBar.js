@@ -159,6 +159,7 @@ class UpperBar extends Component {
   }
 
   render() {
+    console.log(window.screen.width)
     return (
       <UpperbarContainer>
         <UpperAppBar position="static">

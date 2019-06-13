@@ -4,7 +4,8 @@ import {Provider} from 'react-redux';
 import App from './App';
 import store from './store'
 import history from './history'
-import { BrowserRouter, Router} from 'react-router-dom';
+import { BrowserRouter, } from 'react-router-dom';
+//Router
 
 ReactDOM.render(
     <Provider store={store}>
@@ -14,7 +15,5 @@ ReactDOM.render(
     </Provider>, 
     document.querySelector('#root')
 );
-
-
 
 // basename='/booking_test_redux'
