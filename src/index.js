@@ -8,9 +8,13 @@ import { BrowserRouter, Router} from 'react-router-dom';
 
 ReactDOM.render(
     <Provider store={store}>
-        <BrowserRouter history={history} basename='/booking_test_redux'>
+        <BrowserRouter history={history} basename={process.env.PUBLIC_URL}>
             <App />
         </BrowserRouter>
     </Provider>, 
     document.querySelector('#root')
 );
+
+
+
+// basename='/booking_test_redux'
