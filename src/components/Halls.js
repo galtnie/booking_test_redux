@@ -1,6 +1,7 @@
 import React from 'react';
 import CircularProgress from './CircularProgress';
 import { connect } from 'react-redux';
+import { getUniqueId } from '../functions'
 import { 
   HallsMain, 
   HallCard, 
@@ -19,13 +20,13 @@ class Halls extends React.Component {
                 let slide = {
                     render: () => {
                         return(                        
-                        <div key={index+'key'}>
-                                <HallCard colour={i.colour}>    
-                                    <HallTitleContainer colour={i.colour}>  
+                        <div key={getUniqueId()}>
+                                <HallCard colour={i.colour} key={getUniqueId()} >    
+                                    <HallTitleContainer colour={i.colour} key={getUniqueId()} >  
                                         {i.title}
                                     </HallTitleContainer>
-                                    <HallCardMedia image={i.imageURL} />
-                                    <HallCardContent colour={i.colour}>  
+                                    <HallCardMedia image={i.imageURL} key={getUniqueId()} />
+                                    <HallCardContent colour={i.colour} key={getUniqueId()} >  
                                         {i.description}
                                     </HallCardContent>
                                 </HallCard>
@@ -34,8 +35,10 @@ class Halls extends React.Component {
                 }
                 elements.push(slide)
             })
+            console.log(elements)
         return elements
     }
+    
     render() {
         return (
                 this.props.halls
@@ -45,7 +48,7 @@ class Halls extends React.Component {
                         <HallsMain>
                         {this.props.halls.map((i, index) => {
                             return (
-                                <div key={index} >
+                                <div key={getUniqueId()} >
                                      <HallCard colour={i.colour}>    
                                         <HallTitleContainer colour={i.colour}>  
                                           {i.title}

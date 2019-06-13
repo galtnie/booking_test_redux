@@ -1,5 +1,5 @@
 import React from 'react'
-import { RedFree, RedBusy, RedChosen } from './Rooms'
+import { Free, Busy, Chosen } from './Rooms'
 import history from '../history'
 import { GuideContainer, GuideParagraph, GuideSpan, GuideDiv } from '../styles'
 
@@ -35,13 +35,13 @@ export default function Guide() {
                 </div>
                 <div>
                     <GuideDiv>
-                        <RedFree guide={true} />
+                        <Free guide={true} />
                         <GuideSpan>
                             The red room is <b>FREE</b> now.
                         </GuideSpan>
                     </GuideDiv>
                     <GuideDiv>
-                        <RedBusy guide={true} />
+                        <Busy guide={true} />
                         <GuideSpan>
                             The red room is <b> RESERVED </b> now.
                         </GuideSpan>
@@ -50,7 +50,7 @@ export default function Guide() {
                         history.location.pathname === "/booking"
                             ?
                             <GuideDiv>
-                                <RedChosen guide={true} />
+                                <Chosen guide={true} />
                                 <GuideSpan>
                                     The red room is <b>SELECTED</b>, but not reserved yet.
                                 </GuideSpan>

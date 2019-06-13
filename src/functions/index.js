@@ -1,4 +1,4 @@
-export function composeSlotId(chosenDate, hour, colour) {         // elaborate the function so that i can use it from 'while', i need a possibility to add the 'date' i need
+export function composeSlotId(chosenDate, hour, colour) {         
     const fullDate = (chosenDate) ? new Date(chosenDate) : new Date()
     const date = fullDate.getDate()
     const keyDate = date.toString().length === 2 ? date : "0" + date;
@@ -7,7 +7,6 @@ export function composeSlotId(chosenDate, hour, colour) {         // elaborate t
     const idHour = String(hour).length === 1 ? "0" + hour : hour;
     return (`date:${keyDate}${keyMonth}${keyYear}hour:${idHour}colour:${colour}`);
 }
-
 
 export function calculateReservedSlots(tickets, halls, date) {
     let reservedSlots = []
@@ -27,12 +26,11 @@ export function calculateReservedSlots(tickets, halls, date) {
             let dayChosenStart = (new Date(new Date(new Date(new Date(theDay).setHours(0)).setMinutes(0)).setSeconds(0)).setMilliseconds(0)) - 5
             let dayChosenEnd = (new Date(new Date(new Date(new Date(theDay).setHours(23)).setMinutes(59)).setSeconds(59)).setMilliseconds(999)) + 5
 
-            if ((fromTime <= dayChosenStart && toTime >= dayChosenStart) ||         // sort out the tickets that are related to the chosen date
+            if ((fromTime <= dayChosenStart && toTime >= dayChosenStart) ||         
                 (fromTime >= dayChosenStart && toTime <= dayChosenEnd) ||
                 (fromTime <= dayChosenEnd && toTime >= dayChosenEnd)) {
-  
 
-                let hall = halls.find((element) => {                   // get the colour by hall_id
+                    let hall = halls.find((element) => {                  
                     return element._id === tickets[i].hall_id
                 })
 
@@ -177,7 +175,6 @@ export function convertMlsToyyyymmddThhmm (mls) {
       )
         .toISOString()
         .split(":00.")[0]
-        //.slice(0, -8)
 }
 
 export function convertYyyymmddThhmmToMls (time) {
@@ -281,3 +278,7 @@ export function calculateTimeUsedPerMonth(time, tickets, halls){
     }
      return newArr
 } 
+
+export function getUniqueId(){
+ return '_' + Math.random().toString(36).substr(2, 9);
+}

@@ -10,6 +10,17 @@ import  Carousel  from  'semantic-ui-carousel-react';
 import Toolbar from '@material-ui/core/Toolbar';
 import AppBar from '@material-ui/core/AppBar';
 
+const blueSlot = 'rgb(18, 11, 120)';
+const redSlot = 'rgb(178,34,34)';
+const greenSlot = 'rgba(19, 55, 11, 0.9)';
+const violetSlot = 'rgba(108, 92, 231, 0.9)';
+
+const blueFont = 'rgb(206, 221, 252)';
+const redFont = 'rgb(252, 200, 208)';
+const greenFont = 'rgb(216, 255, 206)';
+const violetFont = 'rgb(255,  245,  255)'
+
+
 export const Wrapper = styled.div`
     display: flex;
     flex-direction: column;
@@ -332,16 +343,16 @@ export const HallTitleContainer = styled.div`
     font-size: 1.2em;
     font-weight: bold;
     background: ${({colour}) => 
-        colour === 'blu' ? 'rgb(18, 11, 120)' :
-        colour === 'red' ? 'rgb(178,34,34)' :
-        colour === 'gre' ? 'rgba(19, 55, 11, 0.9)' :
-        colour === 'vio' ? 'rgba(108, 92, 231, 0.9)' : null
+        colour === 'blu' ? blueSlot :
+        colour === 'red' ? redSlot :
+        colour === 'gre' ? greenSlot :
+        colour === 'vio' ? violetSlot : null
     };    
     color: ${({colour}) =>
-        colour === 'blu' ? 'rgba(206, 221, 252, 1)' :
-        colour === 'red' ? 'rgb(252, 200, 208)' :
-        colour === 'gre' ? 'rgba(216, 255, 206, 1)' :
-        colour === 'vio' ? 'rgba(255,  245,  255, 1)' : null
+        colour === 'blu' ? blueFont :
+        colour === 'red' ? redFont :
+        colour === 'gre' ? greenFont :
+        colour === 'vio' ? violetFont : null
     }; 
 `;
 
@@ -351,16 +362,16 @@ export const HallCardContent = styled(CardContent)`
     padding: 1.4em !important;
     text-align: center;
     background: ${({colour}) => 
-        colour === 'blu' ? 'rgb(18, 11, 120)' :
-        colour === 'red' ? 'rgb(178,34,34)' :
-        colour === 'gre' ? 'rgba(19, 55, 11, 0.9)' :
-        colour === 'vio' ? 'rgba(108, 92, 231, 0.9)' : null
+        colour === 'blu' ? blueSlot :
+        colour === 'red' ? redSlot :
+        colour === 'gre' ? greenSlot :
+        colour === 'vio' ? violetSlot : null
     }; 
     color: ${({colour}) =>
-        colour === 'blu' ? 'rgba(206, 221, 252, 1)' :
-        colour === 'red' ? 'rgb(252, 200, 208)' :
-        colour === 'gre' ? 'rgba(216, 255, 206, 1)' :
-        colour === 'vio' ? 'rgba(255,  245,  255, 1)' : null
+        colour === 'blu' ? blueFont :
+        colour === 'red' ? redFont :
+        colour === 'gre' ? greenFont :
+        colour === 'vio' ? violetFont : null
     };  
 `;
 
@@ -388,16 +399,16 @@ export const RoomSlot = styled.div`
     border-width: ${props => props.chosen ? '4px' : '2px'};
     border-style: solid;
     border-color: ${({colour}) => 
-        colour === 'blu' ? 'rgb(18, 11, 120)' :
-        colour === 'red' ? 'rgb(178,34,34)' :
-        colour === 'gre' ? 'rgba(19, 55, 11, 0.9)' :
-        colour === 'vio' ? 'rgba(108, 92, 231, 0.9)' : null
+        colour === 'blu' ? blueSlot :
+        colour === 'red' ? redSlot :
+        colour === 'gre' ? greenSlot :
+        colour === 'vio' ? violetSlot : null
     };
     color: ${({colour}) => 
-        colour === 'blu' ? 'rgb(18, 11, 120)' :
-        colour === 'red' ? 'rgb(178,34,34)' :
-        colour === 'gre' ? 'rgba(19, 55, 11, 0.9)' :
-        colour === 'vio' ? 'rgba(108, 92, 231, 0.9)' : null
+        colour === 'blu' ? blueSlot :
+        colour === 'red' ? redSlot :
+        colour === 'gre' ? greenSlot :
+        colour === 'vio' ? violetSlot : null
     };
     background: ${({colour, chosen}) => 
         !chosen && colour === 'blu' ? 'rgba(97, 143, 236, 0.1)' :
@@ -424,16 +435,16 @@ export const ReservedSlot = styled.div`
     justify-content: center;
     align-items: center;
     border: solid 2px ${({colour}) => 
-        colour === 'blu' ? 'rgb(18, 11, 120)' :
-        colour === 'red' ? 'rgb(178,34,34)' :
-        colour === 'gre' ? 'rgba(19, 55, 11, 0.9)' :
-        colour === 'vio' ? 'rgba(108, 92, 231, 1)' : null
+        colour === 'blu' ? blueSlot :
+        colour === 'red' ? redSlot :
+        colour === 'gre' ? greenSlot :
+        colour === 'vio' ? violetSlot : null
     };
     color: ${({colour}) => 
-        colour === 'blu' ? 'rgba(206, 221, 252, 1)' :
-        colour === 'red' ? 'rgb(255,182,193)' :
-        colour === 'gre' ? 'rgba(216, 255, 206, 1)' :
-        colour === 'vio' ? 'rgba(255,  245,  255, 1)' : null
+        colour === 'blu' ? blueFont :
+        colour === 'red' ? redFont :
+        colour === 'gre' ? greenFont :
+        colour === 'vio' ? violetFont : null
     };
     background: ${({colour}) => 
         colour === 'blu' ? 'rgba(31, 21, 182,0.9)' :
@@ -482,7 +493,6 @@ export const EditMain = styled.div`
     margin-right: 2em;
     margin-left: 2em;
     overflow: scroll;
-    /* overflow-y: auto; */
     overflow-x: auto;
     min-width: 70%;
     max-height: 90%;
@@ -491,7 +501,6 @@ export const EditMain = styled.div`
     flex-direction: column;
     align-items: stretch;
     justify-content: flex-start;
-    /* flex-wrap: wrap; */
     border-radius: 0.5em;
 
     @media only screen and (max-width: 480px) {
@@ -639,4 +648,85 @@ export const UpperToolbar = styled(Toolbar)`
 
 export const UpperAppBar = styled(AppBar)`
     width: 100% !important;
+`;
+
+export const PriorOrdersMain = styled.div`
+    color: white;
+    border-radius: 0.5em;
+    margin-bottom: 2em;
+    margin-top: 2em;
+    font-size: 1.2em;
+    background: linear-gradient(90deg, #0F084B 0%, #26408B 50%, #0F084B 100%);
+    width: 70%;
+    @media only screen and (max-width: 480px) {
+        width: 100%;
+    }
+`;
+
+export const PriorOrdersTitle = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: #EFEFEF ;
+    margin-top: 2em;
+    margin-bottom: 2em;
+    font-size: 1.2em;
+    font-weight: bold;
+    @media only screen and (max-width: 480px) {
+        font-size: 1em;
+    }
+`;
+
+export const PriorOrdersContainer = styled.div`
+    margin-top: 1em;
+    margin-bottom: 1em;
+    color: white;
+    font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
+    font-size: 1em;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;   
+`;
+
+export const PriorOrdersTableContainer = styled.div`
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start !important;
+    justify-content: space-between;
+    flex-wrap: wrap;
+`;
+
+export const PriorOrdersTable = styled.table`
+    margin-left: 1em;
+    @media only screen and (max-width: 480px) {
+        margin-left: 0.5em;
+    }
+`;
+
+export const PriorOrderTd1 = styled.td`
+    font-style: italic;
+`;
+
+export const PriorOrderTd2 = styled.td`
+    width: 3em;
+    @media only screen and (max-width: 480px) {
+        width: 0em;
+    }
+`;
+
+export const PriorOrdersButtonContainer = styled.div`
+    margin-right: 1em;
+    @media only screen and (max-width: 480px) {
+        display: flex;
+        justify-content: center; 
+        align-items: center;
+        flex-wrap: wrap;
+    }
+`;
+
+export const PriorOrdersButton = styled.button`
+    background: ${props => props.secondary ? '#DB3069 !important' : '#357DED !important'} ; 
+    margin: 1em !important;
+    color: white !important;
+    font-weight: bold !important;
 `;

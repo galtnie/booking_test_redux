@@ -103,7 +103,7 @@ class TicketEdition extends React.Component {
           this.state.ticket.to < this.state.ticket.from
         ) {
           alert(
-            "TERIMNATION TIME CANNOT BE BEFORE COMMENCEMENT!"
+            "TERMINATION TIME CANNOT BE BEFORE COMMENCEMENT!"
           );
           return null;
         } else {
@@ -174,7 +174,7 @@ class TicketEdition extends React.Component {
               </div>
             </EditRow>
             <EditRow>
-              <EditButton variant="contained" confirm onClick={this.handleConfirmClick}>
+              <EditButton variant="contained" confirm='true' onClick={this.handleConfirmClick}>
                 CONFIRM
               </EditButton>
               <EditButton variant="contained" onClick={this.props.discardTicketToEdit}>
