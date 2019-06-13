@@ -24,6 +24,10 @@ class UpperBar extends Component {
     burger: 'none'
   }
 
+  componentDidMount() {
+console.log(window.location.pathname)
+    
+  }
   handleEntranceExit = () => {
     this.props.discardUser(); 
     this.props.discardAllSelectedSlots()
