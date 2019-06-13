@@ -1,10 +1,10 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "9a0c1d154717b488780241adfa2d059f",
+    "revision": "4b1b66ccd963d9baa49a3be815cedde3",
     "url": "/booking_test_redux/index.html"
   },
   {
-    "revision": "c6be3e4cd5d54d61a63d",
+    "revision": "292d48636baf362989bf",
     "url": "/booking_test_redux/static/css/main.9150a668.chunk.css"
   },
   {
@@ -12,8 +12,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/booking_test_redux/static/js/2.19fcbe16.chunk.js"
   },
   {
-    "revision": "c6be3e4cd5d54d61a63d",
-    "url": "/booking_test_redux/static/js/main.b626e49a.chunk.js"
+    "revision": "292d48636baf362989bf",
+    "url": "/booking_test_redux/static/js/main.3dc0f3b2.chunk.js"
   },
   {
     "revision": "95a4e4397fcc79036960",
