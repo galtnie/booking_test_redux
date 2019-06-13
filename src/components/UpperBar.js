@@ -39,6 +39,9 @@ console.log(window.location.pathname)
   }
 
   renderUpperMenu = () =>{
+    console.log(window.screen.width)
+    console.log(window.screen)
+
     if (window.screen.width <= 480) {
       return (
        <BurgerMenuIconContainer onClick={this.handleBurgerMenuIconClick}>
