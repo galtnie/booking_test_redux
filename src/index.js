@@ -5,7 +5,6 @@ import App from './App';
 import store from './store'
 import history from './history'
 import { BrowserRouter, } from 'react-router-dom';
-//Router
 
 ReactDOM.render(
     <Provider store={store}>

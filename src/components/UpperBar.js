@@ -29,10 +29,6 @@ class UpperBar extends Component {
     this.setState({path: this.fixGitPathname()})
   }
 
-  componentDidMount() {
-console.log(window.location.pathname)
-    
-  }
   handleEntranceExit = () => {
     this.props.discardUser(); 
     this.props.discardAllSelectedSlots()

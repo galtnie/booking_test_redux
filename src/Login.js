@@ -24,6 +24,13 @@ import { LoginError, ReturnHomeLink } from './styles'
 import styles from './styles/LoginMUIstyles'
 
 class SignInForm extends React.Component {
+  
+  componentDidMount() {
+    console.log(window.location.pathname)
+        
+      }
+  
+  
   componentWillUnmount() {
     if (localStorage.getItem('user')) {
       let data = localStorage.getItem('user')
@@ -157,7 +164,13 @@ export default compose(
         }
       )
         .then(res => localStorage.setItem("user", JSON.stringify(res.data)))
-        .then(()=>history.push('/booking'))
+        .then(()=> {
+          if (window.location.pathname.includes('/booking_test_redux')){
+            history.push('/booking_test_redux/booking')
+          } else {
+            history.push('/booking')
+          }        
+        })
         .catch(err => {
           if (err.response) { setErrors({ email: err.response.data.message }) }
           setSubmitting(false)
