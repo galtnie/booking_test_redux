@@ -35,7 +35,6 @@ class Halls extends React.Component {
                 }
                 elements.push(slide)
             })
-            console.log(elements)
         return elements
     }
     

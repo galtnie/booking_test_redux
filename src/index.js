@@ -4,13 +4,13 @@ import {Provider} from 'react-redux';
 import App from './App';
 import store from './store'
 import history from './history'
-import { Router} from 'react-router-dom';
+import { BrowserRouter, Router} from 'react-router-dom';
 
 ReactDOM.render(
     <Provider store={store}>
-        <Router history={history} basename={process.env.PUBLIC_URL}>
+        <BrowserRouter history={history} basename={process.env.PUBLIC_URL}>
             <App />
-        </Router>
+        </BrowserRouter>
     </Provider>, 
     document.querySelector('#root')
 );
