@@ -14,13 +14,18 @@ import {
 class Schedule extends React.Component {
 
     componentWillReceiveProps(nextProps){
+        
         if (nextProps.tickets !== this.props.tickets) {
             this.props.determineReservedSlots(calculateReservedSlots(nextProps.tickets, this.props.halls, this.props.date));
             if (this.props.user !== null){
                 this.props.determineUsersPriorReservations(nextProps.tickets, this.props.user._id)}
         }      
     }
-
+    componentDidMount() {
+    if (this.props.tickets && this.props.halls) {
+        this.props.determineReservedSlots(calculateReservedSlots(this.props.tickets, this.props.halls, this.props.dateInput))
+    }
+}
     renderOneHourRooms = (hour, halls, date) => {
         let oneHourColumn = []
         oneHourColumn.push(<HourDesignator key={`${hour}h`}>{hour}"</HourDesignator>)

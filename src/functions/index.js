@@ -10,7 +10,6 @@ export function composeSlotId(chosenDate, hour, colour) {
 
 export function calculateReservedSlots(tickets, halls, date) {
     let reservedSlots = []
-
     for (let i = 0; i < tickets.length; i++) {
         let fromTime = new Date(tickets[i].from)
         let toTime = new Date(tickets[i].to)

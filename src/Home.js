@@ -15,8 +15,20 @@ class Home extends React.Component {
     componentWillMount() {
         this.props.fetchTickets();
         this.props.fetchHalls();
-        this.props.determineReservedSlots(calculateReservedSlots(this.props.tickets, this.props.halls, this.props.dateInput))
+        if (this.props.tickets && this.props.halls) {
+            this.props.determineReservedSlots(calculateReservedSlots(this.props.tickets, this.props.halls, this.props.dateInput))
+        }
     }
+
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.tickets !== this.props.tickets || nextProps.halls !== this.props.halls){  
+            if (this.props.tickets && this.props.halls) {
+                this.props.determineReservedSlots(calculateReservedSlots(this.props.tickets, this.props.halls, this.props.dateInput))
+                this.forceUpdate()
+            }
+        }
+    }
+
     render() {
         return (
             (!this.props.user)
