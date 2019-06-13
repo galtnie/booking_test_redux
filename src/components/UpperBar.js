@@ -21,7 +21,12 @@ import {
 
 class UpperBar extends Component {
   state={
-    burger: 'none'
+    burger: 'none', 
+    path: null
+  }
+
+  componentWillMount() {
+    this.setState({path: this.fixGitPathname()})
   }
 
   componentDidMount() {
@@ -38,10 +43,12 @@ console.log(window.location.pathname)
     this.state.burger === 'none' ? this.setState({burger: 'flex'}) : this.setState({burger: 'none'})    
   }
 
-  renderUpperMenu = () =>{
-    console.log(window.screen.width)
-    console.log(window.screen)
+  fixGitPathname = () => {
+    let path = window.location.pathname 
+    return path.includes('/booking_test_redux') ? path.replace('/booking_test_redux', '') : path
+  }
 
+  renderUpperMenu = () =>{
     if (window.screen.width <= 480) {
       return (
        <BurgerMenuIconContainer onClick={this.handleBurgerMenuIconClick}>
@@ -49,7 +56,7 @@ console.log(window.location.pathname)
         </BurgerMenuIconContainer>
       );
      }
-    else if (window.location.pathname === "/booking") {
+    else if (this.state.path === "/booking") {
       return(
         <div>
         <Link to="/charts">
@@ -64,7 +71,7 @@ console.log(window.location.pathname)
         </Link> 
       </div>
       );
-    } else if (window.location.pathname === "/") {
+    } else if (this.state.path === "/") {
       return(
         <div>
         <Link to="/charts">
@@ -84,7 +91,7 @@ console.log(window.location.pathname)
         </Link>
       </div>
       );
-    } else if (window.location.pathname === "/charts") {
+    } else if (this.state.path === "/charts") {
       return(
         <div>
         {
@@ -108,7 +115,7 @@ console.log(window.location.pathname)
   } 
   
   renderBurgerMenu = () => {
-    if (window.location.pathname === "/") {
+    if (this.state.path === "/") {
       return(
         <BurgerMenu display={this.state.burger}>
         <Link to="/charts">
@@ -128,7 +135,7 @@ console.log(window.location.pathname)
         </Link>
         </BurgerMenu>
       );
-    } else if (window.location.pathname === "/booking") {
+    } else if (this.state.path === "/booking") {
       return(
         <BurgerMenu display={this.state.burger}>
           <Link to="/charts">
@@ -143,7 +150,7 @@ console.log(window.location.pathname)
           </Link> 
         </BurgerMenu>
       );
-    } else if (window.location.pathname === "/charts") {
+    } else if (this.state.path === "/charts") {
       return(      
         <BurgerMenu display={this.state.burger}>        
         {
