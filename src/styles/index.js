@@ -1,12 +1,12 @@
 import styled from 'styled-components';
 import Button from "@material-ui/core/Button";
-import Select from 'react-select'; 
+import Select from 'react-select';
 import Paper from '@material-ui/core/Paper'
 import TextField from '@material-ui/core/TextField'
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
-import  Carousel  from  'semantic-ui-carousel-react';
+import Carousel from 'semantic-ui-carousel-react';
 import Toolbar from '@material-ui/core/Toolbar';
 import AppBar from '@material-ui/core/AppBar';
 
@@ -98,8 +98,7 @@ export const ReturnHomeLink = styled.p`
 `;
 
 export const SignupMain = styled.div`
-    display: block;  /* Fix IE 11 issue. */
-    height: 100%;
+     height: 100%;
     width: 100%;
     display: flex;
     flex-direction: column;
@@ -342,17 +341,17 @@ export const HallTitleContainer = styled.div`
     align-items: center;
     font-size: 1.2em;
     font-weight: bold;
-    background: ${({colour}) => 
+    background: ${({ colour }) =>
         colour === 'blu' ? blueSlot :
-        colour === 'red' ? redSlot :
-        colour === 'gre' ? greenSlot :
-        colour === 'vio' ? violetSlot : null
+            colour === 'red' ? redSlot :
+                colour === 'gre' ? greenSlot :
+                    colour === 'vio' ? violetSlot : null
     };    
-    color: ${({colour}) =>
+    color: ${({ colour }) =>
         colour === 'blu' ? blueFont :
-        colour === 'red' ? redFont :
-        colour === 'gre' ? greenFont :
-        colour === 'vio' ? violetFont : null
+            colour === 'red' ? redFont :
+                colour === 'gre' ? greenFont :
+                    colour === 'vio' ? violetFont : null
     }; 
 `;
 
@@ -361,17 +360,17 @@ export const HallCardContent = styled(CardContent)`
     padding-bottom: 1.4em !important;
     padding: 1.4em !important;
     text-align: center;
-    background: ${({colour}) => 
+    background: ${({ colour }) =>
         colour === 'blu' ? blueSlot :
-        colour === 'red' ? redSlot :
-        colour === 'gre' ? greenSlot :
-        colour === 'vio' ? violetSlot : null
+            colour === 'red' ? redSlot :
+                colour === 'gre' ? greenSlot :
+                    colour === 'vio' ? violetSlot : null
     }; 
-    color: ${({colour}) =>
+    color: ${({ colour }) =>
         colour === 'blu' ? blueFont :
-        colour === 'red' ? redFont :
-        colour === 'gre' ? greenFont :
-        colour === 'vio' ? violetFont : null
+            colour === 'red' ? redFont :
+                colour === 'gre' ? greenFont :
+                    colour === 'vio' ? violetFont : null
     };  
 `;
 
@@ -398,31 +397,31 @@ export const RoomSlot = styled.div`
     align-items: center;
     border-width: ${props => props.chosen ? '4px' : '2px'};
     border-style: solid;
-    border-color: ${({colour}) => 
+    border-color: ${({ colour }) =>
         colour === 'blu' ? blueSlot :
-        colour === 'red' ? redSlot :
-        colour === 'gre' ? greenSlot :
-        colour === 'vio' ? violetSlot : null
+            colour === 'red' ? redSlot :
+                colour === 'gre' ? greenSlot :
+                    colour === 'vio' ? violetSlot : null
     };
-    color: ${({colour}) => 
+    color: ${({ colour }) =>
         colour === 'blu' ? blueSlot :
-        colour === 'red' ? redSlot :
-        colour === 'gre' ? greenSlot :
-        colour === 'vio' ? violetSlot : null
+            colour === 'red' ? redSlot :
+                colour === 'gre' ? greenSlot :
+                    colour === 'vio' ? violetSlot : null
     };
-    background: ${({colour, chosen}) => 
+    background: ${({ colour, chosen }) =>
         !chosen && colour === 'blu' ? 'rgba(97, 143, 236, 0.1)' :
-        !chosen && colour === 'red' ? 'rgba(240,128,128,0.1)' :
-        !chosen && colour === 'gre' ? 'rgba(193, 241, 183, 0.1)' :
-        !chosen && colour === 'vio' ? 'rgba(123, 136, 255, 0.1)' : 'orange'
+            !chosen && colour === 'red' ? 'rgba(240,128,128,0.1)' :
+                !chosen && colour === 'gre' ? 'rgba(193, 241, 183, 0.1)' :
+                    !chosen && colour === 'vio' ? 'rgba(123, 136, 255, 0.1)' : 'orange'
     };
     
     &:hover{
-    background: ${({colour, hover}) => 
+    background: ${({ colour, hover }) =>
         hover && colour === 'blu' ? 'rgba(31, 112, 251, 0.6)' :
-        hover && colour === 'red' ? 'rgba(240,128,128,0.8)' :
-        hover && colour === 'gre' ? 'rgba(112, 251, 31, 0.6)' :
-        hover && colour === 'vio' ? 'rgba(189,  173,  255, 0.6)' : null
+            hover && colour === 'red' ? 'rgba(240,128,128,0.8)' :
+                hover && colour === 'gre' ? 'rgba(112, 251, 31, 0.6)' :
+                    hover && colour === 'vio' ? 'rgba(189,  173,  255, 0.6)' : null
     }};
 `;
 
@@ -434,23 +433,23 @@ export const ReservedSlot = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
-    border: solid 2px ${({colour}) => 
+    border: solid 2px ${({ colour }) =>
         colour === 'blu' ? blueSlot :
-        colour === 'red' ? redSlot :
-        colour === 'gre' ? greenSlot :
-        colour === 'vio' ? violetSlot : null
+            colour === 'red' ? redSlot :
+                colour === 'gre' ? greenSlot :
+                    colour === 'vio' ? violetSlot : null
     };
-    color: ${({colour}) => 
+    color: ${({ colour }) =>
         colour === 'blu' ? blueFont :
-        colour === 'red' ? redFont :
-        colour === 'gre' ? greenFont :
-        colour === 'vio' ? violetFont : null
+            colour === 'red' ? redFont :
+                colour === 'gre' ? greenFont :
+                    colour === 'vio' ? violetFont : null
     };
-    background: ${({colour}) => 
+    background: ${({ colour }) =>
         colour === 'blu' ? 'rgba(31, 21, 182,0.9)' :
-        colour === 'red' ? 'rgba(220,20,60,0.9)' :
-        colour === 'gre' ? 'rgba(33, 100, 19, 1)' :
-        colour === 'vio' ? 'rgba(108, 92, 231, 0.9)' : null
+            colour === 'red' ? 'rgba(220,20,60,0.9)' :
+                colour === 'gre' ? 'rgba(33, 100, 19, 1)' :
+                    colour === 'vio' ? 'rgba(108, 92, 231, 0.9)' : null
     };
 `;
 
@@ -538,14 +537,14 @@ export const EditInput = styled.input`
 `;
 
 export const EditButton = styled(Button)`
-    background: ${({confirm}) => confirm ? '#1B3B6F !important' : '#3943B7 !important' };
+    background: ${({ confirm }) => confirm ? '#1B3B6F !important' : '#3943B7 !important'};
     color: white !important;
     font-weight: bold !important;
     padding-right: 1.8em !important;
     padding-left: 1.8em !important;
     padding-top: 0.5em !important;
     padding-bottom: 0.5em !important;
-`; 
+`;
 
 export const SignupButton = styled(Button)`
     color: #FBFBFF !important;
@@ -580,7 +579,7 @@ export const BurgerMenuIconContainer = styled.div`
 `;
 
 export const BurgerMenu = styled.div`
-    display: ${({display}) => display}
+    display: ${({ display }) => display}
     position: absolute;
     background: #3f51b5;
     width: 85%;
@@ -616,8 +615,8 @@ width: 100%;
 export const Switcher = styled.i`
     width: 0.6em !important;
     padding-top: 0.05em;
-    color: ${({inactive}) => inactive ? 'lightgrey' : 'rgb(21, 205, 168)'};
-    cursor: pointer;
+    color: ${({ inactive }) => inactive ? 'lightgrey' : 'rgb(21, 205, 168)'};
+    cursor: ${({ inactive }) => inactive ? 'initial' : 'pointer'};
     margin:0 !important;
     padding:0 !important;
 

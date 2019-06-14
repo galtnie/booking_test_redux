@@ -20,7 +20,7 @@ class SwitchBack extends React.Component {
   }
   render() {
     return (
-      <Switcher inactive={!this.props.switcherStatus} className={`big caret left icon`} 
+      <Switcher inactive={this.props.switcherStatus ? !this.props.switcherStatus : true} className={`big caret left icon`} 
         onClick={(e)=>{ this.props.switcherStatus ? this.handleDayChange() : e.preventDefault() }}
       />
     );
