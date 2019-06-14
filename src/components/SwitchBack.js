@@ -5,6 +5,7 @@ import { calculateReservedSlots } from '../functions'
 import { Switcher } from '../styles'
 
 class SwitchBack extends React.Component {
+
   handleDayChange() {
     let fullDate = this.props.dateInput ? new Date(this.props.dateInput) : new Date()
     let nextDate = fullDate.getDate() - 1;
@@ -13,18 +14,14 @@ class SwitchBack extends React.Component {
     const tomorrow = new Date(new Date(new Date(new Date((new Date(new Date().getTime() + (24 * 60 * 60 * 1000))).setHours(0)).setMinutes(0)).setSeconds(0)).setMilliseconds(0));
     
     if (nextDateMls < tomorrow) {
-      console.log(nextDateMls)
-      console.log(tomorrow)
-      this.props.handleUpperBackSwitcher('inactive')
+      this.props.handleUpperBackSwitcher(false)
     } 
     this.props.determineReservedSlots(calculateReservedSlots(this.props.tickets, this.props.halls, nextDateMls))
   }
   render() {
-    console.log()
-
     return (
-      <Switcher inactive={this.props.switcherStatus === 'inactive' ? true : false} className={`big caret left icon`} 
-        onClick={(e)=>{ if (this.props.switcherStatus === "inactive") {e.preventDefault()} else {this.handleDayChange()} }}
+      <Switcher inactive={!this.props.switcherStatus} className={`big caret left icon`} 
+        onClick={(e)=>{ this.props.switcherStatus ? this.handleDayChange() : e.preventDefault() }}
       />
     );
   }

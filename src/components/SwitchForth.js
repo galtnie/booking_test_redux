@@ -10,7 +10,7 @@ class SwitchForth extends React.Component {
     let nextDate = fullDate.getDate() + 1;
     let nextDateMls = fullDate.setDate(nextDate)
     this.props.handleDateInputSubmit(nextDateMls)
-    this.props.handleUpperBackSwitcher('active')
+    this.props.handleUpperBackSwitcher(true)
     this.props.determineReservedSlots(calculateReservedSlots(this.props.tickets, this.props.halls, nextDateMls))
   }
   render() {

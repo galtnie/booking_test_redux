@@ -17,12 +17,12 @@ class RoomStatusDeterminer extends React.Component {
                     ?
                     <Busy id={reservedSlot} />
                     :
-                    (selectedSlot
+                    selectedSlot
                         ?
                         <Chosen id={this.props.id} />
                         :
                         <Free id={this.props.id} />
-                    )
+                    
             );
         }
     }
