@@ -127,7 +127,7 @@ class TicketEdition extends React.Component {
                 {this.props.ticketToEdit.title}
               </div>
               <div>
-                <EditInput
+                <EditInput 
                   type="text"
                   value={this.state.ticket.title}
                   size="21"
@@ -143,7 +143,7 @@ class TicketEdition extends React.Component {
                 {String(new Date(this.props.ticketToEdit.from)).slice(3, 21)}
               </div>
               <div>
-                <EditInput
+                <EditInput className='edit-time-time-input'
                   type="datetime-local"
                   placeholder="Disregard to keep unaltered"
                   size="21"
@@ -162,7 +162,7 @@ class TicketEdition extends React.Component {
                 {String(new Date(this.props.ticketToEdit.to)).slice(3, 21)}
               </div>
               <div>
-                <EditInput
+                <EditInput className='edit-time-time-input'
                   type="datetime-local"
                   placeholder="Disregard to keep unaltered"
                   size="21"
