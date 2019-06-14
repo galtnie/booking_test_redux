@@ -40,9 +40,11 @@ class Home extends React.Component {
                 <Wrapper>
                     <UpperBar />
                     <Title />
-                    <Guide />
+                    
                     {(this.props.halls) ? <Halls /> : <CircularProgress /> }
+                    <Guide />
                     {(this.props.tickets && this.props.halls) ? <Schedule /> : <CircularProgress />}
+                   
                 </Wrapper>
                 :
                 <Redirect to='/booking' />

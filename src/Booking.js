@@ -57,11 +57,14 @@ class Booking extends React.Component {
                 <Wrapper>
                     <UpperBar />
                     <Title />
-                    <Guide />
+                    
                     {this.props.halls ? <Halls /> : <CircularProgress />}
+
+                    <Guide />
                     {this.props.tickets && this.props.halls ? <Schedule /> : <CircularProgress />}
                     {this.state.bookingConfirmation ? <BookingConfirmation tickets={this.state.ticketsToReserve} alterTickets={this.alterTicketsToReserve} closeWindow={this.closePaymentWindow}/> : null}
                     {this.props.ticketToEdit ? <TicketEdition /> : null}
+                    
                     <PaymentButton 
                         disabled={Boolean(!this.props.selectedSlots.length)} 
                         variant="contained" 
@@ -71,6 +74,7 @@ class Booking extends React.Component {
                     >
                         Payment
                     </PaymentButton>
+                    
                     {this.props.usersPriorReservations.length > 0  ?  <UsersPriorReservations />  :  null}
                 </Wrapper>
                 :

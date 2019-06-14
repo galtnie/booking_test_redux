@@ -256,12 +256,13 @@ export const SearchIcon = styled.i`
 `;
 
 export const GuideContainer = styled.div`
+    width: 80%
     display: flex;
     flex-direction: row;
-    justify-content: flex-start;
+    justify-content: space-between;
     align-items: center;
     color: #7D6B91;
-    padding-top: 2em;
+    padding-top: 1.5em;
     padding-bottom: 1em;
     margin-left: 0.5em;
     margin-right: 0.5em;
@@ -300,7 +301,7 @@ export const TitleDiv = styled.div`
     align-items: center;
     color: #7D6B91;
     padding-top: 3em;
-    padding-bottom: 2em;
+    padding-bottom: 3em;
     margin-left: 0.5em;
     margin-right: 0.5em;
     @media only screen and (max-width: 480px) {
