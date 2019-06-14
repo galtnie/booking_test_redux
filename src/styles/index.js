@@ -256,7 +256,7 @@ export const SearchIcon = styled.i`
 `;
 
 export const GuideContainer = styled.div`
-    width: 80%
+    width: 50%
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -267,6 +267,9 @@ export const GuideContainer = styled.div`
     margin-left: 0.5em;
     margin-right: 0.5em;
     flex-wrap: wrap;
+    @media only screen and (max-width: 480px) {
+        width: 80%
+    }
 `;
 
 export const GuideParagraph = styled.p`
