@@ -1,15 +1,17 @@
 import React from 'react'
 import { Free, Busy, Chosen } from './Rooms'
-import history from '../history'
+// import history from '../history '
 import { GuideContainer, GuideParagraph, GuideSpan, GuideDiv } from '../styles'
+import { connect } from 'react-redux'
 
-export default function Guide() {
+class Guide extends React.Component {
+    render(){
     return (
         <div>
             <GuideContainer>
                 <div>
                     {
-                        history.location.pathname !== "/booking" 
+                        this.props.user === null 
                             ?
                             <GuideParagraph>
                                 Log in to <b>make reservations</b>.
@@ -20,7 +22,7 @@ export default function Guide() {
                         <b>9"</b> means 9:00-9:59.
                     </GuideParagraph>
                     {
-                        history.location.pathname === "/booking"
+                        this.props.user !== null 
                             ?
                             <span>
                                 <GuideParagraph>
@@ -47,7 +49,7 @@ export default function Guide() {
                         </GuideSpan>
                     </GuideDiv>
                     {
-                        history.location.pathname === "/booking"
+                        this.props.user !== null 
                             ?
                             <GuideDiv>
                                 <Chosen guide={true} />
@@ -61,4 +63,8 @@ export default function Guide() {
             </GuideContainer>
         </div>
     );
-} 
+} }
+
+const mapStateToProps = state => ({user:state.user})
+
+export default Guide = connect(mapStateToProps, { })(Guide)

@@ -14,4 +14,3 @@ ReactDOM.render(
     document.querySelector('#root')
 );
 
-// basename='/booking_test_redux'
