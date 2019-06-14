@@ -11,12 +11,17 @@ class SwitchBack extends React.Component {
     let nextDateMls = fullDate.setDate(nextDate)
     this.props.handleDateInputSubmit(nextDateMls)
     const tomorrow = new Date(new Date(new Date(new Date((new Date(new Date().getTime() + (24 * 60 * 60 * 1000))).setHours(0)).setMinutes(0)).setSeconds(0)).setMilliseconds(0));
+    
     if (nextDateMls < tomorrow) {
+      console.log(nextDateMls)
+      console.log(tomorrow)
       this.props.handleUpperBackSwitcher('inactive')
     } 
     this.props.determineReservedSlots(calculateReservedSlots(this.props.tickets, this.props.halls, nextDateMls))
   }
   render() {
+    console.log()
+
     return (
       <Switcher inactive={this.props.switcherStatus === 'inactive' ? true : false} className={`big caret left icon`} 
         onClick={(e)=>{ if (this.props.switcherStatus === "inactive") {e.preventDefault()} else {this.handleDayChange()} }}

@@ -11,6 +11,7 @@ import handleUser from './handleUser'
 import handleSlotSelection from './handleSlotSelection';
 import determineUsersPriorReservations from './determineUsersPriorReservations';
 import handleTicketEdition from './handleTicketEdition';
+import handleLoginServerError from './handleLoginServerError';
 
 export default combineReducers({
     dateInput: handleDateInput,
@@ -24,6 +25,6 @@ export default combineReducers({
     selectedSlots: handleSlotSelection,
     usersPriorReservations: determineUsersPriorReservations,
     ticketToEdit: handleTicketEdition,
-    
+    loginServerError: handleLoginServerError,
 });
 

@@ -7,7 +7,7 @@ import {
     FETCH_TICKETS,
     DETERMINE_RESERVED_SLOTS,
     HANDLE_NEW_USER_ACCOUNT,
-    STORE_USER,
+    VALIDATE_USER,
     DISCARD_USER,
     SELECT_SLOT,
     UNSELECT_SLOT,
@@ -19,6 +19,8 @@ import {
     WITHDRAW_TICKET,
     EDIT_TICKET,
     RESET_DATE,
+    RENDER_LOGIN_SERVER_ERROR,
+    ERASE_LOGIN_SERVER_ERROR,
 } from './types';
 
 export const handleDateInputSubmit = (date) => {
@@ -102,10 +104,36 @@ export const eraseNewUserAccount = () => {
     })
 }
 
-export const storeUser = (res) => {
-      return ({
-        type: STORE_USER,
-        payload: res
+export const validateUser = (res) => async dispatch => {
+    console.log('it worked')
+    let error = null;
+    const response = await axios.post('https://web-ninjas.net/signIn',
+    { headers: { 'Content-Type': 'application/x-www-form-urlencoded' } },
+    {
+      data: {
+        email: res.email.toLowerCase(),
+        password: res.password
+      }
+    }
+    ).catch(e => {
+        error = e
+    })
+    error !== null 
+        ? 
+        dispatch({
+            type: RENDER_LOGIN_SERVER_ERROR,
+            payload: error.response.data.message
+        })
+        :
+        dispatch({ 
+            type: VALIDATE_USER, 
+            payload: response.data 
+        })
+};
+
+export const eraseLoginServerError = () => {
+    return ({
+        type: ERASE_LOGIN_SERVER_ERROR
     })
 }
 

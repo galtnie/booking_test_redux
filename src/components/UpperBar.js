@@ -4,7 +4,6 @@ import DateSearch from './DateSearch';
 import SwitchBack from './SwitchBack'
 import SwitchForth from './SwitchForth'
 import CurrentDate from './CurrentDate'
-import history from '../history'
 import { connect } from 'react-redux'
 import { discardUser, discardAllSelectedSlots, resetDate } from '../actions' 
 import { 

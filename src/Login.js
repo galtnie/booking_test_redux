@@ -15,29 +15,25 @@ import Typography from '@material-ui/core/Typography'
 import { withStyles } from '@material-ui/core/styles'
 import { withFormik, Form, Field } from 'formik'
 import * as Yup from 'yup'
-import history from './history'
-import axios from 'axios'
 import { connect } from 'react-redux'
-import { createNewUserAccount, eraseNewUserAccount, storeUser } from './actions'
+import { validateUser, eraseLoginServerError } from './actions'
 import { Redirect } from 'react-router-dom'
-import { LoginError, ReturnHomeLink } from './styles'
+import { LoginError, ReturnHomeLink, LoginServerErrorContainer } from './styles'
 import styles from './styles/LoginMUIstyles'
 
 class SignInForm extends React.Component {
-  
-  componentDidMount() {
-    console.log(window.location.pathname)
-        
-      }
-  
-  
-  componentWillUnmount() {
-    if (localStorage.getItem('user')) {
-      let data = localStorage.getItem('user')
-      this.props.storeUser(JSON.parse(data))
-      localStorage.removeItem('user')
-    }    
+
+  eraseServerError = () => {  
+    if (this.props.serverError) {
+      this.props.eraseLoginServerError()
+    }
   }
+
+  componentWillReceiveProps(nextProps){
+    if (nextProps.serverError !== null && this.props.serverError === null)
+    window.location.reload()
+  }
+
   render() {
     const {
       values,
@@ -73,7 +69,7 @@ class SignInForm extends React.Component {
               autoFocus
               placeholder='email@name.tld'
               error={Boolean(errors.email) && touched.email}
-              onChange={handleChange}
+              onChange={(e)=>{handleChange(e); this.eraseServerError()}}
               onBlur={handleBlur}
               value={values.email}
             />
@@ -81,7 +77,6 @@ class SignInForm extends React.Component {
                 {touched.email && errors.email && <p>{errors.email}</p>}
               </LoginError>
           </FormControl>
-
           <FormControl margin='normal' fullWidth>
             <InputLabel htmlFor='password'>Password</InputLabel>
             <Field
@@ -91,7 +86,7 @@ class SignInForm extends React.Component {
               id='password'
               error={Boolean(errors.password) && touched.password}
               placeholder='pA$$_W0rd'
-              onChange={handleChange}
+              onChange={(e)=>{handleChange(e); this.eraseServerError()}}
               onBlur={handleBlur}
               value={values.password}
             />
@@ -99,12 +94,13 @@ class SignInForm extends React.Component {
               {touched.password && errors.password && <p>{errors.password}</p>}
             </LoginError>
           </FormControl>
-
           <FormControlLabel
             control={<Checkbox value='remember' color='primary' />}
             label='Remember me'
           />
-
+          <LoginServerErrorContainer>
+            {this.props.serverError ? this.props.serverError : null}
+          </LoginServerErrorContainer>
           <Button
             type='submit'
             fullWidth
@@ -131,11 +127,13 @@ class SignInForm extends React.Component {
 
 const mapStateToProps = state => ({
   newUserAccount: state.newUserAccount,
-  user: state.user
+  user: state.user,
+  serverError: state.loginServerError,
 })
 
 export default compose(
-  connect(mapStateToProps, { eraseNewUserAccount, createNewUserAccount, storeUser }),
+  connect(mapStateToProps, {  validateUser, eraseLoginServerError }),
+
   withFormik({
     mapPropsToValues: ({newUserAccount}) => {           
       let email = newUserAccount   
@@ -151,32 +149,21 @@ export default compose(
       password: Yup.string()
         .required('Password is required')
     }),
-    handleSubmit: (values, { resetForm, setErrors, setSubmitting }) => {
-      setSubmitting(true)
-      axios.post(
-        'https://web-ninjas.net/signIn',
-        { headers: { 'Content-Type': 'application/x-www-form-urlencoded' } },
-        {
-          data: {
-            email: values.email.toLowerCase(),
-            password: values.password
-          }
-        }
-      )
-        .then(res => localStorage.setItem("user", JSON.stringify(res.data)))
-        .then(()=> {
-          if (window.location.pathname.includes('/booking_test_redux')){
-            history.push('/booking_test_redux/booking')
-          } else {
-            history.push('/booking')
-          }        
-        })
-        .catch(err => {
-          if (err.response) { setErrors({ email: err.response.data.message }) }
-          setSubmitting(false)
-        })
+    handleSubmit: (values, { props, resetForm, setErrors, setSubmitting }) => {
+      props.validateUser(values)
     }
   })
 )(withStyles(styles)(SignInForm))
 
 
+
+
+
+
+      // let a = async function() {
+      //   await props.validateUser(values)
+      //   if (props.serverError) {
+      //     setSubmitting(false)
+      //   }
+      // }
+      // a()

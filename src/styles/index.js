@@ -730,3 +730,10 @@ export const PriorOrdersButton = styled.button`
     color: white !important;
     font-weight: bold !important;
 `;
+
+export const LoginServerErrorContainer = styled.div`
+    height: 2em;
+    font-size: 1.2em;
+    color: red;
+    font-weight: bold;
+`;
