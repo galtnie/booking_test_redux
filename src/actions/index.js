@@ -105,7 +105,6 @@ export const eraseNewUserAccount = () => {
 }
 
 export const validateUser = (res) => async dispatch => {
-    console.log('it worked')
     let error = null;
     const response = await axios.post('https://web-ninjas.net/signIn',
     { headers: { 'Content-Type': 'application/x-www-form-urlencoded' } },

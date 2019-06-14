@@ -7,7 +7,6 @@ import Button from '@material-ui/core/Button'
 import CssBaseline from '@material-ui/core/CssBaseline'
 import axios from 'axios'
 import { createNewUserAccount } from './actions'
-import history from './history'
 import { 
   SignupMain,
   SingupPaper,
@@ -30,6 +29,7 @@ class SignUpForm extends React.Component {
     confirmPassword: '',
     serverError: null,
     passwordIsMasked: true,
+    created: false,
   }
   renderError = ({ error, touched, active }) => {
     return error && touched && !active ? <SignupErrorContainer> {error} </SignupErrorContainer> : null
@@ -66,9 +66,12 @@ class SignUpForm extends React.Component {
         }}
       )
       .then(() => {
-        this.props.createNewUserAccount(formValues.email)
+                this.props.createNewUserAccount(formValues.email)
       })
-      .then(()=>history.push('/login'))
+      .then(()=>{
+        this.setState({created: true})
+        
+      })
       .catch(e => {
        if (e.response && e.response.data.errors.errors.email.kind === 'unique') {
           this.setState({ serverError: 'This e-mail is already used on this website.'}) 
@@ -83,64 +86,70 @@ class SignUpForm extends React.Component {
   }
 
   render () {
+    
     return (
-      (!this.props.user) 
-        ?
-      <SignupMain>
-        <CssBaseline />
-        <SingupPaper>
-          <SingupFormContainer autoComplete='off' onSubmit={this.props.handleSubmit(this.onSubmit)}>
-            <SignupTitle>
-              CREATE YOUR ACCOUNT
-            </SignupTitle>
-            <Field 
-              name='email' 
-              component={this.renderInput} 
-              label='Enter email'
-              value={this.state.signUpEmail}
-              onChange={e => {
-                this.setState({ signUpEmail: e.target.value }) 
-                this.state.serverError !== null && this.setState({ serverError: null})
-              }} 
-            />
-            <Field
-              name='password'
-              component={this.renderInput}
-              label='Enter password'
-              value={this.state.signUpPassword}
-              onChange={e => {this.setState({ signUpPassword: e.target.value }) }}
-            />
-            <Field
-              name='confirmPassword' 
-              component={this.renderInput}
-              label='Confirm password'
-              value={this.state.confirmPassword}
-              onChange={e => {this.setState({ confirmPassword: e.target.value }) }}
-            />
-            <SignupCheckboxContainer> 
-              <SignupCheckboxLabel>
-                <Checkbox onClick={this.togglePasswordMask} value='checkedB' color='primary' />
-                Show password
-              </SignupCheckboxLabel>
-            </SignupCheckboxContainer>
-            <SignupServerError name='server-error'>
-                  <span>{this.state.serverError} </span>
-            </SignupServerError>
-            <Button type='submit' variant='contained' color='primary'>
-              Create account
-            </Button>
-          </SingupFormContainer>
-          <SignupLinkContainer>
-            <Link to='/'>
-              <ReturnHomeLink>
-                Return to Home page
-              </ReturnHomeLink>
-            </Link>
-          </SignupLinkContainer>
-        </SingupPaper>
-      </SignupMain>
-        : 
-      <Redirect to='/booking' />
+
+      (!this.state.created)
+      ?
+          (!this.props.user) 
+            ?
+          <SignupMain>
+            <CssBaseline />
+            <SingupPaper>
+              <SingupFormContainer autoComplete='off' onSubmit={this.props.handleSubmit(this.onSubmit)}>
+                <SignupTitle>
+                  CREATE YOUR ACCOUNT
+                </SignupTitle>
+                <Field 
+                  name='email' 
+                  component={this.renderInput} 
+                  label='Enter email'
+                  value={this.state.signUpEmail}
+                  onChange={e => {
+                    this.setState({ signUpEmail: e.target.value }) 
+                    this.state.serverError !== null && this.setState({ serverError: null})
+                  }} 
+                />
+                <Field
+                  name='password'
+                  component={this.renderInput}
+                  label='Enter password'
+                  value={this.state.signUpPassword}
+                  onChange={e => {this.setState({ signUpPassword: e.target.value }) }}
+                />
+                <Field
+                  name='confirmPassword' 
+                  component={this.renderInput}
+                  label='Confirm password'
+                  value={this.state.confirmPassword}
+                  onChange={e => {this.setState({ confirmPassword: e.target.value }) }}
+                />
+                <SignupCheckboxContainer> 
+                  <SignupCheckboxLabel>
+                    <Checkbox onClick={this.togglePasswordMask} value='checkedB' color='primary' />
+                    Show password
+                  </SignupCheckboxLabel>
+                </SignupCheckboxContainer>
+                <SignupServerError name='server-error'>
+                      <span>{this.state.serverError} </span>
+                </SignupServerError>
+                <Button type='submit' variant='contained' color='primary'>
+                  Create account
+                </Button>
+              </SingupFormContainer>
+              <SignupLinkContainer>
+                <Link to='/'>
+                  <ReturnHomeLink>
+                    Return to Home page
+                  </ReturnHomeLink>
+                </Link>
+              </SignupLinkContainer>
+            </SingupPaper>
+          </SignupMain>
+            : 
+          <Redirect to='/booking' />
+      :
+      <Redirect to='/login' />
     )
   }
 }
