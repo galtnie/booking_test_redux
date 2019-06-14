@@ -392,6 +392,7 @@ export const RoomSlot = styled.div`
     height: ${props => props.guide ? '1.7em' : '2em'};
     margin: ${props => props.guide ? '0.05em' : '0.5em'};
     border-radius: 0.4em;
+    cursor: ${props => (props.hover || props.chosen) ? 'pointer' : 'default'}
     display: flex;
     justify-content: center;
     align-items: center;
@@ -430,6 +431,7 @@ export const ReservedSlot = styled.div`
     height: ${props => props.guide ? '1.7em' : '2em'};
     margin: ${props => props.guide ? '0.05em' : '0.5em'};
     border-radius: 0.4em;
+    cursor: default;
     display: flex;
     justify-content: center;
     align-items: center;
