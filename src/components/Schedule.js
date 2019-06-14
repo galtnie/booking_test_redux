@@ -27,8 +27,8 @@ class Schedule extends React.Component {
     }
 }
     renderOneHourRooms = (hour, halls, date) => {
-        let oneHourColumn = []
-        oneHourColumn.push(<HourDesignator key={`${hour}h`}>{hour}"</HourDesignator>)
+        let oneHourColumn = []        
+        oneHourColumn.push(<HourDesignator doubleDigit={String(hour).length === 2} key={`${hour}h`}>{hour}"</HourDesignator>)
         for (let j = 0; j < halls.length; j++) {
             oneHourColumn.push(
                 <div key={`${hour}${j}`}>

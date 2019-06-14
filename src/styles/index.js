@@ -470,7 +470,9 @@ export const ScheduleWrapper = styled.div`
 
 export const HourDesignator = styled.div`
     padding-left: 0.5em;
-
+    @media only screen and (max-width: 480px) {
+        padding-left: ${({doubleDigit}) =>  doubleDigit ? '0.068em' : '0.5em' }};
+    }
 `;
 
 export const HourColumnContainer = styled.div`
