@@ -6,6 +6,7 @@ import { connect } from 'react-redux'
 
 class Guide extends React.Component {
     render(){
+        console.log(this.props.user)
     return (
         <div>
             <GuideContainer>
