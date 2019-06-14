@@ -7,7 +7,12 @@ import Title from './components/Title'
 import TicketEdition from './components/TicketEdition'
 import UsersPriorReservations from './components/UsersPriorReservations'
 import { connect } from 'react-redux';
-import { fetchTickets, fetchHalls, determineReservedSlots, determineUsersPriorReservations } from './actions';
+import { fetchTickets, 
+    fetchHalls, 
+    determineReservedSlots, 
+    determineUsersPriorReservations, 
+    eraseNewUserAccount 
+} from './actions';
 import CircularProgress from './components/CircularProgress';
 import BookingConfirmation from './components/BookingConfirmation';
 import { Redirect } from 'react-router-dom'
@@ -19,6 +24,10 @@ class Booking extends React.Component {
     state = {
         bookingConfirmation: false,
         ticketsToReserve: null
+    }
+
+    componentDidMount(){
+        if (this.props.newUser) {this.props.eraseNewUserAccount()} 
     }
 
     componentWillReceiveProps(nextProps) {
@@ -79,6 +88,7 @@ const mapStateToProps = (state) => {
         selectedSlots: state.selectedSlots,
         usersPriorReservations: state.usersPriorReservations,
         ticketToEdit: state.ticketToEdit,
+        newUser: state.neewUserAccount
     }
 }
 
@@ -88,4 +98,5 @@ export default connect(mapStateToProps,
         fetchHalls,
         determineReservedSlots,
         determineUsersPriorReservations,
+        eraseNewUserAccount
     })(Booking);

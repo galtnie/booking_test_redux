@@ -23,15 +23,14 @@ import styles from './styles/LoginMUIstyles'
 
 class SignInForm extends React.Component {
 
+  testfunction = () => {
+
+  }
+
   eraseServerError = () => {  
     if (this.props.serverError) {
       this.props.eraseLoginServerError()
     }
-  }
-
-  componentWillReceiveProps(nextProps){
-    if (nextProps.serverError !== null && this.props.serverError === null)
-    window.location.reload()
   }
 
   render() {
@@ -151,19 +150,7 @@ export default compose(
     }),
     handleSubmit: (values, { props, resetForm, setErrors, setSubmitting }) => {
       props.validateUser(values)
+      setSubmitting(false)
     }
   })
 )(withStyles(styles)(SignInForm))
-
-
-
-
-
-
-      // let a = async function() {
-      //   await props.validateUser(values)
-      //   if (props.serverError) {
-      //     setSubmitting(false)
-      //   }
-      // }
-      // a()

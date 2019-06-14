@@ -6,7 +6,7 @@ import Schedule from './components/Schedule'
 import Title from './components/Title'
 import { Redirect } from 'react-router-dom'
 import { connect } from 'react-redux';
-import { fetchTickets, fetchHalls, determineReservedSlots } from './actions';
+import { fetchTickets, fetchHalls, determineReservedSlots, eraseNewUserAccount } from './actions';
 import CircularProgress from './components/CircularProgress';
 import { calculateReservedSlots } from './functions'
 import { Wrapper } from './styles'
@@ -27,6 +27,10 @@ class Home extends React.Component {
                 this.forceUpdate()
             }
         }
+    }
+
+    componentDidMount(){
+        if (this.props.newUser) {this.props.eraseNewUserAccount()} 
     }
 
     render() {
@@ -52,6 +56,7 @@ const mapStateToProps = (state) => {
         halls: state.halls,
         user: state.user,
         dateInput: state.dateInput,
+        newUser : state.newUserAccount
     }
 }
 
@@ -60,4 +65,5 @@ export default connect(mapStateToProps,
         determineReservedSlots,
         fetchTickets,
         fetchHalls,
+        eraseNewUserAccount,
     } )(Home);
